@@ -25,7 +25,7 @@ services:
       - "1883:1883"
       - "8883:8883"
     volumes:
-      - "${CERTS_FOLDER}:/certs/"
+      - "/secrets:/certs/"
     networks:
       - backend
 
