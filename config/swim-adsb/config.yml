@@ -1,0 +1,52 @@
+LOGGING:
+  version: 1
+
+  handlers:
+    console:
+      class: logging.StreamHandler
+      formatter: default
+      level: DEBUG
+
+  formatters:
+    default:
+      format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+      class: logging.Formatter
+
+  disable_existing_loggers: false
+
+  root:
+    level: DEBUG
+    handlers: [console]
+
+  loggers:
+    proton:
+      level: INFO
+
+    swim-pubsub:
+      level: DEBUG
+
+    swim-adsb:
+      level: DEBUG
+
+BROKER:
+  host: 'rabbitmq'
+  port: 5672
+  tsl_enabled: false
+  cert_db: '/secrets/ca_certificate.pem'
+  cert_file: '/secrets/client_certificate.pem'
+  cert_key: '/secrets/client_key.pem'
+  cert_password: 'swim-ti'
+
+SUBSCRIPTION-MANAGER:
+  host: 'subscription_manager:8080'
+  https: false
+  timeout: 30
+
+ADSB:
+  CITIES:
+    Brussels: 'EBBR'
+    Amsterdam: 'EHAM'
+    Paris: 'LFPG'
+    Berlin: 'EDDB'
+    Athens: 'LGAV'
+  INTERVAL_IN_SEC: 5

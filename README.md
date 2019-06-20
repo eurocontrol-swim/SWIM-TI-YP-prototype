@@ -13,7 +13,8 @@ git clone git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-euroco
 git clone git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/swim-explorer.git
 ```
 
-### Configuration
+### Preparation
+
 
 ### Deployment
 
