@@ -1,0 +1,11 @@
+*.py[cod]
+venv*/
+dist/
+build/
+log/
+*.egg-info/
+.idea/
+.cache/
+__pycache__/
+.coverage
+/.pytest_cachea

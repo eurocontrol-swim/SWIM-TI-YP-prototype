@@ -1,0 +1,76 @@
+version: "2"
+
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    environment:
+      - DB_USER=${DB_USER}
+#    volumes:
+#      - ./docker/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    networks:
+      - backend
+
+  rabbitmq:
+    image: rabbitmq_amqp10
+    build: ./docker/rabbitmq
+    container_name: rabbitmq
+    ports:
+      - "15672:15672"
+      - "15671:15671"
+      - "5671:5671"
+      - "5672:5672"
+      - "1883:1883"
+      - "8883:8883"
+    volumes:
+      - "${CERTS_FOLDER}:/certs/"
+    networks:
+      - backend
+
+  subscription-manager:
+    image: subscription-manager
+    build: ./subscription-manager
+    container_name: subscription_manager
+    depends_on:
+      - postgres
+      - rabbitmq
+    volumes:
+      - /secrets:/secrets
+    ports:
+      - 8080:8080
+    command: python /app/subscription_manager/app.py
+    networks:
+      - backend
+
+  swim-adsb:
+    image: swim-adsb
+    build: ./swim-adsb
+    container_name: swim_adsb
+    depends_on:
+      - subscription-manager
+    volumes:
+      - /secrets:/secrets
+    command: python /app/swim_adsb/app.py
+    networks:
+      - backend
+
+  swim-explorer:
+    image: swim-explorer
+    build: ./swim-explorer
+    container_name: swim_explorer
+    depends_on:
+      - subscription-manager
+      - swim-adsb
+    volumes:
+      - /secrets:/secrets
+    ports:
+      - 5000:5000
+    command: python /app/swim_explorer/app.py
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
