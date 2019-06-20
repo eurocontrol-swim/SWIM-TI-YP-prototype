@@ -38,6 +38,7 @@ services:
       - rabbitmq
     volumes:
       - /secrets:/secrets
+      - ./config/subscription_manager/config.yml:/app/subscription_manager/dev_config.yml
     ports:
       - 8080:8080
     command: python /app/subscription_manager/app.py
@@ -46,25 +47,27 @@ services:
 
   swim-adsb:
     image: swim-adsb
-    build: ./swim-adsb
+    build: ./swim_adsb
     container_name: swim_adsb
     depends_on:
       - subscription-manager
     volumes:
       - /secrets:/secrets
+      - ./config/swim_adsb/config.yml:/app/swim_adsb/config.yml
     command: python /app/swim_adsb/app.py
     networks:
       - backend
 
   swim-explorer:
     image: swim-explorer
-    build: ./swim-explorer
+    build: ./swim_explorer
     container_name: swim_explorer
     depends_on:
       - subscription-manager
       - swim-adsb
     volumes:
       - /secrets:/secrets
+      - ./config/swim_explorer/config.yml:/app/swim_explorer/config.yml
     ports:
       - 5000:5000
     command: python /app/swim_explorer/app.py
