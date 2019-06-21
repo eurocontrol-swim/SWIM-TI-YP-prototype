@@ -42,6 +42,7 @@ SUBSCRIPTION-MANAGER:
   https: false
   timeout: 30
 
+
 ADSB:
   CITIES:
     Brussels: 'EBBR'

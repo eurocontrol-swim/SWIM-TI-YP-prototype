@@ -6,26 +6,27 @@ services:
     container_name: postgres
     environment:
       - DB_USER=${DB_USER}
-#    volumes:
-#      - ./docker/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./config/db/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     ports:
-      - "5432:5432"
+      - 5432:5432
     networks:
       - backend
 
   rabbitmq:
     image: rabbitmq_amqp10
-    build: ./docker/rabbitmq
+    build: ./config/broker/rabbitmq
     container_name: rabbitmq
     ports:
-      - "15672:15672"
-      - "15671:15671"
-      - "5671:5671"
-      - "5672:5672"
-      - "1883:1883"
-      - "8883:8883"
+      - 15672:15672
+      - 15671:15671
+      - 5671:5671
+      - 5672:5672
+      - 1883:1883
+      - 8883:8883
     volumes:
-      - "/secrets:/certs/"
+      - /secrets:/certs/
     networks:
       - backend
 
@@ -36,6 +37,13 @@ services:
     depends_on:
       - postgres
       - rabbitmq
+    environment:
+      - SM_ADMIN_USERNAME=${SM_ADMIN_USERNAME}
+      - SM_ADMIN_PASSWORD=${SM_ADMIN_PASSWORD}
+      - SWIM_ADSB_USERNAME=${SWIM_ADSB_USERNAME}
+      - SWIM_ADSB_PASSWORD=${SWIM_ADSB_PASSWORD}
+      - SWIM_EXPLORER_USERNAME=${SWIM_EXPLORER_USERNAME}
+      - SWIM_EXPLORER_PASSWORD=${SWIM_EXPLORER_PASSWORD}
     volumes:
       - /secrets:/secrets
       - ./config/subscription_manager/config.yml:/app/subscription_manager/dev_config.yml
@@ -47,10 +55,13 @@ services:
 
   swim-adsb:
     image: swim-adsb
-    build: ./swim_adsb
+    build: ./swim-adsb
     container_name: swim_adsb
     depends_on:
       - subscription-manager
+    environment:
+      - SWIM_ADSB_USERNAME=${SWIM_ADSB_USERNAME}
+      - SWIM_ADSB_PASSWORD=${SWIM_ADSB_PASSWORD}
     volumes:
       - /secrets:/secrets
       - ./config/swim_adsb/config.yml:/app/swim_adsb/config.yml
@@ -60,11 +71,14 @@ services:
 
   swim-explorer:
     image: swim-explorer
-    build: ./swim_explorer
+    build: ./swim-explorer
     container_name: swim_explorer
     depends_on:
       - subscription-manager
       - swim-adsb
+    environment:
+      - SWIM_EXPLORER_USERNAME=${SWIM_EXPLORER_USERNAME}
+      - SWIM_EXPLORER_PASSWORD=${SWIM_EXPLORER_PASSWORD}
     volumes:
       - /secrets:/secrets
       - ./config/swim_explorer/config.yml:/app/swim_explorer/config.yml
@@ -77,3 +91,7 @@ services:
 networks:
   backend:
     driver: bridge
+
+volumes:
+  db-data:
+    driver: local

@@ -30,13 +30,12 @@ LOGGING:
       level: INFO
 
 
-SQLALCHEMY_DATABASE_URI: 'postgresql+psycopg2://alex:alex@postgres:5432/subscriptions'
+SQLALCHEMY_DATABASE_URI: 'postgresql+psycopg2://swim:swim@postgres:5432/smdb'
 SQLALCHEMY_TRACK_MODIFICATIONS: False  # silence the deprecation warning
 
-JWT_SECRET: '$O3TVe9q2$034292d00c921b8a3cf805d2301f38b9cd0624437e89edfd86731de94e4552de7f672417b55037654ad1cf2cc44eedddcdff1bc7ae933ed0c0fa5d0d2fa7469b'
-JWT_ALGORITHM: 'HS512'
-
-BROKER_HOST: 'rabbitmq:15672'
-BROKER_USERNAME: 'guest'
-BROKER_PASSWORD: 'guest'
-#BROKER_CERT_PATH: '/secrets/ca_certificate.pem'
+BROKER:
+  host: 'rabbitmq:15671'
+  https: True
+  username: 'guest'
+  password: 'guest'
+  cert_path: '/secrets/ca_certificate.pem'

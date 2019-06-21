@@ -27,8 +27,8 @@ LOGGING:
 
 BROKER:
   host: 'rabbitmq'
-  port: 5672
-  tsl_enabled: false
+  port: 5671
+  tsl_enabled: True
   cert_db: '/secrets/ca_certificate.pem'
   cert_file: '/secrets/client_certificate.pem'
   cert_key: '/secrets/client_key.pem'
