@@ -19,14 +19,14 @@ git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/swim
 
 #### Configuration
 ##### Environment variables
-Make sure that the following enviroment variables are set. (You may choose different values)
+Make sure that the following enviroment variables are set.
 ```shell
-export SM_ADMIN_USERNAME=admin    
-export SM_ADMIN_PASSWORD=admin
-export SWIM_ADSB_USERNAME=swim-adsb
-export SWIM_ADSB_PASSWORD=swim-adsb
-export SWIM_EXPLORER_USERNAME=swim-explorer
-export SWIM_EXPLORER_PASSWORD=swim-explorer
+export SM_ADMIN_USERNAME=<sm_admin_username>    
+export SM_ADMIN_PASSWORD=<sm_admin_password>
+export SWIM_ADSB_USERNAME=<swim_adsb_username>
+export SWIM_ADSB_PASSWORD=<swim_adsb_password>
+export SWIM_EXPLORER_USERNAME=<swim_explorer_username>
+export SWIM_EXPLORER_PASSWORD=<swim_explorer_password>
 ```
 ##### Config files
 
