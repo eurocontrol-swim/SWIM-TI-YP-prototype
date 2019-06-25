@@ -4,8 +4,6 @@ services:
   postgres:
     image: postgres
     container_name: postgres
-    environment:
-      - DB_USER=${DB_USER}
     volumes:
       - db-data:/var/lib/postgresql/data
       - ./config/db/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
@@ -65,7 +63,8 @@ services:
     volumes:
       - /secrets:/secrets
       - ./config/swim_adsb/config.yml:/app/swim_adsb/config.yml
-    command: python /app/swim_adsb/app.py
+      - ./scripts/wait_for_subscription_manager.sh:/app/wait_for_subscription_manager.sh
+    command: bash -c "/app/wait_for_subscription_manager.sh && python /app/swim_adsb/app.py"
     networks:
       - backend
 
@@ -75,16 +74,16 @@ services:
     container_name: swim_explorer
     depends_on:
       - subscription-manager
-      - swim-adsb
     environment:
       - SWIM_EXPLORER_USERNAME=${SWIM_EXPLORER_USERNAME}
       - SWIM_EXPLORER_PASSWORD=${SWIM_EXPLORER_PASSWORD}
     volumes:
       - /secrets:/secrets
       - ./config/swim_explorer/config.yml:/app/swim_explorer/config.yml
+      - ./scripts/wait_for_subscription_manager.sh:/app/wait_for_subscription_manager.sh
     ports:
       - 5000:5000
-    command: python /app/swim_explorer/app.py
+    command: bash -c "/app/wait_for_subscription_manager.sh && python /app/swim_explorer/app.py"
     networks:
       - backend
 

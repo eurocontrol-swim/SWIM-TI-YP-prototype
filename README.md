@@ -33,6 +33,15 @@ export SWIM_EXPLORER_PASSWORD=<swim_explorer_password>
 
 ### Deployment
 
+Build the images of `rabbitmq`, `subscription-manager`, `swim-adsb` and `swim-explorer` 
+(this is an one time thing but it's gonna take some time depending on the machine it run on and the internet 
+connection):
 ```shell
-docker-compose p -d
+dokcer-compose build
+```
+
+Start all the services:
+
+```shell
+docker-compose up -d
 ```
