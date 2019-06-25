@@ -34,8 +34,8 @@ SQLALCHEMY_DATABASE_URI: 'postgresql+psycopg2://swim:swim@postgres:5432/smdb'
 SQLALCHEMY_TRACK_MODIFICATIONS: False  # silence the deprecation warning
 
 BROKER:
-  host: 'rabbitmq:15672'
-  https: False
+  host: 'rabbitmq:15671'
+  https: True
   username: 'guest'
   password: 'guest'
-#  cert_path: '/secrets/ca_certificate.pem'
+  cert_path: '/secrets/ca_certificate.pem'
