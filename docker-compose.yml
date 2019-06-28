@@ -93,10 +93,12 @@ services:
     volumes:
       - /secrets:/secrets
       - ./config/swim_explorer/config.yml:/app/swim_explorer/config.yml
+      - ./config/swim_explorer/uwsgi.ini:/app/uwsgi.ini
       - ./scripts/wait_for_subscription_manager.sh:/app/wait_for_subscription_manager.sh
     ports:
       - 5000:5000
-    command: bash -c "/app/wait_for_subscription_manager.sh && python /app/swim_explorer/app.py"
+#    command: bash -c "/app/wait_for_subscription_manager.sh && uwsgi --ini /app/uwsgi.ini"
+    command: bash -c "/app/wait_for_subscription_manager.sh && gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 --bind 0.0.0.0:5000 swim_explorer.app:flask_app"
     networks:
       - backend
 
