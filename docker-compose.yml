@@ -28,13 +28,24 @@ services:
     networks:
       - backend
 
+  nginx:
+    image: nginx
+    container_name: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./config/web_server/nginx/conf.d:/etc/nginx/conf.d
+    networks:
+      - backend
+
   subscription-manager:
     image: subscription-manager
-    build: ./subscription-manager
+    build: ./apps/subscription-manager
     container_name: subscription_manager
     depends_on:
       - postgres
       - rabbitmq
+      - nginx
     environment:
       - SM_ADMIN_USERNAME=${SM_ADMIN_USERNAME}
       - SM_ADMIN_PASSWORD=${SM_ADMIN_PASSWORD}
@@ -45,15 +56,17 @@ services:
     volumes:
       - /secrets:/secrets
       - ./config/subscription_manager/config.yml:/app/subscription_manager/dev_config.yml
+      - ./config/subscription_manager/uwsgi.ini:/app/uwsgi.ini
     ports:
       - 8080:8080
-    command: python /app/subscription_manager/app.py
+#    command: python /app/subscription_manager/app.py
+    command: uwsgi --ini /app/uwsgi.ini
     networks:
       - backend
 
   swim-adsb:
     image: swim-adsb
-    build: ./swim-adsb
+    build: ./apps/swim-adsb
     container_name: swim_adsb
     depends_on:
       - subscription-manager
@@ -70,7 +83,7 @@ services:
 
   swim-explorer:
     image: swim-explorer
-    build: ./swim-explorer
+    build: ./apps/swim-explorer
     container_name: swim_explorer
     depends_on:
       - subscription-manager
