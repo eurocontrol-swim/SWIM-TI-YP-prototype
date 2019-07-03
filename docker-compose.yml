@@ -24,7 +24,7 @@ services:
       - 1883:1883
       - 8883:8883
     volumes:
-      - /secrets:/certs/
+      - /secrets/rabbitmq:/certs/
     networks:
       - backend
 
@@ -33,8 +33,13 @@ services:
     container_name: nginx
     ports:
       - 80:80
+      - 443:443
     volumes:
-      - ./config/web_server/nginx/conf.d:/etc/nginx/conf.d
+#      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - /secrets/nginx/:/etc/nginx/ssl/
+      - ./config/web_server/nginx/conf.d/:/etc/nginx/conf.d/
+    depends_on:
+      - subscription-manager
     networks:
       - backend
 
@@ -45,7 +50,6 @@ services:
     depends_on:
       - postgres
       - rabbitmq
-      - nginx
     environment:
       - SM_ADMIN_USERNAME=${SM_ADMIN_USERNAME}
       - SM_ADMIN_PASSWORD=${SM_ADMIN_PASSWORD}
@@ -53,12 +57,14 @@ services:
       - SWIM_ADSB_PASSWORD=${SWIM_ADSB_PASSWORD}
       - SWIM_EXPLORER_USERNAME=${SWIM_EXPLORER_USERNAME}
       - SWIM_EXPLORER_PASSWORD=${SWIM_EXPLORER_PASSWORD}
+      - VIRTUAL_HOST=subscription-manager.swim
+      - VIRTUAL_PORT=8080
     volumes:
-      - /secrets:/secrets
+      - /secrets/rabbitmq:/secrets
       - ./config/subscription_manager/config.yml:/app/subscription_manager/dev_config.yml
     ports:
       - 8080:8080
-    command: gunicorn -w 1 --bind 0.0.0.0:8080 subscription_manager.wsgi:app
+    command: gunicorn -w 1 --bind :8080 subscription_manager.wsgi:app
     networks:
       - backend
 
@@ -72,7 +78,8 @@ services:
       - SWIM_ADSB_USERNAME=${SWIM_ADSB_USERNAME}
       - SWIM_ADSB_PASSWORD=${SWIM_ADSB_PASSWORD}
     volumes:
-      - /secrets:/secrets
+      - /secrets/rabbitmq:/secrets/rabbitmq
+      - /secrets/nginx/ca_certificate.pem:/secrets/web_server/ca_certificate.pem
       - ./config/swim_adsb/config.yml:/app/swim_adsb/config.yml
       - ./scripts/wait_for_subscription_manager.sh:/app/wait_for_subscription_manager.sh
     command: bash -c "/app/wait_for_subscription_manager.sh && python /app/swim_adsb/app.py"
@@ -89,7 +96,7 @@ services:
       - SWIM_EXPLORER_USERNAME=${SWIM_EXPLORER_USERNAME}
       - SWIM_EXPLORER_PASSWORD=${SWIM_EXPLORER_PASSWORD}
     volumes:
-      - /secrets:/secrets
+      - /secrets/rabbitmq:/secrets
       - ./config/swim_explorer/config.yml:/app/swim_explorer/config.yml
       - ./scripts/wait_for_subscription_manager.sh:/app/wait_for_subscription_manager.sh
     ports:

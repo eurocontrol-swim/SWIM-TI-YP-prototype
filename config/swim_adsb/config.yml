@@ -32,15 +32,16 @@ BROKER:
   host: 'rabbitmq'
   port: 5671
   tsl_enabled: true
-  cert_db: '/secrets/ca_certificate.pem'
-  cert_file: '/secrets/client_certificate.pem'
-  cert_key: '/secrets/client_key.pem'
+  cert_db: '/secrets/rabbitmq/ca_certificate.pem'
+  cert_file: '/secrets/rabbitmq/client_certificate.pem'
+  cert_key: '/secrets/rabbitmq/client_key.pem'
   cert_password: 'swim-ti'
 
 SUBSCRIPTION-MANAGER:
-  host: 'subscription_manager:8080'
-  https: false
+  host: 'nginx'
+  https: true
   timeout: 30
+  verify: false
 
 
 ADSB:

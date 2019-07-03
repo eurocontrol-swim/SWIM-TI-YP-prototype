@@ -35,6 +35,7 @@ BROKER:
   cert_password: 'swim-ti'
 
 SUBSCRIPTION-MANAGER:
-  host: 'subscription_manager:8080'
-  https: false
+  host: 'nginx'
+  https: true
   timeout: 30
+  verify: false
