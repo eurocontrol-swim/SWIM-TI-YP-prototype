@@ -51,4 +51,5 @@ ADSB:
     Paris: 'LFPG'
     Berlin: 'EDDB'
     Athens: 'LGAV'
+    Hethrow: 'EGLL'
   INTERVAL_IN_SEC: 5
