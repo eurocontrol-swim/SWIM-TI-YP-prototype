@@ -60,7 +60,8 @@ Then we have to provide the necessary configuration of the services. This involv
 
 ##### Environment variables
 The environment variables we need are usernames and passwords for the following users of the Subscription Manager:
-- admin
+
+- admin user
 - SWIM ADSB user
 - SWIM Explorer user
 
