@@ -9,5 +9,6 @@ log/
 __pycache__/
 .coverage
 /.pytest_cachea
-apps/
-secrets/
+services/subscription_manager/src
+services/swim_adsb/src
+services/swim_explorer/src

@@ -1,12 +1,17 @@
 version: "2"
 
+# TODO: clean up secrets
+# TODO: add ssl on postgres
+# TODO: add postgres role in env variables
+# TODO: include swim-base image build in the procedure
+
 services:
   db:
     image: postgres
     container_name: postgres
     volumes:
       - db-data:/var/lib/postgresql/data
-      - ./config/db/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./services/db/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     ports:
       - 5432:5432
     networks:
@@ -14,27 +19,26 @@ services:
 
   broker:
     image: rabbitmq_amqp10
-    build: ./config/broker/rabbitmq
+    build:
+      context: ./
+      dockerfile: ./services/broker/rabbitmq/Dockerfile
     container_name: rabbitmq
     ports:
       - 15672:15672
-#      - 15671:15671
-#      - 5671:5671
-#      - 5672:5672
-    volumes:
-      - ./secrets/rabbitmq:/certs/
     networks:
       - backend
 
   web-server:
-    image: nginx
+    image: swim-nginx
+    build:
+      context: ./
+      dockerfile: ./services/web_server/nginx/Dockerfile
     container_name: nginx
     ports:
       - 80:80
       - 443:443
     volumes:
-      - ./secrets/nginx/:/etc/nginx/ssl/
-      - ./config/web_server/nginx/conf.d/:/etc/nginx/conf.d/
+      - ./services/web_server/nginx/conf.d/:/etc/nginx/conf.d/
     depends_on:
       - subscription-manager
     networks:
@@ -42,7 +46,7 @@ services:
 
   subscription-manager:
     image: subscription-manager
-    build: ./apps/subscription-manager
+    build: ./services/subscription_manager/src
     container_name: subscription_manager
     depends_on:
       - db
@@ -56,7 +60,7 @@ services:
       - SWIM_EXPLORER_PASSWORD=${SWIM_EXPLORER_PASSWORD}
     volumes:
       - ./secrets/rabbitmq:/secrets
-      - ./config/subscription_manager/config.yml:/app/subscription_manager/dev_config.yml
+      - ./services/subscription_manager/config.yml:/app/subscription_manager/dev_config.yml
     ports:
       - 8080:8080
     command: gunicorn -w 1 --bind :8080 subscription_manager.wsgi:app
@@ -65,7 +69,7 @@ services:
 
   swim-adsb:
     image: swim-adsb
-    build: ./apps/swim-adsb
+    build: ./services/swim_adsb/src
     container_name: swim_adsb
     depends_on:
       - subscription-manager
@@ -75,7 +79,7 @@ services:
     volumes:
       - ./secrets/rabbitmq:/secrets/rabbitmq
       - ./secrets/nginx/ca_certificate.pem:/secrets/web_server/ca_certificate.pem
-      - ./config/swim_adsb/config.yml:/app/swim_adsb/config.yml
+      - ./services/swim_adsb/config.yml:/app/swim_adsb/config.yml
       - ./scripts/wait_for_subscription_manager.sh:/app/wait_for_subscription_manager.sh
     command: bash -c "/app/wait_for_subscription_manager.sh && python /app/swim_adsb/app.py"
     networks:
@@ -83,7 +87,7 @@ services:
 
   swim-explorer:
     image: swim-explorer
-    build: ./apps/swim-explorer
+    build: ./services/swim_explorer/src
     container_name: swim_explorer
     depends_on:
       - subscription-manager
@@ -92,11 +96,11 @@ services:
       - SWIM_EXPLORER_PASSWORD=${SWIM_EXPLORER_PASSWORD}
     volumes:
       - ./secrets/rabbitmq:/secrets
-      - ./config/swim_explorer/config.yml:/app/swim_explorer/config.yml
+      - ./services/swim_explorer/config.yml:/app/swim_explorer/config.yml
       - ./scripts/wait_for_subscription_manager.sh:/app/wait_for_subscription_manager.sh
     ports:
       - 5000:5000
-    command: bash -c "/app/wait_for_subscription_manager.sh && gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 --bind 0.0.0.0:5000 swim_explorer.app:flask_app"
+    command: bash -c "/app/wait_for_subscription_manager.sh && gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 --bind :5000 swim_explorer.app:flask_app"
     networks:
       - backend
 
