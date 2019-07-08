@@ -6,13 +6,17 @@ version: "2"
 
 services:
   db:
-    image: postgres
+    image: swim-postgres
+    build:
+      context: ./
+      dockerfile: ./services/db/postgres/Dockerfile
     container_name: postgres
     volumes:
       - db-data:/var/lib/postgresql/data
       - ./services/db/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     ports:
       - 5432:5432
+    command: postgres -c config_file=/etc/postgresql.conf
     networks:
       - backend
 
