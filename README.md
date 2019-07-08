@@ -54,8 +54,6 @@ $ git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/sw
 #### Configuration
 Then we have to provide the necessary configuration of the services. This involves:
 - setting up the required environment variables
-- generating the certificates and keys in order to enable TLS communication with the broker as well as the web server 
-([nginx](https://nginx.org/) for this demo).
 - application specific configuration
 
 ##### Environment variables
@@ -73,24 +71,6 @@ $ export SWIM_ADSB_USERNAME=swim_adsb
 $ export SWIM_ADSB_PASSWORD=swim_adsb
 $ export SWIM_EXPLORER_USERNAME=swim_explorer
 $ export SWIM_EXPLORER_PASSWORD=swim_explorer
-```
-
-##### Certificates and keys
-In order to enable TLS access to `RabbitMQ` as well as `nginx` we need to provide them with proper certificates and private keys. 
-In the context of this demo we are going to use self-signed certificates and we'll do it by using this [tls-gen](https://github.com/michaelklishin/tls-gen) tool:
-
-```shell
-$ cd $PROJECT_DIR
-$ mkdir -p secrets/{broker, web_server}
-$ cd /tmp
-$ git clone https://github.com/michaelklishin/tls-gen.git
-$ cd tls-gen/basic
-$ make PASSWORD=swim-ti CN=rabbitmq             # generate certificate and keys for RabbitMQ
-$ cp ./result/* $PROJECT_DIR/secrets/broker
-$ make PASSWORD=swim-ti CN=nginx                # generate certificate and keys for nginx
-$ cp ./result/* $PROJECT_DIR/secrets/web_server
-$ cd $PROJECT_DIR/secrets/nginx
-$ openssl dhparam -out dhparams.pem 2048        # generate Diffie-Hellman parameter for DHE ciphersuites
 ```
 
 ##### Application config files

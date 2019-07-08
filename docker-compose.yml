@@ -1,6 +1,5 @@
 version: "2"
 
-# TODO: clean up secrets
 # TODO: add ssl on postgres
 # TODO: add postgres role in env variables
 # TODO: include swim-base image build in the procedure
@@ -59,7 +58,7 @@ services:
       - SWIM_EXPLORER_USERNAME=${SWIM_EXPLORER_USERNAME}
       - SWIM_EXPLORER_PASSWORD=${SWIM_EXPLORER_PASSWORD}
     volumes:
-      - ./secrets/rabbitmq:/secrets
+      - ./secrets/rabbitmq/ca_certificate.pem:/secrets/ca_certificate.pem
       - ./services/subscription_manager/config.yml:/app/subscription_manager/dev_config.yml
     ports:
       - 8080:8080
@@ -77,7 +76,8 @@ services:
       - SWIM_ADSB_USERNAME=${SWIM_ADSB_USERNAME}
       - SWIM_ADSB_PASSWORD=${SWIM_ADSB_PASSWORD}
     volumes:
-      - ./secrets/rabbitmq:/secrets/rabbitmq
+      - ./secrets/rabbitmq/client/:/secrets/broker/client
+      - ./secrets/rabbitmq/ca_certificate.pem:/secrets/broker/ca_certificate.pem
       - ./secrets/nginx/ca_certificate.pem:/secrets/web_server/ca_certificate.pem
       - ./services/swim_adsb/config.yml:/app/swim_adsb/config.yml
       - ./scripts/wait_for_subscription_manager.sh:/app/wait_for_subscription_manager.sh
@@ -95,7 +95,9 @@ services:
       - SWIM_EXPLORER_USERNAME=${SWIM_EXPLORER_USERNAME}
       - SWIM_EXPLORER_PASSWORD=${SWIM_EXPLORER_PASSWORD}
     volumes:
-      - ./secrets/rabbitmq:/secrets
+      - ./secrets/rabbitmq/client/:/secrets/broker/client
+      - ./secrets/rabbitmq/ca_certificate.pem:/secrets/broker/ca_certificate.pem
+      - ./secrets/nginx/ca_certificate.pem:/secrets/web_server/ca_certificate.pem
       - ./services/swim_explorer/config.yml:/app/swim_explorer/config.yml
       - ./scripts/wait_for_subscription_manager.sh:/app/wait_for_subscription_manager.sh
     ports:
