@@ -1,6 +1,5 @@
 version: "2"
 
-# TODO: add ssl on postgres
 # TODO: add postgres role in env variables
 # TODO: include swim-base image build in the procedure
 
@@ -11,9 +10,13 @@ services:
       context: ./
       dockerfile: ./services/db/postgres/Dockerfile
     container_name: postgres
+    environment:
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
     volumes:
       - db-data:/var/lib/postgresql/data
-      - ./services/db/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./services/db/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d/
     ports:
       - 5432:5432
     command: postgres -c config_file=/etc/postgresql.conf
@@ -55,6 +58,9 @@ services:
       - db
       - broker
     environment:
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
       - SM_ADMIN_USERNAME=${SM_ADMIN_USERNAME}
       - SM_ADMIN_PASSWORD=${SM_ADMIN_PASSWORD}
       - SWIM_ADSB_USERNAME=${SWIM_ADSB_USERNAME}

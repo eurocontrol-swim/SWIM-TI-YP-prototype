@@ -57,14 +57,13 @@ Then we have to provide the necessary configuration of the services. This involv
 - application specific configuration
 
 ##### Environment variables
-The environment variables we need are usernames and passwords for the following users of the Subscription Manager:
-
-- admin user
-- SWIM ADSB user
-- SWIM Explorer user
+The environment variables we need are user credentials for a DB user as well as credentials of Subscription Manager users. 
 
 Run the following commands in your terminal (you may replace the values with your choice):
 ```shell
+$ export DB_NAME=smdb
+$ export DB_USER=swim
+$ export DB_PASSWORD=swim
 $ export SM_ADMIN_USERNAME=admin
 $ export SM_ADMIN_PASSWORD=admin
 $ export SWIM_ADSB_USERNAME=swim_adsb

@@ -1,5 +1,7 @@
 FROM postgres
 
+RUN apt-get update && apt-get install nano
+
 COPY ./services/db/postgres/data/postgresql.conf /etc/postgresql.conf
 
 RUN mkdir /var/lib/postgresql/secrets/
