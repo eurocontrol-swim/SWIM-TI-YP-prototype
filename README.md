@@ -50,6 +50,7 @@ git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/swim
 
 #### Configuration
 Then we have to provide the necessary configuration of the services. This involves:
+
 - setting up the required environment variables
 - application specific configuration
 

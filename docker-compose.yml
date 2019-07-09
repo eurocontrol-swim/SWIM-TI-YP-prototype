@@ -1,5 +1,10 @@
 version: "2"
 
+# TODO: eventually copy secrets during build time
+# TODO: minimize image size (microcontainer)
+# TODO: pull images from docker hub
+
+
 services:
   db:
     image: swim-postgres
