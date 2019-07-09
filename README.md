@@ -130,7 +130,7 @@ docker-compose down
 ```
 ### Usage
 
-Finally, you can point your browser to [http://0.0.0.0:5000](http://0.0.0.0:5000) in order to access SWIM Explorer and play around. You can subscribe, pause, resume or unsubscribe from topics like `arrivals.brussels`
+As soon as the platform is up and running, you can point your browser to [http://0.0.0.0:5000](http://0.0.0.0:5000) in order to access SWIM Explorer and play around. You can subscribe, pause, resume or unsubscribe from topics like `arrivals.brussels`
 and see the real time position of the involved aircrafts on the map.
 
 > SWIM Explorer is supposed to be a client application, .i.e out of the scope of SWIM-TI platform. However, for the purpose of 
