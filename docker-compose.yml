@@ -1,8 +1,5 @@
 version: "2"
 
-# TODO: add postgres role in env variables
-# TODO: include swim-base image build in the procedure
-
 services:
   db:
     image: swim-postgres
@@ -17,8 +14,6 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
       - ./services/db/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d/
-    ports:
-      - 5432:5432
     command: postgres -c config_file=/etc/postgresql.conf
     networks:
       - backend
@@ -70,8 +65,6 @@ services:
     volumes:
       - ./secrets/rabbitmq/ca_certificate.pem:/secrets/ca_certificate.pem
       - ./services/subscription_manager/config.yml:/app/subscription_manager/dev_config.yml
-    ports:
-      - 8080:8080
     command: gunicorn -w 1 --bind :8080 subscription_manager.wsgi:app
     networks:
       - backend

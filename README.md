@@ -43,12 +43,9 @@ First we need to clone this repository as well as the repositories of the servic
 ```shell
 $ git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/deploy.git
 $ cd deploy
-$ export PROJECT_DIR=`pwd`
-$ mkdir apps
-$ cd apps
-$ git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/subscription-manager.git &&
-$ git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/swim-adsb.git &&
-$ git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/swim-explorer.git
+$ git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/subscription-manager.git ./services/subscription_manager/src &&
+$ git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/swim-adsb.git ./services/swim_adsb/src &&
+$ git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/swim-explorer.git ./services/swim_explorer/src
 ```
 
 #### Configuration
@@ -101,7 +98,8 @@ In order to get the demo platform up and running we first need to download or bu
 > It's an one time thing but it is going to take some time based on your internet speed.
 
 ```shell
-$ docker-compose build
+$ docker build -t swim-base ./services/base  # build the base image upon which the swim services will depend on 
+$ docker-compose build                       # build the services
 ```
 
 Then all that remains is to get the services up and running:
