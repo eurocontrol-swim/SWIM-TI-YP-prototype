@@ -83,8 +83,7 @@ services:
       - ./secrets/rabbitmq/ca_certificate.pem:/secrets/broker/ca_certificate.pem
       - ./secrets/nginx/ca_certificate.pem:/secrets/web_server/ca_certificate.pem
       - ./services/swim_adsb/config.yml:/app/swim_adsb/config.yml
-      - ./scripts/wait_for_subscription_manager.sh:/app/wait_for_subscription_manager.sh
-    command: bash -c "/app/wait_for_subscription_manager.sh && python /app/swim_adsb/app.py"
+    command: python /app/swim_adsb/app.py
     networks:
       - backend
 
@@ -102,10 +101,9 @@ services:
       - ./secrets/rabbitmq/ca_certificate.pem:/secrets/broker/ca_certificate.pem
       - ./secrets/nginx/ca_certificate.pem:/secrets/web_server/ca_certificate.pem
       - ./services/swim_explorer/config.yml:/app/swim_explorer/config.yml
-      - ./scripts/wait_for_subscription_manager.sh:/app/wait_for_subscription_manager.sh
     ports:
       - 5000:5000
-    command: bash -c "/app/wait_for_subscription_manager.sh && gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 --bind :5000 swim_explorer.app:flask_app"
+    command: gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 --bind :5000 swim_explorer.app:flask_app
     networks:
       - backend
 
