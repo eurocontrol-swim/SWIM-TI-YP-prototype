@@ -41,11 +41,11 @@ Before starting, make sure the following software is installed and working on yo
 #### Download repositories
 First we need to clone this repository as well as the repositories of the services involved:
 ```shell
-$ git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/deploy.git
-$ cd deploy
-$ git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/subscription-manager.git ./services/subscription_manager/src &&
-$ git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/swim-adsb.git ./services/swim_adsb/src &&
-$ git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/swim-explorer.git ./services/swim_explorer/src
+git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/deploy.git
+cd deploy
+git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/subscription-manager.git ./services/subscription_manager/src &&
+git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/swim-adsb.git ./services/swim_adsb/src &&
+git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/swim-explorer.git ./services/swim_explorer/src
 ```
 
 #### Configuration
@@ -58,15 +58,15 @@ The environment variables we need are user credentials for a DB user as well as 
 
 Run the following commands in your terminal (you may replace the values with your choice):
 ```shell
-$ export DB_NAME=smdb
-$ export DB_USER=swim
-$ export DB_PASSWORD=swim
-$ export SM_ADMIN_USERNAME=admin
-$ export SM_ADMIN_PASSWORD=admin
-$ export SWIM_ADSB_USERNAME=swim_adsb
-$ export SWIM_ADSB_PASSWORD=swim_adsb
-$ export SWIM_EXPLORER_USERNAME=swim_explorer
-$ export SWIM_EXPLORER_PASSWORD=swim_explorer
+export DB_NAME=smdb
+export DB_USER=swim
+export DB_PASSWORD=swim
+export SM_ADMIN_USERNAME=admin
+export SM_ADMIN_PASSWORD=admin
+export SWIM_ADSB_USERNAME=swim_adsb
+export SWIM_ADSB_PASSWORD=swim_adsb
+export SWIM_EXPLORER_USERNAME=swim_explorer
+export SWIM_EXPLORER_PASSWORD=swim_explorer
 ```
 
 ##### Application config files
@@ -98,14 +98,14 @@ In order to get the demo platform up and running we first need to download or bu
 > It's an one time thing but it is going to take some time based on your internet speed.
 
 ```shell
-$ docker build -t swim-base ./services/base  # build the base image upon which the swim services will depend on 
-$ docker-compose build                       # build the services
+docker build -t swim-base ./services/base  # build the base image upon which the swim services will depend on 
+docker-compose build                       # build the services
 ```
 
 Then all that remains is to get the services up and running:
 
 ```shell
-$ docker-compose up -d
+docker-compose up -d
 ```
 In order to make sure that all services (docker containers) are running you can run:
 ```shell
@@ -121,6 +121,12 @@ CONTAINER ID        IMAGE                  COMMAND                  CREATED     
 a8ffd7d67b7d        subscription-manager   "/usr/bin/tini -- gu…"   About a minute ago   Up About a minute   0.0.0.0:8080->8080/tcp                                                    subscription_manager
 0ba8dd7aa1cb        rabbitmq_amqp10        "docker-entrypoint.s…"   About a minute ago   Up About a minute   4369/tcp, 5671-5672/tcp, 15671/tcp, 25672/tcp, 0.0.0.0:15672->15672/tcp   rabbitmq
 645b4de022e4        postgres               "docker-entrypoint.s…"   About a minute ago   Up About a minute   0.0.0.0:5432->5432/tcp                                                    postgres
+```
+
+Finally, in order to tear the platform down you can do:
+
+```shell
+docker-compose down
 ```
 ### Usage
 
