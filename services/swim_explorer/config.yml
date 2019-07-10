@@ -33,6 +33,7 @@ BROKER:
   cert_db: '/secrets/broker/ca_certificate.pem'
   cert_file: '/secrets/broker/client/client_certificate.pem'
   cert_key: '/secrets/broker/client/client_key.pem'
+  # Propose to move the password value to secrets to be configured by file or environment variable
   cert_password: 'swim-ti'
 
 SUBSCRIPTION-MANAGER:
