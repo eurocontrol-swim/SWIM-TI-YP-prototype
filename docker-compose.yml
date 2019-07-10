@@ -1,4 +1,4 @@
-version: "2"
+version: "3.5"
 
 # TODO: eventually copy secrets during build time
 # TODO: minimize image size (microcontainer)
@@ -69,8 +69,9 @@ services:
       - SWIM_EXPLORER_PASSWORD=${SWIM_EXPLORER_PASSWORD}
     volumes:
       - ./secrets/rabbitmq/ca_certificate.pem:/secrets/ca_certificate.pem
-      - ./services/subscription_manager/config.yml:/app/subscription_manager/dev_config.yml
-    command: gunicorn -w 1 --bind :8080 subscription_manager.wsgi:app
+      - ./services/subscription_manager/config.yml:/app/subscription_manager/_dev_config.yml
+    command: bash -c "env_update /app/subscription_manager/_dev_config.yml /app/subscription_manager/dev_config.yml &&
+                      gunicorn -w 1 --bind :8080 subscription_manager.wsgi:app"
     networks:
       - backend
 
