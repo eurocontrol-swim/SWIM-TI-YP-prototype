@@ -39,3 +39,6 @@ SUBSCRIPTION-MANAGER:
   https: true
   timeout: 30
   verify: '/secrets/web_server/ca_certificate.pem'
+
+SWIM_EXPLORER_USERNAME: ${SWIM_EXPLORER_USERNAME}
+SWIM_EXPLORER_PASSWORD: ${SWIM_EXPLORER_PASSWORD}
