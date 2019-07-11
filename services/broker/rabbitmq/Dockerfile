@@ -1,6 +1,6 @@
 FROM rabbitmq:management
 
-RUN rabbitmq-plugins enable --offline rabbitmq_mqtt rabbitmq_amqp1_0 rabbitmq_auth_mechanism_ssl
+RUN rabbitmq-plugins enable --offline rabbitmq_amqp1_0 rabbitmq_auth_mechanism_ssl
 
 # certicates and keys
 COPY ./secrets/rabbitmq/ca_certificate.pem /certs/ca_certificate.pem
