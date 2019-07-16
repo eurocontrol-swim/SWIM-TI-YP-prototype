@@ -162,7 +162,7 @@ Finally, in order to tear the platform down you can do:
 ./swim.sh stop
 ```
 
-and if you want to remove completely the involved docker containers you can do:
+or if you also want to remove completely the involved docker containers you can do:
 ```shell
 ./swim.sh stop --clean
 ```
@@ -174,3 +174,5 @@ and see the real time position of the involved aircrafts on the map.
 
 > SWIM Explorer is supposed to be a client application, .i.e out of the scope of SWIM-TI platform. However, for the purpose of 
 this demo it comes together with the rest of the services, but it runs as a standalone web application not passing through nginx.
+
+**TODO:** add image from the explorer
