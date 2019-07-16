@@ -93,24 +93,56 @@ ADSB:
 ```
 
 ### Deployment
-In order to get the demo platform up and running we first need to download or build the necessary docker images. 
-`docker-compose` makes things quite easy for us and all we need to do is run the following command:
+For the deployment process you can use the provided `shell` script `swim.sh`. Before using it though make it
+executable with the following command:
+
+```shell
+chmod +x swim.sh
+```
+
+Moreover you can see the available options of this script with:
+```shell
+./swim.sh help
+Usage: swim.sh [COMMAND] [OPTIONS]
+
+Commands:
+    provision       Provisions the Subscription Manager with initial data (users)
+    start           Starts up all the SWIM services
+    start --prov    Starts up all the SWIM services after Provisioning the Subscription Manager with initial data
+    stop            Stops all the services
+    stop --clean    Stops all the services and cleans up the containers
+
+```
+
+In order to get the demo platform up and running we first need to download or build the necessary docker images
+with the following command:
 
 > It's an one time thing but it is going to take some time based on your internet speed.
 
 ```shell
-docker build -t swim-base ./services/base  # build the base image upon which the swim services will depend on 
-docker-compose build                       # build the services
+./swim.sh build
 ```
 
-Then all that remains is to get the services up and running:
+After the necessary images are downloaded we are ready to get the services up and running. Before that
+we'll need to provision the Subscription Manager with some initial data about the involved users and this can be done with:
+
+> this has to be run only the first time we start SWIM
+ 
+```shell
+./swim provision
+```
+
+and then we can start the services:
 
 ```shell
-docker-compose up -d
+./swim.sh start
 ```
+
+> the two commands above can be run in one step with `./swim.sh start -p`
+
 In order to make sure that all services (docker containers) are running you can run:
 ```shell
-docker ps
+./swim.sh status
 ```
 
 and you should see something similar to:
@@ -127,8 +159,14 @@ a8ffd7d67b7d        subscription-manager   "/usr/bin/tini -- gu…"   About a mi
 Finally, in order to tear the platform down you can do:
 
 ```shell
-docker-compose down
+./swim.sh stop
 ```
+
+and if you want to remove completely the involved docker containers you can do:
+```shell
+./swim.sh stop --clean
+```
+
 ### Usage
 
 As soon as the platform is up and running, you can point your browser to [http://0.0.0.0:5000](http://0.0.0.0:5000) in order to access SWIM Explorer and play around. You can subscribe, pause, resume or unsubscribe from topics like `arrivals.brussels`
