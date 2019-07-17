@@ -29,10 +29,8 @@ LOGGING:
       level: DEBUG
 
 BROKER:
-  host: 'rabbitmq'
-  port: 5671
-  # Typo in tls_enabled, fix needs to be propagated to SWIM PubSub
-  tsl_enabled: true
+  host: 'rabbitmq:5671'
+  tls_enabled: true
   cert_db: '/secrets/broker/ca_certificate.pem'
   cert_file: '/secrets/broker/client/client_certificate.pem'
   cert_key: '/secrets/broker/client/client_key.pem'
