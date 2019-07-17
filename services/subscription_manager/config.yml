@@ -35,6 +35,6 @@ SQLALCHEMY_TRACK_MODIFICATIONS: False  # silence the deprecation warning
 BROKER:
   host: 'rabbitmq:15671'
   https: True
-  username: 'guest'
-  password: 'guest'
+  username: ${BROKER_MGMT_USERNAME}
+  password: ${BROKER_MGMT_PASSWORD}
   cert_path: '/secrets/ca_certificate.pem'

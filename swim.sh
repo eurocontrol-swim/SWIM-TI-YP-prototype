@@ -3,8 +3,6 @@
 data_provision() {
     echo -e "Data provisioning to Subscription Manager...\n"
     docker-compose up -d subscription-manager-provision
-    echo "Removing involved container...subscription_manager_provision"
-    docker ps -a | grep subscription_manager_provision | awk '{print $1}'| xargs docker stop | xargs docker rm
 }
 
 start_services() {

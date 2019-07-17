@@ -63,9 +63,10 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}
     volumes:
       - ./secrets/rabbitmq/ca_certificate.pem:/secrets/ca_certificate.pem
+      - ./secrets/rabbitmq/.env:/secrets/.env
       - ./services/subscription_manager/config.yml:/app/subscription_manager/_config.yml
-    command: bash -c "env_update /app/subscription_manager/_config.yml /app/subscription_manager/config.yml &&
-                      gunicorn -w 1 --bind :8080 subscription_manager.wsgi:app"
+      - ./services/subscription_manager/entry.sh:/app/entry.sh
+    command: bash /app/entry.sh
     networks:
       - backend
 
@@ -87,8 +88,8 @@ services:
       - SWIM_EXPLORER_PASSWORD=${SWIM_EXPLORER_PASSWORD}
     volumes:
       - ./services/subscription_manager/config.yml:/app/provision_data/_config.yml
-    command: bash -c "env_update /app/provision_data/_config.yml /app/provision_data/config.yml &&
-                      python /app/provision_data/init_db.py"
+      - ./services/subscription_manager/provision_data_entry.sh:/app/provision_data_entry.sh
+    command: bash provision_data_entry.sh
     networks:
       - backend
 
@@ -98,15 +99,18 @@ services:
     container_name: swim_adsb
     depends_on:
       - subscription-manager
+      - web-server
     environment:
       - SWIM_ADSB_USERNAME=${SWIM_ADSB_USERNAME}
       - SWIM_ADSB_PASSWORD=${SWIM_ADSB_PASSWORD}
     volumes:
       - ./secrets/rabbitmq/client/:/secrets/broker/client
       - ./secrets/rabbitmq/ca_certificate.pem:/secrets/broker/ca_certificate.pem
+      - ./secrets/rabbitmq/.env:/secrets/broker/.env
       - ./secrets/nginx/ca_certificate.pem:/secrets/web_server/ca_certificate.pem
       - ./services/swim_adsb/config.yml:/app/swim_adsb/_config.yml
-    command: bash -c "env_update /app/swim_adsb/_config.yml /app/swim_adsb/config.yml && python /app/swim_adsb/app.py"
+      - ./services/swim_adsb/entry.sh:/app/entry.sh
+    command: bash /app/entry.sh
     networks:
       - backend
 
@@ -115,6 +119,8 @@ services:
     build: ./services/swim_explorer/src
     container_name: swim_explorer
     depends_on:
+      - subscription-manager
+      - web-server
       - swim-adsb
     environment:
       - SWIM_EXPLORER_USERNAME=${SWIM_EXPLORER_USERNAME}
@@ -122,12 +128,13 @@ services:
     volumes:
       - ./secrets/rabbitmq/client/:/secrets/broker/client
       - ./secrets/rabbitmq/ca_certificate.pem:/secrets/broker/ca_certificate.pem
+      - ./secrets/rabbitmq/.env:/secrets/broker/.env
       - ./secrets/nginx/ca_certificate.pem:/secrets/web_server/ca_certificate.pem
       - ./services/swim_explorer/config.yml:/app/swim_explorer/_config.yml
+      - ./services/swim_explorer/entry.sh:/app/entry.sh
     ports:
       - 5000:5000
-    command: bash -c "env_update /app/swim_explorer/_config.yml /app/swim_explorer/config.yml &&
-                      gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 --bind :5000 swim_explorer.app:flask_app"
+    command: bash /app/entry.sh
     networks:
       - backend
 
