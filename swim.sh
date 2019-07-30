@@ -1,30 +1,40 @@
 #!/bin/bash
 
 data_provision() {
-    echo -e "Data provisioning to Subscription Manager...\n"
+    echo "Data provisioning to Subscription Manager..."
+    echo -e "============================================\n"
     docker-compose up -d subscription-manager-provision
+    echo ""
 }
 
 start_services() {
-    echo -e "Starting up SWIM...\n"
+    echo "Starting up SWIM..."
+    echo -e "===================\n"
     docker-compose up -d web-server subscription-manager swim-adsb swim-explorer
+    echo ""
 }
 
 
 stop_services_with_clean() {
-    echo -e "Stopping SWIM...\n"
+    echo "Stopping SWIM..."
+    echo -e "================\n"
     docker-compose down
+    echo ""
 }
 
 stop_services() {
-    echo -e "Stopping SWIM...\n"
+    echo "Stopping SWIM..."
+    echo -e "================\n"
     docker-compose stop
+    echo ""
 }
 
 build() {
-    echo -e "Building images...\n"
+    echo "Building images..."
+    echo -e "==================\n"
     docker build -t swim-base ./services/base  # build the base image upon which the swim services will depend on
     docker-compose build
+    echo ""
 }
 
 status() {
@@ -40,6 +50,7 @@ usage() {
     echo "    stop            Stops all the services"
     echo "    stop --clean    Stops all the services and cleans up the containers"
     echo "    status          Displays the status of the running containers"
+    echo ""
 }
 
 if [[ $# -lt 1 || $# -gt 2  ]]
