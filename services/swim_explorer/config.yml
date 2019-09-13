@@ -27,11 +27,9 @@ LOGGING:
 
 BROKER:
   host: 'rabbitmq:5671'
-  tls_enabled: True
   cert_db: '/secrets/broker/ca_certificate.pem'
-  cert_file: '/secrets/broker/client/client_certificate.pem'
-  cert_key: '/secrets/broker/client/client_key.pem'
-  cert_password: ${BROKER_CERT_PASSWORD}
+  sasl_user: ${BROKER_SWIM_EXPLORER_USERNAME}
+  sasl_password: ${BROKER_SWIM_EXPLORER_PASSWORD}
 
 SUBSCRIPTION-MANAGER:
   host: 'nginx'

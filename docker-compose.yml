@@ -1,5 +1,6 @@
 version: "3.5"
 
+# TODO: revert rabbitmq according to SWIM-TI specs
 # TODO: eventually copy secrets during build time
 # TODO: minimize image size (microcontainer)
 # TODO: pull images from docker hub
@@ -30,7 +31,7 @@ services:
       dockerfile: ./services/broker/rabbitmq/Dockerfile
     container_name: rabbitmq
     ports:
-      - 15672:15672
+      - 15671:15671
     networks:
       - backend
 
