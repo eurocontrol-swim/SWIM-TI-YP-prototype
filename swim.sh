@@ -32,7 +32,9 @@ stop_services() {
 build() {
     echo "Building images..."
     echo -e "==================\n"
-    docker build -t swim-base ./services/base  # build the base image upon which the swim services will depend on
+    # build the base image upon which the swim services will depend on
+    docker build -t swim-base -f ./services/base/Dockerfile ./services/base
+    docker build -t swim-base.conda -f ./services/base/Dockerfile.conda ./services/base
     docker-compose build
     echo ""
 }
