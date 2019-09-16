@@ -39,13 +39,9 @@ Before starting, make sure the following software is installed and working on yo
 
 
 #### Download repositories
-First we need to clone this repository as well as the repositories of the services involved:
+First we need to clone this repository:
 ```shell
 git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/deploy.git
-cd deploy
-git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/subscription-manager.git ./services/subscription_manager/src &&
-git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/swim-adsb.git ./services/swim_adsb/src &&
-git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/swim-explorer.git ./services/swim_explorer/src
 ```
 
 #### Configuration
@@ -97,6 +93,7 @@ For the deployment process you can use the provided `shell` script `swim.sh`. Be
 executable with the following command:
 
 ```shell
+cd deploy
 chmod +x swim.sh
 ```
 
@@ -106,18 +103,19 @@ Moreover you can see the available options of this script with:
 Usage: swim.sh [COMMAND] [OPTIONS]
 
 Commands:
+    build           Clones/updates the necessary git repositories and builds the involved docker images
     provision       Provisions the Subscription Manager with initial data (users)
     start           Starts up all the SWIM services
     start --prov    Starts up all the SWIM services after Provisioning the Subscription Manager with initial data
     stop            Stops all the services
     stop --clean    Stops all the services and cleans up the containers
-
+    status          Displays the status of the running containers
 ```
 
-In order to get the demo platform up and running we first need to download or build the necessary docker images
-with the following command:
+In order to get the demo platform up and running we first need to download the necessary repositories and build the 
+involved docker images with the following command:
 
-> It's an one time thing but it is going to take some time based on your internet speed.
+> The first time you run this command it will take some time because of the download/build of docker images.
 
 ```shell
 ./swim.sh build
@@ -138,7 +136,7 @@ and then we can start the services:
 ./swim.sh start
 ```
 
-> the two commands above can be run in one step with `./swim.sh start -p`
+> the two commands above can be run in one step with `./swim.sh start --prov`
 
 In order to make sure that all services (docker containers) are running you can run:
 ```shell
@@ -156,7 +154,7 @@ a8ffd7d67b7d        subscription-manager   "/usr/bin/tini -- gu…"   About a mi
 645b4de022e4        postgres               "docker-entrypoint.s…"   About a minute ago   Up About a minute   0.0.0.0:5432->5432/tcp                                                    postgres
 ```
 
-Finally, in order to tear the platform down you can do:
+Lastly, in order to tear the platform down you can do:
 
 ```shell
 ./swim.sh stop
@@ -165,6 +163,12 @@ Finally, in order to tear the platform down you can do:
 or if you also want to remove completely the involved docker containers you can do:
 ```shell
 ./swim.sh stop --clean
+```
+
+In case there is a change on the involved repositories you can update them and them by calling:
+```shell
+./swim.sh stop --clean  # if SWIM is up running
+./swim.sh build
 ```
 
 ### Usage
