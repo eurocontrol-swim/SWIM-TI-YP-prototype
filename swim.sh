@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ROOT_DIR=${PWD}
-SERVICES_DIR=${ROOT_DIR}'/services_' # --------------------------------------------------------------
+SERVICES_DIR=${ROOT_DIR}'/services'
 SUBSCRIPTION_MANAGER_DIR=${SERVICES_DIR}"/subscription_manager/src"
 SWIM_ADSB_DIR=${SERVICES_DIR}"/swim_adsb/src"
 SWIM_EXPLORER_DIR=${SERVICES_DIR}"/swim_explorer/src"
