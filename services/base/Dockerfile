@@ -10,6 +10,11 @@ RUN apt-get install gcc g++ cmake cmake-curses-gui uuid-dev \
     build-essential vim tree netcat pkg-config openssl libssl-dev \
     libffi-dev python-gevent gunicorn git -y
 
+<<<<<<< HEAD
+=======
+RUN conda update -n base -c defaults conda
+
+>>>>>>> conformance
 COPY env_update.sh /usr/bin/env_update
 
 RUN chmod +x /usr/bin/env_update

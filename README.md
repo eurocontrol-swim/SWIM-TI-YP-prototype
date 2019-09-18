@@ -117,6 +117,8 @@ involved docker images with the following command:
 
 > The first time you run this command it will take some time because of the download/build of docker images.
 
+> this has to be run only the first time we start SWIM
+ 
 ```shell
 ./swim.sh build
 ```
