@@ -2,28 +2,48 @@
 
 ROOT_DIR=${PWD}
 SERVICES_DIR=${ROOT_DIR}'/services'
-SUBSCRIPTION_MANAGER_DIR=${SERVICES_DIR}"/subscription_manager/src"
-SWIM_ADSB_DIR=${SERVICES_DIR}"/swim_adsb/src"
-SWIM_EXPLORER_DIR=${SERVICES_DIR}"/swim_explorer/src"
+POSTGRES_DIR=${SERVICES_DIR}"/db/postgres"
+SUBSCRIPTION_MANAGER_DIR=${SERVICES_DIR}"/subscription_manager"
+SUBSCRIPTION_MANAGER_DIR_SRC=${SUBSCRIPTION_MANAGER_DIR}"/src"
+SWIM_ADSB_DIR=${SERVICES_DIR}"/swim_adsb"
+SWIM_ADSB_DIR_SRC=${SWIM_ADSB_DIR}"/src"
+SWIM_EXPLORER_DIR=${SERVICES_DIR}"/swim_explorer"
+SWIM_EXPLORER_DIR_SRC=${SWIM_EXPLORER_DIR}"/src"
+SWIM_USER_CONFIG_DIR=${SERVICES_DIR}"/swim_user_config"
+SWIM_USER_CONFIG_DIR_SRC=${SWIM_USER_CONFIG_DIR}"/src"
 
+user_config() {
+  echo "SWIM user configuration..."
+  echo -e "==========================\n"
+  docker run -it \
+    -v "${POSTGRES_DIR}/.env":/tmp/db.env \
+    -v "${SUBSCRIPTION_MANAGER_DIR}/.env":/tmp/subscription_manager.env \
+    -v "${SWIM_ADSB_DIR}/.env":/tmp/swim_adsb.env \
+    -v "${SWIM_EXPLORER_DIR}/.env":/tmp/swim_explorer.env \
+    -v "${SWIM_USER_CONFIG_DIR}/config.yml":/app/swim_user_config/config.yml \
+    swim-user-config
+}
 
 clone_repos() {
   echo "Cloning Git repositories..."
   echo -e "============================\n"
-  git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/subscription-manager.git "${SUBSCRIPTION_MANAGER_DIR}"
-  git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/swim-adsb.git "${SWIM_ADSB_DIR}"
-  git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/swim-explorer.git "${SWIM_EXPLORER_DIR}"
+  git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/subscription-manager.git "${SUBSCRIPTION_MANAGER_DIR_SRC}"
+  git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/swim-adsb.git "${SWIM_ADSB_DIR_SRC}"
+  git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/swim-explorer.git "${SWIM_EXPLORER_DIR_SRC}"
+  git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/swim-user-config.git "${SWIM_USER_CONFIG_DIR_SRC}"
   echo ""
 }
 
 update_repos() {
   echo "Updating Git repositories..."
   echo -e "============================\n"
-  cd "${SUBSCRIPTION_MANAGER_DIR}" || exit
+  cd "${SUBSCRIPTION_MANAGER_DIR_SRC}" || exit
   git pull --rebase origin master
-  cd "${SWIM_ADSB_DIR}" || exit
+  cd "${SWIM_ADSB_DIR_SRC}" || exit
   git pull --rebase origin master
-  cd "${SWIM_EXPLORER_DIR}" || exit
+  cd "${SWIM_EXPLORER_DIR_SRC}" || exit
+  git pull --rebase origin master
+  cd "${SWIM_USER_CONFIG_DIR_SRC}" || exit
   git pull --rebase origin master
   cd "${ROOT_DIR}" || exit
   echo ""
@@ -99,7 +119,7 @@ ACTION=${1}
 case ${ACTION} in
   build)
     # update the repos if they exits othewise clone them
-    if [[ -d ${SUBSCRIPTION_MANAGER_DIR} && -d ${SWIM_ADSB_DIR} && -d ${SWIM_EXPLORER_DIR} ]]
+    if [[ -d ${SUBSCRIPTION_MANAGER_DIR_SRC} && -d ${SWIM_ADSB_DIR_SRC} && -d ${SWIM_EXPLORER_DIR_SRC} ]]
     then
       update_repos
     else
@@ -152,6 +172,9 @@ case ${ACTION} in
     ;;
   status)
     status
+    ;;
+  user_config)
+    user_config
     ;;
   help)
     usage

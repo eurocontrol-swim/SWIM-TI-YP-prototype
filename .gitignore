@@ -12,3 +12,5 @@ __pycache__/
 services/subscription_manager/src
 services/swim_adsb/src
 services/swim_explorer/src
+services/swim_user_config/src
+*.env

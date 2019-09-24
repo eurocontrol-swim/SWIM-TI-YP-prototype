@@ -1,8 +1,5 @@
 version: "3.5"
 
-# TODO: revert rabbitmq according to SWIM-TI specs
-# TODO: eventually copy secrets during build time
-# TODO: minimize image size (microcontainer)
 # TODO: pull images from docker hub
 
 
@@ -13,10 +10,8 @@ services:
       context: ./
       dockerfile: ./services/db/postgres/Dockerfile
     container_name: postgres
-    environment:
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_NAME=${DB_NAME}
+    env_file:
+      - ./services/db/postgres/.env
     volumes:
       - db-data:/var/lib/postgresql/data
       - ./services/db/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d/
@@ -58,10 +53,8 @@ services:
     depends_on:
       - db
       - broker
-    environment:
-      - DB_NAME=${DB_NAME}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
+    env_file:
+      - ./services/subscription_manager/.env
     volumes:
       - ./secrets/rabbitmq/ca_certificate.pem:/secrets/ca_certificate.pem
       - ./secrets/rabbitmq/.env:/secrets/.env
@@ -77,16 +70,8 @@ services:
     container_name: subscription_manager_provision
     depends_on:
       - db
-    environment:
-      - DB_NAME=${DB_NAME}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - SM_ADMIN_USERNAME=${SM_ADMIN_USERNAME}
-      - SM_ADMIN_PASSWORD=${SM_ADMIN_PASSWORD}
-      - SWIM_ADSB_USERNAME=${SWIM_ADSB_USERNAME}
-      - SWIM_ADSB_PASSWORD=${SWIM_ADSB_PASSWORD}
-      - SWIM_EXPLORER_USERNAME=${SWIM_EXPLORER_USERNAME}
-      - SWIM_EXPLORER_PASSWORD=${SWIM_EXPLORER_PASSWORD}
+    env_file:
+      - ./services/subscription_manager/.env
     volumes:
       - ./services/subscription_manager/config.yml:/app/provision_data/_config.yml
       - ./services/subscription_manager/provision_data_entry.sh:/app/provision_data_entry.sh
@@ -101,9 +86,8 @@ services:
     depends_on:
       - subscription-manager
       - web-server
-    environment:
-      - SWIM_ADSB_USERNAME=${SWIM_ADSB_USERNAME}
-      - SWIM_ADSB_PASSWORD=${SWIM_ADSB_PASSWORD}
+    env_file:
+      - ./services/swim_adsb/.env
     volumes:
       - ./secrets/rabbitmq/client/:/secrets/broker/client
       - ./secrets/rabbitmq/ca_certificate.pem:/secrets/broker/ca_certificate.pem
@@ -123,9 +107,8 @@ services:
       - subscription-manager
       - web-server
       - swim-adsb
-    environment:
-      - SWIM_EXPLORER_USERNAME=${SWIM_EXPLORER_USERNAME}
-      - SWIM_EXPLORER_PASSWORD=${SWIM_EXPLORER_PASSWORD}
+    env_file:
+      - ./services/swim_explorer/.env
     volumes:
       - ./secrets/rabbitmq/client/:/secrets/broker/client
       - ./secrets/rabbitmq/ca_certificate.pem:/secrets/broker/ca_certificate.pem
@@ -136,6 +119,15 @@ services:
     ports:
       - 5000:5000
     command: bash /app/entry.sh
+    networks:
+      - backend
+
+  swim-user-config:
+    image: swim-user-config
+    build: ./services/swim_user_config/src
+    container_name: swim_user_config
+    stdin_open: true
+    tty: true
     networks:
       - backend
 
