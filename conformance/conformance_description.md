@@ -209,7 +209,7 @@ server {
 
   ssl_certificate     /etc/nginx/ssl/server_certificate.pem;
   ssl_certificate_key /etc/nginx/ssl/server_key.pem;
-  ```
+```
 Which can be found in the [nginx.conf](https://bitbucket.org/antavelos-eurocontrol/deploy/src/master/services/web_server/nginx/conf.d/nginx.conf) configuration file.
 
 
