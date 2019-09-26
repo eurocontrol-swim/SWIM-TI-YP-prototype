@@ -522,7 +522,7 @@ BROKER:
 
 + TLS Mutual Authentication: To enable TLS client Mutual Authentication, besides configuring TLS Server Authentication like previously shown the clients must also present their particular public key certificates\. This is done via the cert\_file and cert\_key and cert\_password \(if the private key is encrypted\)\ shown in the snippet above.      
 
-+ SASL Plain: No clients are configured to use SASL PLAIN in the deployment, nevertheless external consumers can be configured to authenticate using SASL PLAIN as the broker accepts SASL PLAIN authentication\.|  
++ SASL Plain: No clients are configured to use SASL PLAIN in the deployment, nevertheless external consumers can be configured to authenticate using SASL PLAIN as the broker accepts SASL PLAIN authentication\.  
 
 
 ##### SASL
@@ -693,7 +693,7 @@ $ systemctl status systemd-timesyncd
 Results in the following output in the implementation environment:  
 ![](./8ad6a80f-f3fe-4be7-bc11-07f8838657b0.png)
 
-Which shows the SWIM\-TI YP is synchronized via NTP with a Stratum 2 server\.|  
+Which shows the SWIM\-TI YP is synchronized via NTP with a Stratum 2 server\.  
 
 
 #### Overload Protection
@@ -749,7 +749,7 @@ For RabbitMQ since the direction of traffic is outbound we can protect the infra
 
 **Verification Method:** Configuration Inspection  
 **Verification Description:** Remote administrative functionality is performed via SSH which provides end\-to\-end encryption\.  
-<<paste SSH configuration>> |  
+<<paste SSH configuration>>   
 
 
 ##### COTS Layer
@@ -791,7 +791,7 @@ management.ssl.keyfile    = /certs/server_key.pem
 
 
 
-**Verification Description:** Demonstration|  
+**Verification Description:** Demonstration  
 **Verification Description:** RabbitMQ’s administrative functionality through its Management interface obscures password fields\.  
 
 
@@ -815,8 +815,7 @@ management.ssl.keyfile    = /certs/server_key.pem
 
 
 **Verification Method:** Analysis  
-**Verification Description:** << Sketch: Provide a list of users and user permissions\. This only scratches the surface, this requirement is a pain to demonstrate conformance thoroughly\. >>|  
-
+**Verification Description:** << TODO >>
 
 #### Automatic Sessions termination
 
@@ -832,13 +831,13 @@ management.ssl.keyfile    = /certs/server_key.pem
 
 
 
-**Verification Method:** Configuration Inspection|  
+**Verification Method:** Configuration Inspection  
 **Verification Description:** << Idle connection termination can be configured at OS layer with the TCP keep alives:   >>|  
 
 
 
 
-**Verification Method:** Configuration Inspection|  
+**Verification Method:** Configuration Inspection  
 **Verification Description:** << Idle session of ssh can be configured in /etc/ssh/sshd\_config:  >>|  
 
 
@@ -932,7 +931,7 @@ All additional software has been installed from the official repositories and th
 
 
 
-**Verification Method:** Configuration Inspection|  
+**Verification Method:** Configuration Inspection  
 **Verification Description:** RabbitMQ is [configured](https://bitbucket.org/antavelos-eurocontrol/deploy/src/master/services/broker/rabbitmq/rabbitmq.conf) to perform a strict protocol validation for AMQP 1\.0\. As shown in the following configuration snippet: 
 ```
 amqp1_0.protocol_strict_mode = true
@@ -1075,7 +1074,7 @@ TODO: https://blog\.dbi\-services\.com/migrating\-your\-users\-from\-md5\-to\-sc
 
 
 **Verification Method:** Analysis  
-**Verification Description:** << Allowing a broad character space, require minimum length and check passwords against have I been pwned most frequent passwords can be easy to set up\. Would use a subset of the most used passwords as the entire database is ridiculously big\. >>|  
+**Verification Description:** << TODO >>  
 
 
 #### Mandatory Access Control
@@ -1279,15 +1278,14 @@ bantime = 3600
 password_hashing_module = rabbit_password_hashing_sha256
 ```  
 
-
-https://blog\.dbi\-services\.com/migrating\-your\-users\-from\-md5\-to\-scram\-authentication\-in\-postgresql/
+TODO: Detail the same for postgresql https://blog\.dbi\-services\.com/migrating\-your\-users\-from\-md5\-to\-scram\-authentication\-in\-postgresql/
 
 ##### App Layer
 
 
 
 **Verification Method:** Configuration Inspection  
-**Verification Description:** The application stores user passwords in a non\-recoverable manner using PBKDF2 key\-stretching mechanism\. PBKDF2 combines the use of random salts and a large number of hashing iterations \(150000\) with a hash algorithm in accordance with 3\.2\.1\.12 to provide additional protection to various brute force attacks \(e\.g\. rainbow tables\)\.  TODO: Update reference to public repository  |  
+**Verification Description:** The application stores user passwords in a non\-recoverable manner [using](https://bitbucket.org/antavelos-eurocontrol/swim-backend/src/master/swim_backend/auth.py) PBKDF2 key\-stretching mechanism\. PBKDF2 combines the use of random salts and a large number of hashing iterations \(150000\) to provide additional protection to various brute force attacks \(e\.g\. rainbow tables\)\.   
 
 
 ## Conformance Summary
