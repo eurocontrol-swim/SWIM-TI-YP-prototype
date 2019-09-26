@@ -410,7 +410,7 @@ server {
 ###### App Layer
 
 
-**Verification Description:** Not Applicable  
+**Verification Method:** Not Applicable  
 **Verification Description:** The SWIM ADSB produces AMQP 1\.0 messages and allows to set the appropriate content\-encoding for the message\. Nevertheless, no compressed messages are sent over AMQP 1\.0\.  
 
 
