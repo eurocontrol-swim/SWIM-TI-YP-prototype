@@ -1172,13 +1172,13 @@ TODO: https://blog\.dbi\-services\.com/migrating\-your\-users\-from\-md5\-to\-sc
 **Verification Method:** Configuration Inspection  
 **Verification Description:** The implementation environment uses Fail2ban to ban IPs that have failed a configurable number of authentication attempts\. Configuration excerpt showing the “jail” of Fail2Ban \(/etc/fail2ban/jail\.local\) for SSH failed authentications: 
 ```
-[sshd] 
-enabled = true 
-action = %(action_)s 
-port    = ssh 
-logpath = %(sshd_log)s 
-findtime = 60 
-maxretry = 3 
+[sshd]
+enabled = true
+action = %(action_)s
+port    = ssh
+logpath = %(sshd_log)s
+findtime = 60
+maxretry = 3
 bantime = 3600
 ```
 
