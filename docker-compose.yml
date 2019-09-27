@@ -1,5 +1,8 @@
 version: "3.5"
 
+# TODO: add default broker user and producer user (rabbitmq) to definitions
+# TODO: check about default env variables
+
 # TODO: pull images from docker hub
 
 
@@ -21,12 +24,17 @@ services:
 
   broker:
     image: rabbitmq_amqp10
+    hostname: rabbitmq
     build:
       context: ./
       dockerfile: ./services/broker/rabbitmq/Dockerfile
     container_name: rabbitmq
+    env_file:
+      - ./services/broker/rabbitmq/.env
     ports:
       - 15671:15671
+    volumes:
+      - broker-data:/var/lib/rabbitmq
     networks:
       - backend
 
@@ -57,7 +65,6 @@ services:
       - ./services/subscription_manager/.env
     volumes:
       - ./secrets/rabbitmq/ca_certificate.pem:/secrets/ca_certificate.pem
-      - ./secrets/rabbitmq/.env:/secrets/.env
       - ./services/subscription_manager/config.yml:/app/subscription_manager/_config.yml
       - ./services/subscription_manager/entry.sh:/app/entry.sh
     command: bash /app/entry.sh
@@ -69,13 +76,15 @@ services:
     build: ./services/subscription_manager/src
     container_name: subscription_manager_provision
     depends_on:
+      - broker
       - db
     env_file:
       - ./services/subscription_manager/.env
     volumes:
-      - ./services/subscription_manager/config.yml:/app/provision_data/_config.yml
-      - ./services/subscription_manager/provision_data_entry.sh:/app/provision_data_entry.sh
-    command: bash provision_data_entry.sh
+      - ./secrets/rabbitmq/ca_certificate.pem:/secrets/ca_certificate.pem
+      - ./services/subscription_manager/provision/config.yml:/app/provision/_config.yml
+      - ./services/subscription_manager/provision/entry.sh:/app/entry.sh
+    command: bash entry.sh
     networks:
       - backend
 
@@ -91,7 +100,6 @@ services:
     volumes:
       - ./secrets/rabbitmq/client/:/secrets/broker/client
       - ./secrets/rabbitmq/ca_certificate.pem:/secrets/broker/ca_certificate.pem
-      - ./secrets/rabbitmq/.env:/secrets/broker/.env
       - ./secrets/nginx/ca_certificate.pem:/secrets/web_server/ca_certificate.pem
       - ./services/swim_adsb/config.yml:/app/swim_adsb/_config.yml
       - ./services/swim_adsb/entry.sh:/app/entry.sh
@@ -112,22 +120,12 @@ services:
     volumes:
       - ./secrets/rabbitmq/client/:/secrets/broker/client
       - ./secrets/rabbitmq/ca_certificate.pem:/secrets/broker/ca_certificate.pem
-      - ./secrets/rabbitmq/.env:/secrets/broker/.env
       - ./secrets/nginx/ca_certificate.pem:/secrets/web_server/ca_certificate.pem
       - ./services/swim_explorer/config.yml:/app/swim_explorer/_config.yml
       - ./services/swim_explorer/entry.sh:/app/entry.sh
     ports:
       - 5000:5000
     command: bash /app/entry.sh
-    networks:
-      - backend
-
-  swim-user-config:
-    image: swim-user-config
-    build: ./services/swim_user_config/src
-    container_name: swim_user_config
-    stdin_open: true
-    tty: true
     networks:
       - backend
 
@@ -138,3 +136,7 @@ networks:
 volumes:
   db-data:
     driver: local
+  broker-data:
+    driver: local
+
+

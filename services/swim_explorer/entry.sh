@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source /secrets/broker/.env && \
-
 env_update /app/swim_explorer/_config.yml /app/swim_explorer/config.yml && \
 
 /usr/bin/python3 /app/swim_explorer/app.py

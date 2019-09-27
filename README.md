@@ -57,13 +57,13 @@ Run the following commands in your terminal (you may replace the values with you
 ```shell
 export DB_NAME=smdb
 export DB_USER=swim
-export DB_PASSWORD=swim
-export SM_ADMIN_USERNAME=admin
-export SM_ADMIN_PASSWORD=admin
-export SWIM_ADSB_USERNAME=swim_adsb
-export SWIM_ADSB_PASSWORD=swim_adsb
-export SWIM_EXPLORER_USERNAME=swim_explorer
-export SWIM_EXPLORER_PASSWORD=swim_explorer
+export DB_PASS=swim
+export SM_ADMIN_USER=admin
+export SM_ADMIN_PASS=admin
+export SWIM_ADSB_USER=swim_adsb
+export SWIM_ADSB_PASS=swim_adsb
+export SWIM_EXPLORER_USER=swim_explorer
+export SWIM_EXPLORER_PASS=swim_explorer
 ```
 
 ##### Application config files

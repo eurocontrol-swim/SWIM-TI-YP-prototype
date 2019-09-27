@@ -11,8 +11,5 @@ COPY ./secrets/rabbitmq/server/server_certificate.pem /certs/server_certificate.
 
 COPY ./secrets/rabbitmq/server/server_key.pem /certs/server_key.pem
 
-# definitions
-COPY ./secrets/rabbitmq/rabbitmq_definitions.json /etc/rabbitmq/rabbitmq_definitions.json
-
-# conf file
+# configuration file
 COPY ./services/broker/rabbitmq/rabbitmq.conf /etc/rabbitmq/rabbitmq.conf

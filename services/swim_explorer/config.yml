@@ -28,8 +28,8 @@ LOGGING:
 BROKER:
   host: 'rabbitmq:5671'
   cert_db: '/secrets/broker/ca_certificate.pem'
-  sasl_user: ${BROKER_SWIM_EXPLORER_USERNAME}
-  sasl_password: ${BROKER_SWIM_EXPLORER_PASSWORD}
+  sasl_user: ${SWIM_EXPLORER_BROKER_USER}
+  sasl_password: ${SWIM_EXPLORER_BROKER_PASS}
 
 SUBSCRIPTION-MANAGER:
   host: 'nginx'
@@ -37,5 +37,5 @@ SUBSCRIPTION-MANAGER:
   timeout: 30
   verify: '/secrets/web_server/ca_certificate.pem'
 
-SWIM_EXPLORER_USERNAME: ${SWIM_EXPLORER_USERNAME}
-SWIM_EXPLORER_PASSWORD: ${SWIM_EXPLORER_PASSWORD}
+SWIM_EXPLORER_USER: ${SWIM_EXPLORER_USER}
+SWIM_EXPLORER_PASS: ${SWIM_EXPLORER_PASS}

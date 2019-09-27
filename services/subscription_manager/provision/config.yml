@@ -35,6 +35,6 @@ SQLALCHEMY_TRACK_MODIFICATIONS: False  # silence the deprecation warning
 BROKER:
   host: 'rabbitmq:15671'
   https: True
-  username: ${BROKER_MGMT_USER}
-  password: ${BROKER_MGMT_PASS}
+  username: 'swim-admin'
+  password: 'swim-admin'
   cert_path: '/secrets/ca_certificate.pem'
