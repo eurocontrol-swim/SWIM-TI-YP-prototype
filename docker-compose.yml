@@ -1,7 +1,7 @@
 version: "3.5"
 
-# TODO: add default broker user and producer user (rabbitmq) to definitions
-# TODO: check about default env variables
+# TODO: check about default env variables and handle properly BROKER_CERT_PASS
+# TODO: rename SWIM_ADSB_USER tp SWIM_ADSB_SM_USER, same for explorer
 
 # TODO: pull images from docker hub
 
@@ -13,8 +13,10 @@ services:
       context: ./
       dockerfile: ./services/db/postgres/Dockerfile
     container_name: postgres
-    env_file:
-      - ./services/db/postgres/.env
+    environment:
+      - DB_NAME=smdb
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
     volumes:
       - db-data:/var/lib/postgresql/data
       - ./services/db/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d/
@@ -29,8 +31,6 @@ services:
       context: ./
       dockerfile: ./services/broker/rabbitmq/Dockerfile
     container_name: rabbitmq
-    env_file:
-      - ./services/broker/rabbitmq/.env
     ports:
       - 15671:15671
     volumes:
@@ -61,8 +61,12 @@ services:
     depends_on:
       - db
       - broker
-    env_file:
-      - ./services/subscription_manager/.env
+    environment:
+      - DB_NAME=smdb
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - BROKER_MGMT_USER=${BROKER_MGMT_USER}
+      - BROKER_MGMT_PASS=${BROKER_MGMT_PASS}
     volumes:
       - ./secrets/rabbitmq/ca_certificate.pem:/secrets/ca_certificate.pem
       - ./services/subscription_manager/config.yml:/app/subscription_manager/_config.yml
@@ -78,8 +82,20 @@ services:
     depends_on:
       - broker
       - db
-    env_file:
-      - ./services/subscription_manager/.env
+    environment:
+      - DB_NAME=smdb
+      - SWIM_EXPLORER_BROKER_USER=${SWIM_EXPLORER_BROKER_USER}
+      - SWIM_EXPLORER_BROKER_PASS=${SWIM_EXPLORER_BROKER_PASS}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - SM_ADMIN_USER=${SM_ADMIN_USER}
+      - SM_ADMIN_PASS=${SM_ADMIN_PASS}
+      - SWIM_ADSB_USER=${SWIM_ADSB_USER}
+      - SWIM_ADSB_PASS=${SWIM_ADSB_PASS}
+      - SWIM_EXPLORER_USER=${SWIM_EXPLORER_USER}
+      - SWIM_EXPLORER_PASS=${SWIM_EXPLORER_PASS}
+      - BROKER_MGMT_USER=${BROKER_MGMT_USER}
+      - BROKER_MGMT_PASS=${BROKER_MGMT_PASS}
     volumes:
       - ./secrets/rabbitmq/ca_certificate.pem:/secrets/ca_certificate.pem
       - ./services/subscription_manager/provision/config.yml:/app/provision/_config.yml
@@ -95,8 +111,11 @@ services:
     depends_on:
       - subscription-manager
       - web-server
-    env_file:
-      - ./services/swim_adsb/.env
+    environment:
+      - SWIM_ADSB_BROKER_USER=${SWIM_ADSB_BROKER_USER}
+      - SWIM_ADSB_BROKER_PASS=${SWIM_ADSB_BROKER_PASS}
+      - SWIM_ADSB_USER=${SWIM_ADSB_USER}
+      - SWIM_ADSB_PASS=${SWIM_ADSB_PASS}
     volumes:
       - ./secrets/rabbitmq/client/:/secrets/broker/client
       - ./secrets/rabbitmq/ca_certificate.pem:/secrets/broker/ca_certificate.pem
@@ -107,6 +126,7 @@ services:
     networks:
       - backend
 
+
   swim-explorer:
     image: swim-explorer
     build: ./services/swim_explorer/src
@@ -115,8 +135,11 @@ services:
       - subscription-manager
       - web-server
       - swim-adsb
-    env_file:
-      - ./services/swim_explorer/.env
+    environment:
+      - SWIM_EXPLORER_BROKER_USER=${SWIM_EXPLORER_BROKER_USER}
+      - SWIM_EXPLORER_BROKER_PASS=${SWIM_EXPLORER_BROKER_PASS}
+      - SWIM_EXPLORER_USER=${SWIM_EXPLORER_USER}
+      - SWIM_EXPLORER_PASS=${SWIM_EXPLORER_PASS}
     volumes:
       - ./secrets/rabbitmq/client/:/secrets/broker/client
       - ./secrets/rabbitmq/ca_certificate.pem:/secrets/broker/ca_certificate.pem
@@ -128,6 +151,11 @@ services:
     command: bash /app/entry.sh
     networks:
       - backend
+
+  swim-user-config:
+    image: swim-user-config
+    build: ./services/swim_user_config/src
+    container_name: swim_user_config
 
 networks:
   backend:

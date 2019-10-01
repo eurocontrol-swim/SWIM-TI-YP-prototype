@@ -1,13 +1,8 @@
 
-ENV_FILE_PATHS_PER_USER:
-  DB:
-    - "/tmp/db.env"
-    - "/tmp/subscription_manager.env"
-  SM_ADMIN:
-    - "/tmp/subscription_manager.env"
-  SWIM_ADSB:
-    - "/tmp/subscription_manager.env"
-    - "/tmp/swim_adsb.env"
-  SWIM_EXPLORER:
-    - "/tmp/subscription_manager.env"
-    - "/tmp/swim_explorer.env"
+USERS:
+  DB: swim
+  SM_ADMIN: sm-admin
+  SWIM_ADSB: swim-adsb
+  SWIM_EXPLORER: swim-explorer
+  BROKER_MGMT: broker-mgmt
+  SWIM_EXPLORER_BROKER: swim-explorer-broker

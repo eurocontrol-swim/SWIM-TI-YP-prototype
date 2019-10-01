@@ -2,7 +2,6 @@
 
 ROOT_DIR=${PWD}
 SERVICES_DIR=${ROOT_DIR}'/services'
-POSTGRES_DIR=${SERVICES_DIR}"/db/postgres"
 SUBSCRIPTION_MANAGER_DIR=${SERVICES_DIR}"/subscription_manager"
 SUBSCRIPTION_MANAGER_DIR_SRC=${SUBSCRIPTION_MANAGER_DIR}"/src"
 SWIM_ADSB_DIR=${SERVICES_DIR}"/swim_adsb"
@@ -15,13 +14,18 @@ SWIM_USER_CONFIG_DIR_SRC=${SWIM_USER_CONFIG_DIR}"/src"
 user_config() {
   echo "SWIM user configuration..."
   echo -e "==========================\n"
+  ENV_FILE="${ROOT_DIR}/swim.env"
+
+  touch "${ENV_FILE}"
+
   docker run -it \
-    -v "${POSTGRES_DIR}/.env":/tmp/db.env \
-    -v "${SUBSCRIPTION_MANAGER_DIR}/.env":/tmp/subscription_manager.env \
-    -v "${SWIM_ADSB_DIR}/.env":/tmp/swim_adsb.env \
-    -v "${SWIM_EXPLORER_DIR}/.env":/tmp/swim_explorer.env \
+    -v "${ENV_FILE}":/app/.env \
     -v "${SWIM_USER_CONFIG_DIR}/config.yml":/app/swim_user_config/config.yml \
-    swim-user-config
+    swim-user-config && \
+
+  while read LINE; do export "$LINE"; done < "${ENV_FILE}"
+
+  rm "${ENV_FILE}"
 }
 
 clone_repos() {
