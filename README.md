@@ -68,7 +68,7 @@ Use the following command to provide usernames and passwords:
 
 The interaction shell will look similar to:
 
-```shell script
+```shell
 SWIM user configuration...
 ==========================
 
@@ -98,8 +98,9 @@ Broker Management user
 SWIM Explorer user for the broker
  username [swim-explorer-broker]: 
  password: 
-
 ```
+
+
 ##### Application config files
 Under the apps folder you can find one folder per app containing a `config.yml` file. These are already configured but 
 you may want to update the airports involved in the SWIM ADSB application. The config entry looks as following and you can 
