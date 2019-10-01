@@ -66,6 +66,40 @@ Use the following command to provide usernames and passwords:
 > the leading `.` is required in order the provided user and passwords to be exported as environment variables in the 
 > host machine
 
+The interaction shell will look similar to:
+
+```shell script
+SWIM user configuration...
+==========================
+
+
+Database user
+ username [swim]: 
+ password: 
+
+Subscription Manager admin user
+ username [sm-admin]: 
+ password: 
+
+SWIM ADSB user for Subscription Manager
+ username [swim-adsb]: 
+ password: 
+The password is not strong enough. Please try again:
+ password: 
+
+SWIM Explorer user for Subscription Manager
+ username [swim-explorer]: 
+ password: 
+
+Broker Management user
+ username [broker-mgmt]: 
+ password: 
+
+SWIM Explorer user for the broker
+ username [swim-explorer-broker]: 
+ password: 
+
+```
 ##### Application config files
 Under the apps folder you can find one folder per app containing a `config.yml` file. These are already configured but 
 you may want to update the airports involved in the SWIM ADSB application. The config entry looks as following and you can 
@@ -104,7 +138,7 @@ Usage: swim.sh [COMMAND] [OPTIONS]
 
 Commands:
     build           Clones/updates the necessary git repositories and builds the involved docker images
-    provision       Provisions the Subscription Manager with initial data (users)
+    provision       Provisions the Subscription Manager and the broker with initial data (users)
     start           Starts up all the SWIM services
     stop            Stops all the services
     stop --clean    Stops all the services and cleans up the containers

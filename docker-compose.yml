@@ -1,8 +1,5 @@
 version: "3.5"
 
-# TODO: check about default env variables and handle properly BROKER_CERT_PASS
-# TODO: rename SWIM_ADSB_USER tp SWIM_ADSB_SM_USER, same for explorer
-
 # TODO: pull images from docker hub
 
 
@@ -90,9 +87,9 @@ services:
       - DB_PASS=${DB_PASS}
       - SM_ADMIN_USER=${SM_ADMIN_USER}
       - SM_ADMIN_PASS=${SM_ADMIN_PASS}
-      - SWIM_ADSB_USER=${SWIM_ADSB_USER}
+      - SWIM_ADSB_SM_USER=${SWIM_ADSB_SM_USER}
       - SWIM_ADSB_PASS=${SWIM_ADSB_PASS}
-      - SWIM_EXPLORER_USER=${SWIM_EXPLORER_USER}
+      - SWIM_EXPLORER_SM_USER=${SWIM_EXPLORER_SM_USER}
       - SWIM_EXPLORER_PASS=${SWIM_EXPLORER_PASS}
       - BROKER_MGMT_USER=${BROKER_MGMT_USER}
       - BROKER_MGMT_PASS=${BROKER_MGMT_PASS}
@@ -112,9 +109,7 @@ services:
       - subscription-manager
       - web-server
     environment:
-      - SWIM_ADSB_BROKER_USER=${SWIM_ADSB_BROKER_USER}
-      - SWIM_ADSB_BROKER_PASS=${SWIM_ADSB_BROKER_PASS}
-      - SWIM_ADSB_USER=${SWIM_ADSB_USER}
+      - SWIM_ADSB_SM_USER=${SWIM_ADSB_SM_USER}
       - SWIM_ADSB_PASS=${SWIM_ADSB_PASS}
     volumes:
       - ./secrets/rabbitmq/client/:/secrets/broker/client
@@ -138,7 +133,7 @@ services:
     environment:
       - SWIM_EXPLORER_BROKER_USER=${SWIM_EXPLORER_BROKER_USER}
       - SWIM_EXPLORER_BROKER_PASS=${SWIM_EXPLORER_BROKER_PASS}
-      - SWIM_EXPLORER_USER=${SWIM_EXPLORER_USER}
+      - SWIM_EXPLORER_SM_USER=${SWIM_EXPLORER_SM_USER}
       - SWIM_EXPLORER_PASS=${SWIM_EXPLORER_PASS}
     volumes:
       - ./secrets/rabbitmq/client/:/secrets/broker/client
