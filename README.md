@@ -63,7 +63,7 @@ Use the following command to provide usernames and passwords:
 . ./swim.sh user_config
 ```
 
-> the leading `.` is required in order the provided user and passwords to be exported as environment variables in the 
+> the leading `.` is required in order the provided usernames and passwords to be exported as environment variables in the 
 > host machine
 
 The interaction shell will look similar to:
@@ -98,6 +98,13 @@ Broker Management user
 SWIM Explorer user for the broker
  username [swim-explorer-broker]: 
  password: 
+```
+
+You can verify that the provided usernames and passwords were exported as environment variables by issuing the following
+command:
+
+```shell
+env
 ```
 
 
