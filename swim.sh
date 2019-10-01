@@ -105,7 +105,6 @@ usage() {
   echo "    build           Clones/updates the necessary git repositories and builds the involved docker images"
   echo "    provision       Provisions the Subscription Manager with initial data (users)"
   echo "    start           Starts up all the SWIM services"
-  echo "    start --prov    Starts up all the SWIM services after Provisioning the Subscription Manager with initial data"
   echo "    stop            Stops all the services"
   echo "    stop --clean    Stops all the services and cleans up the containers"
   echo "    status          Displays the status of the running containers"
@@ -134,22 +133,6 @@ case ${ACTION} in
     build
     ;;
   start)
-    if [[ -n ${2} ]]
-    then
-        EXTRA=${2}
-
-        case ${EXTRA} in
-          --prov)
-            data_provision
-            ;;
-          *)
-            echo -e "Invalid argument\n"
-            usage
-            exit 1
-            ;;
-        esac
-    fi
-
     start_services
     ;;
   stop)

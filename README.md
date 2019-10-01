@@ -47,24 +47,24 @@ git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/depl
 #### Configuration
 Then we have to provide the necessary configuration of the services. This involves:
 
-- setting up the required environment variables
+- setting up the required users
 - application specific configuration
 
-##### Environment variables
-The environment variables we need are user credentials for a DB user as well as credentials of Subscription Manager users. 
+##### SWIM users
+Several users are required across the SWIM platform such as users, broker users etc.
 
-Run the following commands in your terminal (you may replace the values with your choice):
+   - Usernames are predefined but you can also choose your own one. 
+   - Passwords can take any character and need to be equal or longer than 10 characters. Each provided password will be 
+checked for robustness and if it is deemed that it is not robust enough you will be re-prompted to choose a different one.
+
+Use the following command to provide usernames and passwords:
+
 ```shell
-export DB_NAME=smdb
-export DB_USER=swim
-export DB_PASS=swim
-export SM_ADMIN_USER=admin
-export SM_ADMIN_PASS=admin
-export SWIM_ADSB_USER=swim_adsb
-export SWIM_ADSB_PASS=swim_adsb
-export SWIM_EXPLORER_USER=swim_explorer
-export SWIM_EXPLORER_PASS=swim_explorer
+. ./swim.sh user_config
 ```
+
+> the leading `.` is required in order the provided user and passwords to be exported as environment variables in the 
+> host machine
 
 ##### Application config files
 Under the apps folder you can find one folder per app containing a `config.yml` file. These are already configured but 
@@ -106,7 +106,6 @@ Commands:
     build           Clones/updates the necessary git repositories and builds the involved docker images
     provision       Provisions the Subscription Manager with initial data (users)
     start           Starts up all the SWIM services
-    start --prov    Starts up all the SWIM services after Provisioning the Subscription Manager with initial data
     stop            Stops all the services
     stop --clean    Stops all the services and cleans up the containers
     status          Displays the status of the running containers
@@ -124,12 +123,13 @@ involved docker images with the following command:
 ```
 
 After the necessary images are downloaded we are ready to get the services up and running. Before that
-we'll need to provision the Subscription Manager with some initial data about the involved users and this can be done with:
+we'll need to provision the Subscription Manager and the broker with some initial data about the involved users and this 
+can be done with:
 
 > this has to be run only the first time we start SWIM
  
 ```shell
-./swim provision
+./swim.sh provision
 ```
 
 and then we can start the services:
@@ -137,8 +137,6 @@ and then we can start the services:
 ```shell
 ./swim.sh start
 ```
-
-> the two commands above can be run in one step with `./swim.sh start --prov`
 
 In order to make sure that all services (docker containers) are running you can run:
 ```shell
