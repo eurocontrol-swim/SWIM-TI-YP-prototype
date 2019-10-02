@@ -38,3 +38,4 @@ BROKER:
   username: 'swim-admin'
   password: '!=-Fp-j$n8,.+H5$-a74*JJk)K_KSK+%.Ry$jSqbah~Wkq*&]gQVg[w[.q"<]TMe'
   cert_path: '/secrets/ca_certificate.pem'
+

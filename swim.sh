@@ -56,7 +56,7 @@ update_repos() {
 data_provision() {
   echo "Data provisioning to Subscription Manager..."
   echo -e "============================================\n"
-  docker-compose up -d subscription-manager-provision
+  docker-compose up subscription-manager-provision
   echo ""
 }
 

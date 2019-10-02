@@ -1,5 +1,12 @@
 version: "3.5"
 
+
+# TODO: NGINX: Configure request limitations as explained in https://nginx.org/en/docs/http/ngx_http_limit_req_module.html
+# TODO: check passwords for spaces
+# TODO: move password check in swim-backend
+# TODO: check passwords in SM POST /users
+# TODO: Try to configure PostgreSQL docker image to use SHA256 for password storage of the Database users, as explained
+#       here: https://blog.dbi-services.com/migrating-your-users-from-md5-to-scram-authentication-in-postgresql/
 # TODO: pull images from docker hub
 
 
