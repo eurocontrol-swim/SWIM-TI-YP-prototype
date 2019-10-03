@@ -16,18 +16,13 @@ LOGGING:
   disable_existing_loggers: false
 
   root:
-    level: DEBUG
+    level: INFO
     handlers: [console]
 
   loggers:
     requests:
-      level: INFO
+      level: ERROR
 
-    openapi_spec_validator:
-      level: INFO
-
-    connexion:
-      level: INFO
 
 SQLALCHEMY_DATABASE_URI: 'postgresql+psycopg2://${DB_USER}:${DB_PASS}@postgres/${DB_NAME}?sslmode=require'
 SQLALCHEMY_TRACK_MODIFICATIONS: False  # silence the deprecation warning
@@ -35,7 +30,7 @@ SQLALCHEMY_TRACK_MODIFICATIONS: False  # silence the deprecation warning
 BROKER:
   host: 'rabbitmq:15671'
   https: True
-  username: 'swim-admin'
-  password: '!=-Fp-j$n8,.+H5$-a74*JJk)K_KSK+%.Ry$jSqbah~Wkq*&]gQVg[w[.q"<]TMe'
+  username: ${BROKER_ADMIN_USER}
+  password: ${BROKER_ADMIN_PASS}
   cert_path: '/secrets/ca_certificate.pem'
 

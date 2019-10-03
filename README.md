@@ -91,8 +91,12 @@ SWIM Explorer user for Subscription Manager
  username [swim-explorer]: 
  password: 
 
+Broker admin user
+ username [swim-broker-admin]: 
+ password: 
+
 Broker Management user
- username [broker-mgmt]: 
+ username [swim-broker-mgmt]: 
  password: 
 
 SWIM Explorer user for the broker
@@ -155,24 +159,24 @@ Commands:
 
 In order to get the demo platform up and running we first need to download the necessary repositories and build the 
 involved docker images with the following command:
-
-> The first time you run this command it will take some time because of the download/build of docker images.
-
-> this has to be run only the first time we start SWIM
  
 ```shell
 ./swim.sh build
 ```
 
+> The first time you run this command it will take some time because of the download/build of docker images.
+
+> this has to be run only the first time we start SWIM
+
 After the necessary images are downloaded we are ready to get the services up and running. Before that
 we'll need to provision the Subscription Manager and the broker with some initial data about the involved users and this 
 can be done with:
-
-> this has to be run only the first time we start SWIM
  
 ```shell
 ./swim.sh provision
 ```
+
+> this has to be run only the first time we start SWIM
 
 and then we can start the services:
 

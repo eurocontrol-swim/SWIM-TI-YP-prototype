@@ -1,9 +1,5 @@
 version: "3.5"
 
-
-# TODO: check passwords for spaces
-# TODO: move password check in swim-backend
-# TODO: check passwords in SM POST /users
 # TODO: pull images from docker hub
 
 
@@ -31,11 +27,15 @@ services:
     build:
       context: ./
       dockerfile: ./services/broker/rabbitmq/Dockerfile
+      args:
+        - BROKER_ADMIN_USER=${BROKER_ADMIN_USER}
+        - BROKER_ADMIN_PASS=${BROKER_ADMIN_PASS}
     container_name: rabbitmq
     ports:
       - 15671:15671
     volumes:
       - broker-data:/var/lib/rabbitmq
+      - ./secrets/rabbitmq/rabbitmq_definitions.json /etc/rabbitmq/rabbitmq_definitions.json
     networks:
       - backend
 
@@ -97,6 +97,8 @@ services:
       - SWIM_EXPLORER_PASS=${SWIM_EXPLORER_PASS}
       - BROKER_MGMT_USER=${BROKER_MGMT_USER}
       - BROKER_MGMT_PASS=${BROKER_MGMT_PASS}
+      - BROKER_ADMIN_USER=${BROKER_ADMIN_USER}
+      - BROKER_ADMIN_PASS=${BROKER_ADMIN_PASS}
     volumes:
       - ./secrets/rabbitmq/ca_certificate.pem:/secrets/ca_certificate.pem
       - ./services/subscription_manager/provision/config.yml:/app/provision/_config.yml

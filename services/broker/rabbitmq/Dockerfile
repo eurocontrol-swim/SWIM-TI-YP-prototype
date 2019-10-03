@@ -1,6 +1,8 @@
 FROM rabbitmq:3-management
 
-RUN apt-get update && apt-get install -y curl
+RUN apt-get update --fix-missing && apt-get install -y curl
+
+RUN apt-get install python3.7 -y
 
 RUN rabbitmq-plugins enable --offline rabbitmq_amqp1_0 rabbitmq_auth_mechanism_ssl
 
@@ -13,6 +15,15 @@ COPY ./secrets/rabbitmq/server/server_key.pem /certs/server_key.pem
 
 # definitions
 COPY ./secrets/rabbitmq/rabbitmq_definitions.json /etc/rabbitmq/rabbitmq_definitions.json
+
+COPY ./services/broker/rabbitmq/update_definitions.py /etc/rabbitmq/update_definitions.py
+
+RUN chmod +x /etc/rabbitmq/update_definitions.py
+
+ARG BROKER_ADMIN_USER
+ARG BROKER_ADMIN_PASS
+
+RUN python3.7 /etc/rabbitmq/update_definitions.py /etc/rabbitmq/rabbitmq_definitions.json "${BROKER_ADMIN_USER}" "${BROKER_ADMIN_PASS}"
 
 # conf file
 COPY ./services/broker/rabbitmq/rabbitmq.conf /etc/rabbitmq/rabbitmq.conf
