@@ -41,7 +41,7 @@ Before starting, make sure the following software is installed and working on yo
 #### Download repositories
 First we need to clone this repository:
 ```shell
-git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/deploy.git
+git clone https://github.com/eurocontrol-swim/deploy.git
 ```
 
 #### Configuration

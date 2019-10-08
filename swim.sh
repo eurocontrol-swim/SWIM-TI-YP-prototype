@@ -31,10 +31,10 @@ user_config() {
 clone_repos() {
   echo "Cloning Git repositories..."
   echo -e "============================\n"
-  git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/subscription-manager.git "${SUBSCRIPTION_MANAGER_DIR_SRC}"
-  git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/swim-adsb.git "${SWIM_ADSB_DIR_SRC}"
-  git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/swim-explorer.git "${SWIM_EXPLORER_DIR_SRC}"
-  git clone https://antavelos-eurocontrol@bitbucket.org/antavelos-eurocontrol/swim-user-config.git "${SWIM_USER_CONFIG_DIR_SRC}"
+  git clone https://github.com/eurocontrol-swim/subscription-manager.git "${SUBSCRIPTION_MANAGER_DIR_SRC}"
+  git clone https://github.com/eurocontrol-swim/swim-adsb.git "${SWIM_ADSB_DIR_SRC}"
+  git clone https://github.com/eurocontrol-swim/swim-explorer.git "${SWIM_EXPLORER_DIR_SRC}"
+  git clone https://github.com/eurocontrol-swim/swim-user-config.git "${SWIM_USER_CONFIG_DIR_SRC}"
   echo ""
 }
 
