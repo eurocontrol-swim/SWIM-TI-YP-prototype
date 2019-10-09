@@ -23,7 +23,10 @@ mini framework which allows them to speak to the Subscription Manager as well as
 
 The platform is designed with a microservices approach and is run with [docker](https://docker.com).
 
-**TODO:** add architecture image
+Below you can see the architecture design diagram along with the relationships of the developed repositories:
+
+![alt text](swim.png "SWIM architecture")
+
 
 ## Installation
 
