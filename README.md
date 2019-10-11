@@ -69,12 +69,22 @@ Use the following command to provide usernames and passwords:
 > the leading `.` is required in order the provided usernames and passwords to be exported as environment variables in the 
 > host machine
 
-The interaction shell will look similar to:
+
+The first time you run this command the necessary docker image will have to built (which might take a few minutes to complete) 
+leading to an output similar to:
+
+```shell
+Docker image not found. Building...
+
+sha256:d34c60c7d1ce77aca00a943e3838bb9be3003b047e00ab765a250f3dc6d178c6
+```
+
+The interaction shell then will look like:
+
 
 ```shell
 SWIM user configuration...
 ==========================
-
 
 Database user
  username [swim]: 

@@ -11,9 +11,22 @@ SWIM_EXPLORER_DIR_SRC=${SWIM_EXPLORER_DIR}"/src"
 SWIM_USER_CONFIG_DIR=${SERVICES_DIR}"/swim_user_config"
 SWIM_USER_CONFIG_DIR_SRC=${SWIM_USER_CONFIG_DIR}"/src"
 
+swim_user_config_image_exists() {
+  docker images | grep -q -c "swim-user-config"
+}
+
 user_config() {
+  if ! swim_user_config_image_exists
+  then
+    echo -e "Docker image not found. Building...\n"
+    docker build -q -t swim-user-config -f "${SWIM_USER_CONFIG_DIR_SRC}/Dockerfile" "${SWIM_USER_CONFIG_DIR_SRC}"
+    echo -e "\n"
+  fi
+
   echo "SWIM user configuration..."
-  echo -e "==========================\n"
+  echo -e "=========================="
+
+
   ENV_FILE="${ROOT_DIR}/swim.env"
 
   touch "${ENV_FILE}"
@@ -102,6 +115,7 @@ status() {
 usage() {
   echo -e "Usage: swim.sh [COMMAND] [OPTIONS]\n"
   echo "Commands:"
+  echo "    user_config     Prompts for username/password of all the swim related users"
   echo "    build           Clones/updates the necessary git repositories and builds the involved docker images"
   echo "    provision       Provisions the Subscription Manager with initial data (users)"
   echo "    start           Starts up all the SWIM services"
