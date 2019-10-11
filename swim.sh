@@ -26,12 +26,15 @@ user_config() {
   echo "SWIM user configuration..."
   echo -e "=========================="
 
-
   ENV_FILE="${ROOT_DIR}/swim.env"
 
   touch "${ENV_FILE}"
 
-  docker-compose run --rm swim-user-config
+  docker-compose run \
+    -v "${ENV_FILE}":/app/.env \
+    -v "${SWIM_USER_CONFIG_DIR}/config.yml":/app/swim_user_config/config.yml \
+    --rm \
+    swim-user-config
 
   while read LINE; do export "$LINE"; done < "${ENV_FILE}"
 
