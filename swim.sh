@@ -18,7 +18,8 @@ swim_user_config_image_exists() {
 user_config() {
   if ! swim_user_config_image_exists
   then
-    echo -e "Docker image not found. Building...\n"
+#    echo -e "Docker image not found. Building...\n"
+    git clone -q https://github.com/eurocontrol-swim/swim-user-config.git "${SWIM_USER_CONFIG_DIR_SRC}"
     docker build -q -t swim-user-config -f "${SWIM_USER_CONFIG_DIR_SRC}/Dockerfile" "${SWIM_USER_CONFIG_DIR_SRC}"
     echo -e "\n"
   fi
@@ -47,7 +48,6 @@ clone_repos() {
   git clone https://github.com/eurocontrol-swim/subscription-manager.git "${SUBSCRIPTION_MANAGER_DIR_SRC}"
   git clone https://github.com/eurocontrol-swim/swim-adsb.git "${SWIM_ADSB_DIR_SRC}"
   git clone https://github.com/eurocontrol-swim/swim-explorer.git "${SWIM_EXPLORER_DIR_SRC}"
-  git clone https://github.com/eurocontrol-swim/swim-user-config.git "${SWIM_USER_CONFIG_DIR_SRC}"
   echo ""
 }
 
