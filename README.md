@@ -48,6 +48,15 @@ First we need to clone this repository:
 git clone https://github.com/eurocontrol-swim/deploy.git
 ```
 
+#### Preparation
+Then we need to prepare the involved repositories. The following command will clone all of them. In case they already 
+exist they will be updated with the latest commits.
+
+```shell
+./swim.sh prepare
+```
+
+
 #### Configuration
 Then we have to provide the necessary configuration of the services. This involves:
 

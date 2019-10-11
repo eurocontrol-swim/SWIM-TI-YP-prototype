@@ -157,6 +157,11 @@ services:
     image: swim-user-config
     build: ./services/swim_user_config/src
     container_name: swim_user_config
+    volumes:
+      - .env:/app/.env
+      - ./services/swim_user_config/config.yml:/app/swim_user_config/config.yml
+    stdin_open: true
+    tty: true
 
 networks:
   backend:

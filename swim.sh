@@ -18,9 +18,8 @@ swim_user_config_image_exists() {
 user_config() {
   if ! swim_user_config_image_exists
   then
-#    echo -e "Docker image not found. Building...\n"
-    git clone -q https://github.com/eurocontrol-swim/swim-user-config.git "${SWIM_USER_CONFIG_DIR_SRC}"
-    docker build -q -t swim-user-config -f "${SWIM_USER_CONFIG_DIR_SRC}/Dockerfile" "${SWIM_USER_CONFIG_DIR_SRC}"
+    echo -e "Docker image not found. Building...\n"
+    docker-compose build swim-user-config
     echo -e "\n"
   fi
 
@@ -32,38 +31,56 @@ user_config() {
 
   touch "${ENV_FILE}"
 
-  docker run -it \
-    -v "${ENV_FILE}":/app/.env \
-    -v "${SWIM_USER_CONFIG_DIR}/config.yml":/app/swim_user_config/config.yml \
-    swim-user-config && \
+  docker-compose run --rm swim-user-config
 
   while read LINE; do export "$LINE"; done < "${ENV_FILE}"
 
   rm "${ENV_FILE}"
 }
 
-clone_repos() {
-  echo "Cloning Git repositories..."
+prepare_repos() {
+  echo "Preparing Git repositories..."
   echo -e "============================\n"
-  git clone https://github.com/eurocontrol-swim/subscription-manager.git "${SUBSCRIPTION_MANAGER_DIR_SRC}"
-  git clone https://github.com/eurocontrol-swim/swim-adsb.git "${SWIM_ADSB_DIR_SRC}"
-  git clone https://github.com/eurocontrol-swim/swim-explorer.git "${SWIM_EXPLORER_DIR_SRC}"
-  echo ""
-}
 
-update_repos() {
-  echo "Updating Git repositories..."
-  echo -e "============================\n"
-  cd "${SUBSCRIPTION_MANAGER_DIR_SRC}" || exit
-  git pull --rebase origin master
-  cd "${SWIM_ADSB_DIR_SRC}" || exit
-  git pull --rebase origin master
-  cd "${SWIM_EXPLORER_DIR_SRC}" || exit
-  git pull --rebase origin master
-  cd "${SWIM_USER_CONFIG_DIR_SRC}" || exit
-  git pull --rebase origin master
-  cd "${ROOT_DIR}" || exit
-  echo ""
+  echo -n "subscription-manager..."
+  if [[ -d ${SUBSCRIPTION_MANAGER_DIR_SRC} ]]
+  then
+    cd "${SUBSCRIPTION_MANAGER_DIR_SRC}" || exit
+    git pull -q --rebase origin master
+  else
+    git clone -q https://github.com/eurocontrol-swim/subscription-manager.git "${SUBSCRIPTION_MANAGER_DIR_SRC}"
+  fi
+  echo "done"
+
+  echo -n "swim-adsb..."
+  if [[ -d ${SWIM_ADSB_DIR_SRC} ]]
+  then
+    cd "${SWIM_ADSB_DIR_SRC}" || exit
+    git pull -q --rebase origin master
+  else
+    git clone -q https://github.com/eurocontrol-swim/swim-adsb.git "${SWIM_ADSB_DIR_SRC}"
+  fi
+  echo "done"
+
+  echo -n "swim-explorer..."
+  if [[ -d ${SWIM_EXPLORER_DIR_SRC} ]]
+  then
+    cd "${SWIM_EXPLORER_DIR_SRC}" || exit
+    git pull -q --rebase origin master
+  else
+    git clone -q https://github.com/eurocontrol-swim/swim-explorer.git "${SWIM_EXPLORER_DIR_SRC}"
+  fi
+  echo "done"
+
+  echo -n "swim-user-config..."
+  if [[ -d ${SWIM_USER_CONFIG_DIR_SRC} ]]
+  then
+    cd "${SWIM_USER_CONFIG_DIR_SRC}" || exit
+    git pull -q --rebase origin master
+  else
+    git clone -q https://github.com/eurocontrol-swim/swim-user-config.git "${SWIM_USER_CONFIG_DIR_SRC}"
+  fi
+  echo "done"
 }
 
 data_provision() {
@@ -134,15 +151,13 @@ fi
 ACTION=${1}
 
 case ${ACTION} in
+  prepare)
+    # update the repos if they exits othewise clone them
+    prepare_repos
+    ;;
   build)
     # update the repos if they exits othewise clone them
-    if [[ -d ${SUBSCRIPTION_MANAGER_DIR_SRC} && -d ${SWIM_ADSB_DIR_SRC} && -d ${SWIM_EXPLORER_DIR_SRC} ]]
-    then
-      update_repos
-    else
-      clone_repos
-    fi
-
+    prepare_repos
     # build the images
     build
     ;;
