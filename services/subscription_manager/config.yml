@@ -10,7 +10,7 @@ LOGGING:
 
   formatters:
     default:
-      format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+      format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
       class: logging.Formatter
 
   disable_existing_loggers: false
@@ -29,14 +29,14 @@ LOGGING:
     connexion:
       level: INFO
 
-SQLALCHEMY_DATABASE_URI: 'postgresql+psycopg2://${DB_USER}:${DB_PASS}@postgres/${DB_NAME}?sslmode=require'
+SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://${DB_USER}:${DB_PASS}@postgres/${DB_NAME}?sslmode=require"
 SQLALCHEMY_TRACK_MODIFICATIONS: False  # silence the deprecation warning
 
 BROKER:
-  host: 'rabbitmq:15671'
+  host: "rabbitmq:15671"
   https: True
   username: ${BROKER_MGMT_USER}
   password: ${BROKER_MGMT_PASS}
-  cert_path: '/secrets/ca_certificate.pem'
+  cert_path: "/secrets/ca_certificate.pem"
 
 MAX_BROKER_QUEUE_LENGTH: 100

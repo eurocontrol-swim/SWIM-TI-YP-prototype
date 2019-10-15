@@ -9,7 +9,7 @@ LOGGING:
 
   formatters:
     default:
-      format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+      format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
       class: logging.Formatter
 
   disable_existing_loggers: false
@@ -29,26 +29,26 @@ LOGGING:
       level: DEBUG
 
 BROKER:
-  host: 'rabbitmq:5671'
-  cert_db: '/secrets/broker/ca_certificate.pem'
-  cert_file: '/secrets/broker/client/client_certificate.pem'
-  cert_key: '/secrets/broker/client/client_key.pem'
+  host: "rabbitmq:5671"
+  cert_db: "/secrets/broker/ca_certificate.pem"
+  cert_file: "/secrets/broker/client/client_certificate.pem"
+  cert_key: "/secrets/broker/client/client_key.pem"
 
 SUBSCRIPTION-MANAGER:
-  host: 'nginx'
+  host: "nginx"
   https: true
   timeout: 30
-  verify: '/secrets/web_server/ca_certificate.pem'
+  verify: "/secrets/web_server/ca_certificate.pem"
 
 
 ADSB:
   CITIES:
-    Brussels: 'EBBR'
-    Amsterdam: 'EHAM'
-    Paris: 'LFPG'
-    Berlin: 'EDDB'
-    Athens: 'LGAV'
-    Hethrow: 'EGLL'
+    Brussels: "EBBR"
+    Amsterdam: "EHAM"
+    Paris: "LFPG"
+    Berlin: "EDDB"
+    Athens: "LGAV"
+    Hethrow: "EGLL"
   INTERVAL_IN_SEC: 5
   TRAFFIC_TIMESPAN_IN_DAYS: 1
 

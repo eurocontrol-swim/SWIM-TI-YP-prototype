@@ -9,7 +9,7 @@ LOGGING:
 
   formatters:
     default:
-      format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+      format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
       class: logging.Formatter
 
   disable_existing_loggers: false
@@ -26,16 +26,16 @@ LOGGING:
       level: INFO
 
 BROKER:
-  host: 'rabbitmq:5671'
-  cert_db: '/secrets/broker/ca_certificate.pem'
+  host: "rabbitmq:5671"
+  cert_db: "/secrets/broker/ca_certificate.pem"
   sasl_user: ${SWIM_EXPLORER_BROKER_USER}
   sasl_password: ${SWIM_EXPLORER_BROKER_PASS}
 
 SUBSCRIPTION-MANAGER:
-  host: 'nginx'
+  host: "nginx"
   https: true
   timeout: 30
-  verify: '/secrets/web_server/ca_certificate.pem'
+  verify: "/secrets/web_server/ca_certificate.pem"
 
 SWIM_EXPLORER_SM_USER: ${SWIM_EXPLORER_SM_USER}
 SWIM_EXPLORER_PASS: ${SWIM_EXPLORER_PASS}
