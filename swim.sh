@@ -61,6 +61,8 @@ prepare_repos() {
     git clone -q https://github.com/eurocontrol-swim/swim-explorer.git "${SWIM_EXPLORER_DIR_SRC}"
   fi
   echo "OK"
+
+  echo -e "\n"
 }
 
 data_provision() {
