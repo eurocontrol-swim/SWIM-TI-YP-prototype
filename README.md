@@ -38,10 +38,14 @@ The steps bellow will allow you to build and run the SWIM-TI demo from scratch. 
 Before starting, make sure the following software is installed and working on your machine:
     
    - [git](https://git-scm.com/downloads) which will be used to download the necessary repositories.
+> For Windows users: After installing git you need to issue the following command in CMD or Powershell in order to 
+>prevent any conversion when checking out text files:
+```shell
+git config --global core.autocrlf input
+```
    - [docker](https://docs.docker.com/install/) which will be used to host and run the whole demo platform
    - [docker-compose](https://docs.docker.com/compose/install/) which will be used to orchestrate the deployment locally
    - [python](https://www.python.org/downloads/) which will be used to run python custom scripts 
-
 
 #### Download repositories
 First we need to clone this repository:
