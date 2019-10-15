@@ -21,7 +21,7 @@ user_config() {
 
   touch "${ENV_FILE}"
 
-  python3 "${SWIM_USER_CONFIG_DIR}/main.py" "${SWIM_USER_CONFIG_DIR}/config.yml" "${ENV_FILE}"
+  python "${SWIM_USER_CONFIG_DIR}/main.py" "${SWIM_USER_CONFIG_DIR}/config.yml" "${ENV_FILE}"
 
   while read LINE; do export "$LINE"; done < "${ENV_FILE}"
 
