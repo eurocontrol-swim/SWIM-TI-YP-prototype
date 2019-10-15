@@ -2,6 +2,7 @@
 
 ROOT_DIR=${PWD}
 SERVICES_DIR=${ROOT_DIR}'/services'
+BASE_DIR=${SERVICES_DIR}'/base'
 SUBSCRIPTION_MANAGER_DIR=${SERVICES_DIR}"/subscription_manager"
 SUBSCRIPTION_MANAGER_DIR_SRC=${SUBSCRIPTION_MANAGER_DIR}"/src"
 SWIM_ADSB_DIR=${SERVICES_DIR}"/swim_adsb"
@@ -94,9 +95,15 @@ build() {
   echo "Building images..."
   echo -e "==================\n"
   # build the base image upon which the swim services will depend on
-  docker build -t swim-base -f "${SERVICES_DIR}/base/Dockerfile" "${SERVICES_DIR}/base"
-  docker build -t swim-base.conda -f "${SERVICES_DIR}/base/Dockerfile" "${SERVICES_DIR}/base"
+  cd "${BASE_DIR}" || exit 1
+
+  docker build -t swim-base -f Dockerfile .
+
+  docker build -t swim-base.conda -f Dockerfile.conda .
+
   docker-compose build
+
+  cd "${ROOT_DIR}" || exit 1
   echo ""
 
   echo "Removing obsolete docker images..."
