@@ -94,8 +94,8 @@ build() {
   echo "Building images..."
   echo -e "==================\n"
   # build the base image upon which the swim services will depend on
-  docker build -t swim-base -f ./services/base/Dockerfile ./services/base
-  docker build -t swim-base.conda -f ./services/base/Dockerfile.conda ./services/base
+  docker build -t swim-base -f "${SERVICES_DIR}/base/Dockerfile" "${SERVICES_DIR}/base"
+  docker build -t swim-base.conda -f "${SERVICES_DIR}/base/Dockerfile" ${SERVICES_DIR}/base"
   docker-compose build
   echo ""
 
