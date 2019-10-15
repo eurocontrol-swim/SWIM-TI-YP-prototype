@@ -39,7 +39,8 @@ Before starting, make sure the following software is installed and working on yo
     
    - [git](https://git-scm.com/downloads) which will be used to download the necessary repositories.
    - [docker](https://docs.docker.com/install/) which will be used to host and run the whole demo platform
-   - [docker-compose](https://docs.docker.com/compose/install/) which will be used for 
+   - [docker-compose](https://docs.docker.com/compose/install/) which will be used to orchestrate the deployment locally
+   - [python](https://www.python.org/downloads/) which will be used to run python custom scripts 
 
 
 #### Download repositories
