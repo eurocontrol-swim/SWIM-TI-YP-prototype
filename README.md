@@ -155,6 +155,7 @@ Moreover you can see the available options of this script with:
 Usage: swim.sh [COMMAND] [OPTIONS]
 
 Commands:
+    user_config     Prompts for username/password of all the swim related users
     build           Clones/updates the necessary git repositories and builds the involved docker images
     provision       Provisions the Subscription Manager and the broker with initial data (users)
     start           Starts up all the SWIM services
