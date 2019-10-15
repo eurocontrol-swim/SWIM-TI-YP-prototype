@@ -31,7 +31,6 @@ import json
 import os
 import sys
 import hashlib
-import yaml
 from getpass import getpass
 
 try:
@@ -127,19 +126,6 @@ class User:
         self.description = description
         self.username = username
         self.password = password
-
-
-def _load_config(filename):
-    """
-
-    :param filename:
-    :type: str
-    :return: dict or None
-    """
-    with open(filename) as f:
-        obj = yaml.load(f, Loader=yaml.Loader)
-
-    return obj or None
 
 
 def _prompt_for_user(user):
