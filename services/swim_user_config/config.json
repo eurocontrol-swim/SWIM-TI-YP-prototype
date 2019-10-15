@@ -8,11 +8,11 @@
       "description": "Subscription Manager admin user",
       "default_user": "swim-sm-admin"
     },
-    "SWIM_ADSB_SM_USER": {
+    "SWIM_ADSB_SM": {
       "description": "SWIM ADSB user for Subscription Manager",
       "default_user": "swim-adsb"
     },
-    "SWIM_EXPLORER_SM_USER": {
+    "SWIM_EXPLORER_SM": {
       "description": "SWIM Explorer user for Subscription Manager",
       "default_user": "swim-explorer"
     },
