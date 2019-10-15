@@ -48,15 +48,6 @@ First we need to clone this repository:
 git clone https://github.com/eurocontrol-swim/deploy.git
 ```
 
-#### Preparation
-Then we need to prepare the involved repositories. The following command will clone all of them. In case they already 
-exist they will be updated with the latest commits.
-
-```shell
-./swim.sh prepare
-```
-
-
 #### Configuration
 Then we have to provide the necessary configuration of the services. This involves:
 
@@ -79,15 +70,6 @@ Use the following command to provide usernames and passwords:
 > the leading `.` is required in order the provided usernames and passwords to be exported as environment variables in the 
 > host machine
 
-
-The first time you run this command the necessary docker image will have to built (which might take a few minutes to complete) 
-leading to an output similar to:
-
-```shell
-Docker image not found. Building...
-
-sha256:d34c60c7d1ce77aca00a943e3838bb9be3003b047e00ab765a250f3dc6d178c6
-```
 
 The interaction shell then will look like:
 

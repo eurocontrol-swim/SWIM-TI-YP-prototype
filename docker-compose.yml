@@ -153,12 +153,6 @@ services:
     networks:
       - backend
 
-  swim-user-config:
-    image: swim-user-config
-    build: ./services/swim_user_config/src
-    container_name: swim_user_config
-    stdin_open: true
-    tty: true
 
 networks:
   backend:
