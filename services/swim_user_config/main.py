@@ -31,39 +31,54 @@ import os
 import sys
 import hashlib
 import yaml
-from typing import List, Optional, Dict, Union, Any
-from urllib.request import urlopen
 from getpass import getpass
 
+try:
+    from urllib.request import urlopen
+except ImportError:
+    from urllib import urlopen
 
 __author__ = "EUROCONTROL (SWIM)"
 
 MIN_PASSWORD_LENGTH = 10
 
 
-def get_pwned_password_range(password_sha1_prefix: str) -> List[str]:
+def _get_input_method():
+    """
+    Distinguish python versions and return the input method for raw input
+    :return: callable
+    """
+    try:
+        return __builtins__.raw_input
+    except AttributeError:
+        return input
+
+
+def get_pwned_password_range(password_sha1_prefix):
     """
     Retrieves a range of sha1 pwned passwords from haveibeenpwned API whose 5 first characters match with the provided
     sha1 prefix.
 
     :param password_sha1_prefix: must be 5 characters long
-    :return:
+    :type
+ str    :return: list of str
     """
-    with urlopen(f'https://api.pwnedpasswords.com/range/{password_sha1_prefix}') as response:
-        data = str(response.read())
+    response = urlopen('https://api.pwnedpasswords.com/range/{0}'.format(password_sha1_prefix))
+    data = str(response.read())
 
-        if response.code not in [200]:
-            raise ValueError(data)
+    if response.code not in [200]:
+        raise ValueError(data)
 
-        return [str(passwd) for passwd in data.split('\\r\\n')]
+    return [str(passwd) for passwd in data.split('\\r\\n')]
 
 
-def password_has_been_pwned(password: str) -> bool:
+def password_has_been_pwned(password):
     """
     Chacks if the provided password has been pwned by querying the haveibeenpwned API
 
     :param password:
-    :return:
+    :type: str
+    :return: bool
     """
     password_sha1 = hashlib.sha1(password.encode('utf-8')).hexdigest().upper()
 
@@ -76,7 +91,7 @@ def password_has_been_pwned(password: str) -> bool:
     return password_sha1 in full_pwned_passwords_sha1
 
 
-def is_strong(password: str, min_length: Optional[int] = MIN_PASSWORD_LENGTH) -> bool:
+def is_strong(password, min_length=MIN_PASSWORD_LENGTH):
     """
     Determines whether the password is strong enough using the following criteria:
     - it does not contain spaces
@@ -84,8 +99,10 @@ def is_strong(password: str, min_length: Optional[int] = MIN_PASSWORD_LENGTH) ->
     - it has been pwned before (checked via haveibeenpwned API)
 
     :param password:
+    :type: str
     :param min_length:
-    :return:
+    :type: int
+    :return: bool
     """
     return ' ' not in password \
         and len(password) >= min_length \
@@ -94,18 +111,29 @@ def is_strong(password: str, min_length: Optional[int] = MIN_PASSWORD_LENGTH) ->
 
 class User:
 
-    def __init__(self, id: str, description: str, username: str, password: Union[str, None]):
+    def __init__(self, id, description, username, password):
+        """
+        :param id:
+        :type: str
+        :param description:
+        :type: str
+        :param username:
+        :type: str
+        :param password:
+        :type: str
+        """
         self.id = id
         self.description = description
         self.username = username
         self.password = password
 
 
-def _load_config(filename: str) -> Union[Dict[str, Any], None]:
+def _load_config(filename):
     """
 
     :param filename:
-    :return:
+    :type: str
+    :return: dict or None
     """
     with open(filename) as f:
         obj = yaml.load(f, Loader=yaml.Loader)
@@ -113,19 +141,22 @@ def _load_config(filename: str) -> Union[Dict[str, Any], None]:
     return obj or None
 
 
-def _prompt_for_user(user: User) -> User:
+def _prompt_for_user(user):
     """
 
     :param user:
-    :return:
+    :type: User
+    :return: User
     """
-    print(f'\n{user.description}')
-    user.username = input(f" username [{user.username}]: ") or user.username
-    user.password = getpass(prompt=f" password: ")
+    input_method = _get_input_method()
+
+    sys.stdout.write('\n{0}\n'.format(user.description))
+    user.username = input_method(" username [{0}]: ".format(user.username)) or user.username
+    user.password = getpass(prompt=" password: ")
 
     while not is_strong(user.password):
-        print('The password is not strong enough. Please try again:')
-        user.password = getpass(prompt=f" password: ")
+        sys.stdout.write('The password is not strong enough. Please try again.\n')
+        user.password = getpass(prompt=" password: ")
 
     return user
 
@@ -133,19 +164,19 @@ def _prompt_for_user(user: User) -> User:
 def main():
 
     if len(sys.argv) != 3:
-        print("Usage: python3 main.py </path/to/config_file> </path/to/output_file>")
+        sys.stdout.write("Usage: python3 main.py </path/to/config_file> </path/to/output_file>\n")
         exit(1)
 
     config_file, output_file = sys.argv[1], sys.argv[2]
 
     if not os.path.exists(config_file):
-        print("Invalid config_file")
+        sys.stdout.write("Invalid config_file\n")
         exit(1)
 
     config = _load_config(config_file)
 
     if config is None:
-        print("Error while loading config file")
+        sys.stdout.write("Error while loading config file\n")
         exit(0)
 
     users = [User(id=user_id,
@@ -158,8 +189,8 @@ def main():
 
     with open(output_file, 'w') as f:
         for user in users:
-            f.write(f'{user.id}_USER={user.username}\n')
-            f.write(f'{user.id}_PASS={user.password}\n')
+            f.write('{0}_USER={1}\n'.format(user.id, user.username))
+            f.write('{0}_PASS={1}\n'.format(user.id, user.password))
 
 
 if __name__ == '__main__':
