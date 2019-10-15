@@ -27,6 +27,7 @@ http://opensource.org/licenses/BSD-3-Clause
 
 Details on EUROCONTROL: http://www.eurocontrol.int
 """
+import json
 import os
 import sys
 import hashlib
@@ -173,11 +174,12 @@ def main():
         sys.stdout.write("Invalid config_file\n")
         exit(1)
 
-    config = _load_config(config_file)
-
-    if config is None:
-        sys.stdout.write("Error while loading config file\n")
-        exit(0)
+    with open(config_file, 'r') as f:
+        try:
+            config = json.loads(f.read())
+        except Exception as e:
+            sys.stdout.write("Error while loading config file: {0}\n".format(str(e)))
+            exit(0)
 
     users = [User(id=user_id,
                   description=data.get('description'),

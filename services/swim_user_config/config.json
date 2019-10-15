@@ -1,0 +1,32 @@
+{
+  "USERS": {
+    "DB": {
+      "description": "Database user",
+      "default_user": "swim"
+    },
+    "SM_ADMIN": {
+      "description": "Subscription Manager admin user",
+      "default_user": "swim-sm-admin"
+    },
+    "SWIM_ADSB": {
+      "description": "SWIM ADSB user for Subscription Manager",
+      "default_user": "swim-adsb"
+    },
+    "SWIM_EXPLORER": {
+      "description": "SWIM Explorer user for Subscription Manager",
+      "default_user": "swim-explorer"
+    },
+    "BROKER_ADMIN": {
+      "description": "Broker admin user",
+      "default_user": "swim-broker-admin"
+    },
+    "BROKER_MGMT": {
+      "description": "Broker Management user",
+      "default_user": "swim-broker-mgmt"
+    },
+    "SWIM_EXPLORER_BROKER": {
+      "description": "SWIM Explorer user for the broker",
+      "default_user": "swim-explorer-broker"
+    }
+  }
+}

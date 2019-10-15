@@ -9,7 +9,6 @@ SWIM_ADSB_DIR_SRC=${SWIM_ADSB_DIR}"/src"
 SWIM_EXPLORER_DIR=${SERVICES_DIR}"/swim_explorer"
 SWIM_EXPLORER_DIR_SRC=${SWIM_EXPLORER_DIR}"/src"
 SWIM_USER_CONFIG_DIR=${SERVICES_DIR}"/swim_user_config"
-SWIM_USER_CONFIG_DIR_SRC=${SWIM_USER_CONFIG_DIR}"/src"
 
 
 user_config() {
@@ -21,7 +20,7 @@ user_config() {
 
   touch "${ENV_FILE}"
 
-  python "${SWIM_USER_CONFIG_DIR}/main.py" "${SWIM_USER_CONFIG_DIR}/config.yml" "${ENV_FILE}"
+  python "${SWIM_USER_CONFIG_DIR}/main.py" "${SWIM_USER_CONFIG_DIR}/config.json" "${ENV_FILE}"
 
   while read LINE; do export "$LINE"; done < "${ENV_FILE}"
 
