@@ -92,9 +92,9 @@ services:
       - SM_ADMIN_USER=${SM_ADMIN_USER}
       - SM_ADMIN_PASS=${SM_ADMIN_PASS}
       - SWIM_ADSB_SM_USER=${SWIM_ADSB_SM_USER}
-      - SWIM_ADSB_PASS=${SWIM_ADSB_PASS}
+      - SWIM_ADSB_SM_PASS=${SWIM_ADSB_SM_PASS}
       - SWIM_EXPLORER_SM_USER=${SWIM_EXPLORER_SM_USER}
-      - SWIM_EXPLORER_PASS=${SWIM_EXPLORER_PASS}
+      - SWIM_EXPLORER_SM_PASS=${SWIM_EXPLORER_SM_PASS}
       - BROKER_MGMT_USER=${BROKER_MGMT_USER}
       - BROKER_MGMT_PASS=${BROKER_MGMT_PASS}
       - BROKER_ADMIN_USER=${BROKER_ADMIN_USER}
@@ -116,7 +116,7 @@ services:
       - web-server
     environment:
       - SWIM_ADSB_SM_USER=${SWIM_ADSB_SM_USER}
-      - SWIM_ADSB_PASS=${SWIM_ADSB_PASS}
+      - SWIM_ADSB_SM_PASS=${SWIM_ADSB_SM_PASS}
     volumes:
       - ./secrets/rabbitmq/client/:/secrets/broker/client
       - ./secrets/rabbitmq/ca_certificate.pem:/secrets/broker/ca_certificate.pem
@@ -140,7 +140,7 @@ services:
       - SWIM_EXPLORER_BROKER_USER=${SWIM_EXPLORER_BROKER_USER}
       - SWIM_EXPLORER_BROKER_PASS=${SWIM_EXPLORER_BROKER_PASS}
       - SWIM_EXPLORER_SM_USER=${SWIM_EXPLORER_SM_USER}
-      - SWIM_EXPLORER_PASS=${SWIM_EXPLORER_PASS}
+      - SWIM_EXPLORER_SM_PASS=${SWIM_EXPLORER_SM_PASS}
     volumes:
       - ./secrets/rabbitmq/client/:/secrets/broker/client
       - ./secrets/rabbitmq/ca_certificate.pem:/secrets/broker/ca_certificate.pem
