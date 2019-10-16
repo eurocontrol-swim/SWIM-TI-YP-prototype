@@ -16,7 +16,7 @@ SWIM_USER_CONFIG_DIR=${SERVICES_DIR}"/swim_user_config"
 is_windows() {
   UNAME=$(uname)
 
-  [[ "${UNAME}" -ne "Linux" ]] && [[ "${UNAME}" -ne "Darwin" ]]
+  [[ "${UNAME}" != "Linux" ]] && [[ "${UNAME}" != "Darwin" ]]
 }
 
 user_config() {
