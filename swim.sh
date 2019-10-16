@@ -35,7 +35,7 @@ user_config() {
     "${DOS2UNIX}" -q "${ENV_FILE}"
   fi
 
-  source "${ENV_FILE}"
+  while read LINE; do export "$LINE"; done < "${ENV_FILE}"
 
   rm "${ENV_FILE}"
 }
