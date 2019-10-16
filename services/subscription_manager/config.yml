@@ -29,7 +29,7 @@ LOGGING:
     connexion:
       level: INFO
 
-SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://${DB_USER}:${DB_PASS}@postgres/${DB_NAME}?sslmode=require"
+SQLALCHEMY_DATABASE_URI: "postgresql+psycopg2://${DB_USER}:${DB_PASS}@postgres/${DB_NAME}?sslmode=require"
 SQLALCHEMY_TRACK_MODIFICATIONS: False  # silence the deprecation warning
 
 BROKER:
