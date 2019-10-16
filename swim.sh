@@ -2,6 +2,8 @@
 
 ROOT_DIR=${PWD}
 SERVICES_DIR=${ROOT_DIR}'/services'
+UTILS_DIR=${ROOT_DIR}'/utils'
+DOS2UNIX="${UTILS_DIR}/dos2unix.exe"
 BASE_DIR=${SERVICES_DIR}'/base'
 SUBSCRIPTION_MANAGER_DIR=${SERVICES_DIR}"/subscription_manager"
 SUBSCRIPTION_MANAGER_DIR_SRC=${SUBSCRIPTION_MANAGER_DIR}"/src"
@@ -11,6 +13,11 @@ SWIM_EXPLORER_DIR=${SERVICES_DIR}"/swim_explorer"
 SWIM_EXPLORER_DIR_SRC=${SWIM_EXPLORER_DIR}"/src"
 SWIM_USER_CONFIG_DIR=${SERVICES_DIR}"/swim_user_config"
 
+is_windows() {
+  UNAME=$(uname)
+
+  [[ "${UNAME}" -ne "Linux" ]] && [[ "${UNAME}" -ne "Darwin" ]]
+}
 
 user_config() {
 
@@ -23,7 +30,12 @@ user_config() {
 
   python "${SWIM_USER_CONFIG_DIR}/main.py" "${SWIM_USER_CONFIG_DIR}/config.json" "${ENV_FILE}"
 
-  while read LINE; do export "$LINE"; done < "${ENV_FILE}"
+  if is_windows
+  then
+    "${DOS2UNIX}" -q "${ENV_FILE}"
+  fi
+
+  source "${ENV_FILE}"
 
   rm "${ENV_FILE}"
 }
@@ -110,7 +122,7 @@ build() {
 
   echo "Removing obsolete docker images..."
   echo -e "==================================\n"
-  docker images|grep none|awk '{print $3}'|xargs -r docker rmi
+  docker images | grep none | awk '{print $3}' | xargs -r docker rmi
 }
 
 status() {
