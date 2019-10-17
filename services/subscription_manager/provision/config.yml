@@ -22,6 +22,8 @@ LOGGING:
   loggers:
     requests:
       level: ERROR
+    urllib3:
+      level: ERROR
 
 
 SQLALCHEMY_DATABASE_URI: "postgresql+psycopg2://${DB_USER}:${DB_PASS}@postgres/${DB_NAME}?sslmode=require"
