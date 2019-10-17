@@ -80,7 +80,7 @@ prepare_repos() {
 data_provision() {
   echo "Data provisioning to Subscription Manager..."
   echo -e "============================================\n"
-  docker-compose up subscription-manager-provision
+  docker-compose run subscription-manager-provision
   echo ""
 }
 
