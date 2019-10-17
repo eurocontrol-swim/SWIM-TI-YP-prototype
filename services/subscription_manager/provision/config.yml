@@ -36,4 +36,6 @@ BROKER:
   username: ${BROKER_ADMIN_USER}
   password: ${BROKER_ADMIN_PASS}
   cert_path: "/secrets/ca_certificate.pem"
+  retry: 10
 
+DB_PROVISION_RETRY: 10
