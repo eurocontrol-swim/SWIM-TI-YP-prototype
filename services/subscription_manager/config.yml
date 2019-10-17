@@ -38,5 +38,3 @@ BROKER:
   username: ${BROKER_MGMT_USER}
   password: ${BROKER_MGMT_PASS}
   cert_path: "/secrets/ca_certificate.pem"
-
-MAX_BROKER_QUEUE_LENGTH: 100
