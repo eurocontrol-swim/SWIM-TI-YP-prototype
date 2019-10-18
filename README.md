@@ -37,18 +37,41 @@ The steps bellow will allow you to build and run the SWIM-TI demo from scratch. 
 #### Prerequisites
 Before starting, make sure the following software is installed and working on your machine:
     
+##### **Linux/Mac users**
    - [git](https://git-scm.com/downloads) which will be used to download the necessary repositories.
-> For Windows users: After installing git you need to issue the following command in CMD or Powershell in order to 
->prevent any conversion when checking out text files:
-```shell
-git config --global core.autocrlf input
-```
    - [docker](https://docs.docker.com/install/) which will be used to host and run the whole demo platform
    - [docker-compose](https://docs.docker.com/compose/install/) which will be used to orchestrate the deployment locally
    - [python](https://www.python.org/downloads/) which will be used to run python custom scripts 
 
+##### **Windows users**
+   - [Docker Toolbox on Windows](https://docs.docker.com/toolbox/toolbox_install_windows/) (which installs all the
+   required tools and runs the Docker Engine via VirtualBox)
+   - [python](https://www.python.org/downloads/) which will be used to run python custom scripts
+
+###### Post-installation
+   - Before using git commands you need to disable conversion of checked out files to Windows format:
+        ```
+        git config --global core.autocrlf input
+        ```
+   - Since Docker runs via VirtualBox, the various app/server sites involved in this demo will not be able to be accessed
+     from your host machine unless you apply some port forwarding rules. You may find instructions about how to do it
+     [here](https://www.simplified.guide/virtualbox/port-forwarding). The rules that we need are:
+
+        | Name | Host port | Guest Port |
+        |---|---|---|
+        | broker | 15671 | 15671 |
+        | https | 443 | 443 |
+        | explorer | 5000 | 5000 |
+
+
 #### Download repositories
+
+> **NOTE**: The next steps are done on a Unix-like command line interface (CLI) for all users. Linux and Mac users can
+> use any terminal application, however the Windows users will have to use the Docker CLI client that comes with Docker
+> Toolbox on Windows. This can be accessed by starting **Docker Quickstart Terminal**.
+
 First we need to clone this repository:
+
 ```shell
 git clone https://github.com/eurocontrol-swim/deploy.git
 ```
@@ -230,11 +253,35 @@ In case there is a change on the involved repositories you can update them and t
 
 ### Usage
 
-As soon as the platform is up and running, you can point your browser to [http://0.0.0.0:5000](http://0.0.0.0:5000) in order to access SWIM Explorer and play around. You can subscribe, pause, resume or unsubscribe from topics like `arrivals.brussels`
-and see the real time position of the involved aircrafts on the map.
+#### SWIM Explorer
+As soon as the platform is up and running, you can point your browser to [http://0.0.0.0:5000](http://0.0.0.0:5000) in
+order to access SWIM Explorer and play around. You can subscribe, pause, resume or unsubscribe from topics like
+`arrivals.brussels` and see the real time position of the involved airplanes on the map. The interface will look similar
+to the below image:
 
-> SWIM Explorer is supposed to be a client application, .i.e out of the scope of SWIM-TI platform. However, for the purpose of 
-this demo it comes together with the rest of the services, but it runs as a standalone web application not passing through nginx.
 
+> NOTE: SWIM Explorer is supposed to be a client application, .i.e out of the scope of SWIM-TI platform. However, for
+> the purpose of this demo it comes together with the rest of the services, but it runs as a standalone web application
+> not passing through the web server.
 
-![alt text](explorer.jpg "Explorer")
+![alt text](explorer.jpg "SWIM Explorer")
+
+#### SWIM Subscription Manager
+Additionally, you may access the SWIM Subscription Manager OpenAPI specs site using the following link:
+[https://localhost/subscription-manager/api/1.0/ui/#/](https://localhost/subscription-manager/api/1.0/ui/#/). Notice
+that you may get a warning saying the the connections if not safe. This is expected as this demo uses mock certificates
+and not real ones. In there you can interact with it by observing the various transactions of topics and subscriptions
+that happen while using SWIM Explorer. You can login using the user and password you provided during the user
+configuration step earlier. The interface will look like the following image:
+
+![alt text](subscription-manager.jpg "Subscription Manager")
+
+#### RabbitMQ Management
+Lastly, you can also access the RabbitMQ management page using the following link:
+[https://localhost:15671/#/](https://localhost:15671/#/). Notice that you may get a warning saying the the connections 
+if not safe. This is expected as this demo uses mock certificates and not real ones. In there you can observe the queues
+that are created/deleted while using SWIM Explorer as well as statistics about the flow of the incoming messages. You
+can login using the user and password you provided during the user configuration step earlier. The interface will look
+similar to the following image:
+
+![alt text](broker.jpg "RabbitMQ Management")
