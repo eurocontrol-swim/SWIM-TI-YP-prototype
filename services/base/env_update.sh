@@ -6,10 +6,12 @@ then
 	exit 1;
 fi
 
+SED_SCRIPT="${HOME}/sed.script"
+
 echo "Interpolating env variables in $1";
 
-env | sed 's/[\%]/\\&/g;s/\([^=]*\)=\(.*\)/s%${\1}%\2%/' > sed.script;
+env | sed 's/[\%]/\\&/g;s/\([^=]*\)=\(.*\)/s%${\1}%\2%/' > "${SED_SCRIPT}";
 
-cat $1 | sed -f sed.script > $2;
+cat $1 | sed -f "${SED_SCRIPT}" > $2;
 
-rm sed.script;
+rm "${SED_SCRIPT}";
