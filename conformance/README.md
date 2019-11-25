@@ -1048,6 +1048,17 @@ These ciphers are compliant with:
 
 TODO: https://blog\.dbi\-services\.com/migrating\-your\-users\-from\-md5\-to\-scram\-authentication\-in\-postgresql/
 
+
+**Verification Method:** Configuration Inspection  
+**Verification Description:** PostgreSQL is configured to use a restricted set of cryptographic algorithms that is compliant with the latest NIST, ECRYPT and BSI recommendations\. The following configuration snippet from [postgresql\.conf](https://github.com/eurocontrol-swim/deploy/blob/master/services/db/postgres/data/postgresql.conf) shows the list of valid algorithms\.   
+
+```
+ssl_ciphers = 'ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!3DES:!MD5:!PSK:!SSLv2:!SSLv3:!TLSv1:!TLSv1.1' # only allow TLS 1.2 and configure ciphers
+ssl_prefer_server_ciphers = on
+ssl_ecdh_curve = 'prime256v1'
+```
+
+
 ##### App Layer
 
 
@@ -1273,12 +1284,16 @@ bantime = 3600
 
 
 **Verification Method:** Configuration Inspection  
-**Verification Description:** Passwords are stored salted and hashed using SHA256 as configured in [rabbitmq.conf](https://bitbucket.org/antavelos-eurocontrol/deploy/src/master/services/broker/rabbitmq/rabbitmq.conf). RabbitMQ documentation details how the hashing algorithm is combined with random salts:   
+**Verification Description:** RabbitMQ's passwords are stored salted and hashed using SHA256 as configured in [rabbitmq.conf](https://github.com/eurocontrol-swim/deploy/blob/master/services/broker/rabbitmq/rabbitmq.conf). RabbitMQ documentation details how the hashing algorithm is combined with random salts:   
 ```
 password_hashing_module = rabbit_password_hashing_sha256
 ```  
 
-TODO: Detail the same for postgresql https://blog\.dbi\-services\.com/migrating\-your\-users\-from\-md5\-to\-scram\-authentication\-in\-postgresql/
+**Verification Method:** Configuration Inspection  
+**Verification Description:** PostgreSQL user's passwords are stored salted and hashed using SHA256 as configured in [postgresql.conf](https://github.com/eurocontrol-swim/deploy/blob/master/services/db/postgres/data/postgresql.conf).   
+```
+password_encryption = scram-sha-256
+```  
 
 ##### App Layer
 
