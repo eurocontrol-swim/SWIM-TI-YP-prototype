@@ -145,7 +145,7 @@ The previous deployment diagram has been instantiated with a particular choice o
 |----------|--------------|  
 |Title|HTTP Reason Phrase Header|  
 |Statement|The Service Interface Binding **shall** be able to use the HTTP Reason\-Phrase header\.|  
-|Clarification|This requirement specifies the need to use of the Reason\-Phrase header of HTTP\. The Reason\-Phrase rules and semantics are defined as part of the HTTP/1\.1 specification\. \+ IETF RFC 7230 \(HTTP/1\.1\): https://tools\.ietf\.org/html/rfc7230 Related NIST SP 800\-53 rev4 Security Control: CM\-6\.|  
+|Clarification|This requirement specifies the need to use of the Reason\-Phrase header of HTTP\. The Reason\-Phrase rules and semantics are defined as part of the HTTP/1\.1 specification\. \+ IETF RFC 7230 \(HTTP/1\.1\): https://tools.ietf.org/html/rfc7230 Related NIST SP 800\-53 rev4 Security Control: CM\-6\.|  
 |Verification|Test, Demonstration, Configuration Inspection|  
 
 
@@ -169,7 +169,7 @@ Sample code snippet:
 |----------|--------------|  
 |Title|HTTP Status Code Header|  
 |Statement|The Service Interface Binding **shall** be able to use the HTTP Status\-Code header\.|  
-|Clarification|This requirement specifies the need to use the Status\-Code header of HTTP\. The Status\-Code rules and semantics are defined as part of the HTTP/1\.1 specification\. \+ IETF RFC 7231 \(HTTP/1\.1\): https://tools\.ietf\.org/html/rfc7231\#section\-6 Related NIST SP 800\-53 rev4 Security Control: CM\-6\.|  
+|Clarification|This requirement specifies the need to use the Status\-Code header of HTTP\. The Status\-Code rules and semantics are defined as part of the HTTP/1\.1 specification\. \+ IETF RFC 7231 \(HTTP/1\.1\): https://tools.ietf.org/html/rfc7231#section-6 Related NIST SP 800\-53 rev4 Security Control: CM\-6\.|  
 |Verification|Test, Demonstration, Configuration Inspection|  
 
 
@@ -232,7 +232,7 @@ security:
 |----------|--------------|  
 |Title|HTTP Header Transfer Encoding|  
 |Statement|The Service Interface Binding may use the following values of the HTTP header Transfer\-Encoding: \+ chunked|  
-|Clarification|The sender of a message may not know in advance the length of the message that will be sent\. The HTTP/1\.1 protocol provides for the mechanism to send the payload chunked, a Service Provider can opt to use this capability\. \+ IETF RFC 7230 \(HTTP/1\.1\): https://tools\.ietf\.org/html/rfc7230\#section\-3\.3\.1 Related NIST SP 800\-53 rev4 Security Control: CM\-6\.|  
+|Clarification|The sender of a message may not know in advance the length of the message that will be sent\. The HTTP/1\.1 protocol provides for the mechanism to send the payload chunked, a Service Provider can opt to use this capability\. \+ IETF RFC 7230 \(HTTP/1\.1\): https://tools.ietf.org/html/rfc7230#section-3.3.1 Related NIST SP 800\-53 rev4 Security Control: CM\-6\.|  
 |Verification|Test, Demonstration, Configuration Inspection|  
 
 
@@ -250,7 +250,7 @@ security:
 |----------|--------------|  
 |Title|HTTP Compression and Content Encoding Header|  
 |Statement|The Service Interface Binding **shall** use one of the following values of the HTTP header Content\-Encoding if data compression is needed: \+ deflate \+ gzip \+ exi|  
-|Clarification|This requirement is applicable when data compression is used, in such case it restricts the possible compression algorithms and requires the use of the HTTP Content\-Encoding header\. HTTP compression performs on the fly compression\. The compression can only be requested by the client\. The server can ignore the request by the client and return non\-compressed data if deemed appropriate\. \+ DEFLATE Compressed Data Format Specification version 1\.3: https://www\.ietf\.org/rfc/rfc1951\.txt \+ GZIP File Format Specification 4\.3: https://tools\.ietf\.org/html/rfc1952 \+ Efficient XML Interchange \(EXI\) Format 1\.0: http://www\.w3\.org/TR/2014/REC\-exi\-20140211/ Related NIST SP 800\-53 rev4 Security Control: CM\-6\.|  
+|Clarification|This requirement is applicable when data compression is used, in such case it restricts the possible compression algorithms and requires the use of the HTTP Content\-Encoding header\. HTTP compression performs on the fly compression\. The compression can only be requested by the client\. The server can ignore the request by the client and return non\-compressed data if deemed appropriate\. \+ DEFLATE Compressed Data Format Specification version 1\.3: https://www.ietf.org/rfc/rfc1951.txt \+ GZIP File Format Specification 4\.3: https://tools.ietf.org/html/rfc1952 \+ Efficient XML Interchange \(EXI\) Format 1\.0: http://www.w3.org/TR/2014/REC-exi-20140211/ Related NIST SP 800\-53 rev4 Security Control: CM\-6\.|  
 |Verification|Test, Demonstration, Configuration Inspection|  
 
 
@@ -305,7 +305,7 @@ Sample code snippet:
 |----------|--------------|  
 |Title|HTTP over TLS|  
 |Statement|The Service Interface Binding **shall** comply with IETF RFC 2818 \(HTTP over TLS\)\.|  
-|Clarification|This requirement mandates compliance with the interoperability standard for the use of HTTP over TLS \(HTTPS\)\. \+ IETF RFC 2818 \(HTTP over TLS\): http://tools\.ietf\.org/html/rfc2818 Related NIST SP 800\-53 rev4 Security Control: SC\-8\.|  
+|Clarification|This requirement mandates compliance with the interoperability standard for the use of HTTP over TLS \(HTTPS\)\. \+ IETF RFC 2818 \(HTTP over TLS\): http://tools.ietf.org/html/rfc2818 Related NIST SP 800\-53 rev4 Security Control: SC\-8\.|  
 |Verification|Test, Demonstration, Configuration Inspection|  
 
 
@@ -341,7 +341,7 @@ server {
 |----------|--------------|  
 |Title|HTTP|  
 |Statement|The Service Interface Binding **shall** support HTTP/1\.1\.|  
-|Clarification|This requirement specifies the use of the HTTP/1\.1 protocol\. HTTP/1\.1 is defined across 7 IETF RFCs spanning from RFC 7230 to RFC 7237\.  \+ IETF RFC 7230:  \+ IETF RFC 7231:  \+ IETF RFC 7232: http://tools\.ietf\.org/html/rfc7232 \+ IETF RFC 7233: http://tools\.ietf\.org/html/rfc72313 \+ IETF RFC 7234: http://tools\.ietf\.org/html/rfc72314 \+ IETF RFC 7235:  \+ IETF RFC 7236: http://tools\.ietf\.org/html/rfc72316 \+ IETF RFC 7237: http://tools\.ietf\.org/html/rfc7237|  
+|Clarification|This requirement specifies the use of the HTTP/1\.1 protocol\. HTTP/1\.1 is defined across 7 IETF RFCs spanning from RFC 7230 to RFC 7237\.  \+ IETF RFC 7230:  \+ IETF RFC 7231:  \+ IETF RFC 7232: http://tools.ietf.org/html/rfc7232 \+ IETF RFC 7233: http://tools.ietf.org/html/rfc72313 \+ IETF RFC 7234: http://tools.ietf.org/html/rfc72314 \+ IETF RFC 7235:  \+ IETF RFC 7236: http://tools.ietf.org/html/rfc72316 \+ IETF RFC 7237: http://tools.ietf.org/html/rfc7237|  
 |Verification|Test, Demonstration, Configuration Inspection|  
 
 
@@ -377,7 +377,7 @@ server {
 |----------|--------------|  
 |Title|TLS|  
 |Statement|The Service Interface Binding **shall** support the following versions of the Transport Layer Security Protocol \(TLS\): \+ IETF RFC 5246 \(TLS v1\.2\)|  
-|Clarification|TLS is a widespread protocol to secure communications at the transport layer\. \+ IETF RFC 5246 \(TLS v1\.2\): http://tools\.ietf\.org/html/rfc5246 Related NIST SP 800\-53 rev4 Security Control: SC\-8\.|  
+|Clarification|TLS is a widespread protocol to secure communications at the transport layer\. \+ IETF RFC 5246 \(TLS v1\.2\): http://tools.ietf.org/html/rfc5246 Related NIST SP 800\-53 rev4 Security Control: SC\-8\.|  
 |Verification|Test, Demonstration, Configuration Inspection|  
 
 
@@ -403,7 +403,7 @@ server {
 |----------|--------------|  
 |Title|AMQP Content Encoding Header|  
 |Statement|The Service Interface Binding may use Media Type values in the AMQP 1\.0 content\-encoding header to specify additional content encodings applied to the body\.|  
-|Clarification|This requirement specifies the possible use of the content\-encoding header of AMQP 1\.0 to detail additional encoding applied over the application\-data section \(e\.g\. compression\)\. Possible values include:  \+ IANA registered Content Coding Media Types \+ Protocol specific extensions \+ Vendor proprietary extensions\. IANA registered Content Coding Media Types: https://www\.iana\.org/assignments/http\-parameters/http\-parameters\.xml\#content\-coding  Related NIST SP 800\-53 rev4 Security Control: CM\-6\.|  
+|Clarification|This requirement specifies the possible use of the content\-encoding header of AMQP 1\.0 to detail additional encoding applied over the application\-data section \(e\.g\. compression\)\. Possible values include:  \+ IANA registered Content Coding Media Types \+ Protocol specific extensions \+ Vendor proprietary extensions\. IANA registered Content Coding Media Types: https://www.iana.org/assignments/http-parameters/http-parameters.xml#content-coding  Related NIST SP 800\-53 rev4 Security Control: CM\-6\.|  
 |Verification|Test|  
 
 
@@ -569,7 +569,7 @@ auth_mechanisms.2 = PLAIN
 |----------|--------------|  
 |Title|AMQP over TLS|  
 |Statement|The Service Interface Binding **shall** use the AMQP over TLS \(amqps\) for transport security\.|  
-|Clarification|This requirement mandates the establishment of a TLS session prior to the exchange of AMQP headers as defined in the AMQP 1\.0 specification, section 5\.2\.1\. This mechanism of establishing the transport secure layer is denominated amqps by IANA\. \+ ISO/IEC 19464:2014 Information technology \-\- Advanced Message Queuing Protocol \(AMQP\) v1\.0 specification: http://www\.iso\.org/iso/home/store/catalogue\_tc/catalogue\_detail\.htm?csnumber=64955 Related NIST SP 800\-53 rev4 Security Control: SC\-8\.|  
+|Clarification|This requirement mandates the establishment of a TLS session prior to the exchange of AMQP headers as defined in the AMQP 1\.0 specification, section 5\.2\.1\. This mechanism of establishing the transport secure layer is denominated amqps by IANA\. \+ ISO/IEC 19464:2014 Information technology \-\- Advanced Message Queuing Protocol \(AMQP\) v1\.0 specification: http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=64955 Related NIST SP 800\-53 rev4 Security Control: SC\-8\.|  
 |Verification|Test, Demonstration, Configuration Inspection|  
 
 
@@ -591,7 +591,7 @@ listeners.ssl.default = 5671
 |----------|--------------|  
 |Title|AMQP|  
 |Statement|The Service Interface Binding **shall** support the Advanced Message Queuing Protocol \(AMQP\) 1\.0\.|  
-|Clarification|The Advanced Message Queuing Protocol \(AMQP\) 1\.0 is an open internet protocol for business messaging\. It defines a binary wire\-level protocol that allows for the reliable exchange of business messages between two parties\. \+ ISO/IEC 19464:2014 Information technology \-\- Advanced Message Queuing Protocol \(AMQP\) v1\.0 specification: http://www\.iso\.org/iso/home/store/catalogue\_tc/catalogue\_detail\.htm?csnumber=64955|  
+|Clarification|The Advanced Message Queuing Protocol \(AMQP\) 1\.0 is an open internet protocol for business messaging\. It defines a binary wire\-level protocol that allows for the reliable exchange of business messages between two parties\. \+ ISO/IEC 19464:2014 Information technology \-\- Advanced Message Queuing Protocol \(AMQP\) v1\.0 specification: http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=64955|  
 |Verification|Test, Demonstration, Configuration Inspection|  
 
 
@@ -633,7 +633,7 @@ RUN apt-get install gcc g++ cmake cmake-curses-gui uuid-dev \
 |----------|--------------|  
 |Title|TLS|  
 |Statement|The Service Interface Binding **shall** support the following versions of the Transport Layer Security Protocol \(TLS\): \+ IETF RFC 5246 \(TLS v1\.2\)|  
-|Clarification|TLS is a widespread protocol to secure communications at the transport layer\. \+ IETF RFC 5246 \(TLS v1\.2\): http://tools\.ietf\.org/html/rfc5246 Related NIST SP 800\-53 rev4 Security Control: SC\-8\.|  
+|Clarification|TLS is a widespread protocol to secure communications at the transport layer\. \+ IETF RFC 5246 \(TLS v1\.2\): http://tools.ietf.org/html/rfc5246 Related NIST SP 800\-53 rev4 Security Control: SC\-8\.|  
 |Verification|Test, Demonstration, Configuration Inspection|  
 
 
@@ -989,7 +989,7 @@ ssl_options.cacertfile           = /certs/ca_certificate.pem
 |----------|--------------|  
 |Title|Cryptographic Algorithms|  
 |Statement|The SWIM\-TI **shall** select cryptographic algorithms and key sizes in accordance with: \+ Applicable national or international regulations on cryptographic algorithms and key sizes or; \+ NIST SP 800\-57 Part 1\.|  
-|Clarification|Selection of secure cryptographic algorithms is necessary to ensure the security attributes of cryptographically protected data are not violated\. When national or international regulations on the selection of cryptographic algorithms and key sizes are available and applicable to the SWIM\-TI implementation, implementers can rely directly on said recommendations\.  In the case said regulations are not available or applicable; implementers can rely on NIST SP 800\-57 Part 1\. Recommendations on cryptographic algorithms and key sizes ought to be updated frequently to avoid vulnerabilities\. Implementers are advised to check for up\-to\-date recommendations\.  \+ NIST SP 800\-57 Part 1: “Recommendation for Key Management”: http://nvlpubs\.nist\.gov/nistpubs/SpecialPublications/NIST\.SP\.800\-57pt1r4\.pdf Related NIST SP 800\-53 rev4 Security Control: IA\-5 c, SC\-13\.|  
+|Clarification|Selection of secure cryptographic algorithms is necessary to ensure the security attributes of cryptographically protected data are not violated\. When national or international regulations on the selection of cryptographic algorithms and key sizes are available and applicable to the SWIM\-TI implementation, implementers can rely directly on said recommendations\.  In the case said regulations are not available or applicable; implementers can rely on NIST SP 800\-57 Part 1\. Recommendations on cryptographic algorithms and key sizes ought to be updated frequently to avoid vulnerabilities\. Implementers are advised to check for up\-to\-date recommendations\.  \+ NIST SP 800\-57 Part 1: “Recommendation for Key Management”: http://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-57pt1r4\.pdf Related NIST SP 800\-53 rev4 Security Control: IA\-5 c, SC\-13\.|  
 |Verification|Test, Configuration Inspection, Analysis|  
 
 
