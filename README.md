@@ -92,10 +92,11 @@ checked for robustness and if it is deemed that it is not robust enough you will
 Use the following command to provide usernames and passwords:
 
 ```shell
+cd deploy
 . ./swim.sh user_config
 ```
 
-> the leading `.` is required in order the provided usernames and passwords to be exported as environment variables in the 
+> the leading `.` before `./swim.sh user_config` is required in order the provided usernames and passwords to be exported as environment variables in the 
 > host machine
 
 
@@ -146,7 +147,7 @@ env
 
 
 ##### Application config files
-Under the apps folder you can find one folder per app containing a `config.yml` file. These are already configured but 
+Under the services folder you can find one folder per app containing a `config.yml` file. These are already configured but 
 you may want to update the airports involved in the SWIM ADSB application. The config entry looks as following and you can 
 add a new airport by choosing a name and assigning to it the corresponding ICAO code (more info [here](http://airportsbase.org/)).
 
@@ -172,7 +173,6 @@ For the deployment process you can use the provided `shell` script `swim.sh`. Be
 executable with the following command:
 
 ```shell
-cd deploy
 chmod +x swim.sh
 ```
 
@@ -234,23 +234,6 @@ a8ffd7d67b7d        subscription-manager   "/usr/bin/tini -- gu…"   About a mi
 645b4de022e4        postgres               "docker-entrypoint.s…"   About a minute ago   Up About a minute   0.0.0.0:5432->5432/tcp                                                    postgres
 ```
 
-Lastly, in order to tear the platform down you can do:
-
-```shell
-./swim.sh stop
-```
-
-or if you also want to remove completely the involved docker containers you can do:
-```shell
-./swim.sh stop --clean
-```
-
-In case there is a change on the involved repositories you can update them and them by calling:
-```shell
-./swim.sh stop --clean  # if SWIM is up running
-./swim.sh build
-```
-
 ### Usage
 
 #### SWIM Explorer
@@ -285,3 +268,23 @@ can login using the user and password you provided during the user configuration
 similar to the following image:
 
 ![alt text](broker.jpg "RabbitMQ Management")
+
+### Stopping the Platform
+
+
+In order to tear the platform down you can do:
+
+```shell
+./swim.sh stop
+```
+
+or if you also want to remove completely the involved docker containers you can do:
+```shell
+./swim.sh stop --clean
+```
+
+In case there is a change on the involved repositories you can update them by calling:
+```shell
+./swim.sh stop --clean  # if SWIM is up running
+./swim.sh build
+```
