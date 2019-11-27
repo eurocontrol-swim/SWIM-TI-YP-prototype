@@ -74,9 +74,9 @@ Layer consisting of the applications part of the implementation that are \(comme
 
 |Software Package|Version|Base Image Hash|Rationale|Related Bindings|Source Repository|  
 |----------------|-------|---------------|---------|----------------|-----------------|  
-|nginx|1\.17\.3|sha256:55e7a6f2bb43e38cc34285af03b4973d61f523d26cd8a57e9d00cf4154792d20|Web Server|WS Light| [NGINX](https://bitbucket.org/antavelos-eurocontrol/deploy/src/master/services/web_server/nginx/) |  
-|rabbitMQ|3\.7\.17|sha256:f2b4cae06fcd2518d5058c627c11bd57da11786597125006566d4b896be20a87|Broker|AMQP Messaging| [RabbitMQ](https://bitbucket.org/antavelos-eurocontrol/deploy/src/master/services/broker/rabbitmq/) |  
-|postgreSQL|11\.5|sha256:2c22778e4f1f20f4f581bdb9978948539d09360e77aac94e4a730f03d04e509a|Database|Not Applicable| [PostgreSQL](https://bitbucket\.org/antavelos\-eurocontrol/deploy/src/master/services/db/postgres/) |  
+|nginx|1\.17\.3|sha256:55e7a6f2bb43e38cc34285af03b4973d61f523d26cd8a57e9d00cf4154792d20|Web Server|WS Light| [NGINX](https://github.com/eurocontrol-swim/deploy/blob/master/services/web_server/nginx/) |  
+|rabbitMQ|3\.7\.17|sha256:f2b4cae06fcd2518d5058c627c11bd57da11786597125006566d4b896be20a87|Broker|AMQP Messaging| [RabbitMQ](https://github.com/eurocontrol-swim/deploy/blob/master/services/broker/rabbitmq/) |  
+|postgreSQL|11\.5|sha256:2c22778e4f1f20f4f581bdb9978948539d09360e77aac94e4a730f03d04e509a|Database|Not Applicable| [PostgreSQL](https://bitbucket\.org/antavelos\-eurocontrol/deploy/blob/master/services/db/postgres/) |  
 
 
 #### App Layer
@@ -87,8 +87,8 @@ Layer consisting of the applications part of the implementation that are a custo
 
 |Application Module|Rationale|Source Repository|  
 |------------------|---------|-----------------|  
-|Subscription Manager|Subscription Manager is an application that allows Consumers of the SWIM\-TI Integrator to manage their subscriptions and get information on available topics through a REST API over the WS\-Light Service Binding\.| [Subscription Manager](https://bitbucket.org/antavelos-eurocontrol/subscription-manager/src/master/) |  
-|SWIM ADSB|SWIM ADSB is an application that retrieves live air traffic information from [OpenSky Network](https://opensky-network.org) and demonstrates how it can use the [SWIM-PubSub](https://bitbucket.org/antavelos-eurocontrol/swim-pubsub) mini framework in order to publish this information through a broker\.| [SWIM ADSB](https://bitbucket.org/antavelos-eurocontrol/swim-adsb/src/master/) |  
+|Subscription Manager|Subscription Manager is an application that allows Consumers of the SWIM\-TI Integrator to manage their subscriptions and get information on available topics through a REST API over the WS\-Light Service Binding\.| [Subscription Manager](https://github.com/eurocontrol-swim/subscription-manager/blob/master/) |  
+|SWIM ADSB|SWIM ADSB is an application that retrieves live air traffic information from [OpenSky Network](https://opensky-network.org) and demonstrates how it can use the [SWIM-PubSub](https://github.com/eurocontrol-swim/swim-pubsub) mini framework in order to publish this information through a broker\.| [SWIM ADSB](https://github.com/eurocontrol-swim/swim-adsb/blob/master/) |  
 
 
 ### Implementation Views
@@ -153,7 +153,7 @@ The previous deployment diagram has been instantiated with a particular choice o
 
  
 **Verification Method:** Configuration Inspection  
-**Verification Description:** The HTTP Reason Phrase of each possible response of the Subscription Management API is documented in its [OpenAPI Specification](https://bitbucket.org/antavelos-eurocontrol/subscription-manager/src/master/subscription_manager/openapi.yml).
+**Verification Description:** The HTTP Reason Phrase of each possible response of the Subscription Management API is documented in its [OpenAPI Specification](https://github.com/eurocontrol-swim/subscription-manager/blob/master/subscription_manager/openapi.yml).
 Sample code snippet:
 ```
         '200':
@@ -176,7 +176,7 @@ Sample code snippet:
 ###### App Layer
 
 **Verification Method:** Configuration Inspection  
-**Verification Description:** The HTTP Status Code of each possible response of the Subscription Management API is document in its [OpenAPI Specification](https://bitbucket.org/antavelos-eurocontrol/subscription-manager/src/master/subscription_manager/openapi.yml).
+**Verification Description:** The HTTP Status Code of each possible response of the Subscription Management API is document in its [OpenAPI Specification](https://github.com/eurocontrol-swim/subscription-manager/blob/master/subscription_manager/openapi.yml).
 
 Sample code snippet:
 ```
@@ -210,7 +210,7 @@ server {
   ssl_certificate     /etc/nginx/ssl/server_certificate.pem;
   ssl_certificate_key /etc/nginx/ssl/server_key.pem;
 ```
-Which can be found in the [nginx.conf](https://bitbucket.org/antavelos-eurocontrol/deploy/src/master/services/web_server/nginx/conf.d/nginx.conf) configuration file.
+Which can be found in the [nginx.conf](https://github.com/eurocontrol-swim/deploy/blob/master/services/web_server/nginx/conf.d/nginx.conf) configuration file.
 
 
 ###### App Layer
@@ -218,7 +218,7 @@ Which can be found in the [nginx.conf](https://bitbucket.org/antavelos-eurocontr
 
 
 **Verification Method:** Configuration Inspection  
-**Verification Description:** The Subscription Management API authenticates users with HTTP Basic Username/Password as detailed in its [OpenAPI Specification](https://bitbucket.org/antavelos-eurocontrol/subscription-manager/src/master/subscription_manager/openapi.yml).  
+**Verification Description:** The Subscription Management API authenticates users with HTTP Basic Username/Password as detailed in its [OpenAPI Specification](https://github.com/eurocontrol-swim/subscription-manager/blob/master/subscription_manager/openapi.yml).  
 
 Code snippet:
 ```
@@ -277,7 +277,7 @@ security:
 
 
 **Verification Method:** Configuration Inspection  
-**Verification Description:** The HTTP Content-Type of each possible response of the Subscription Management API is document in its [OpenAPI Specification](https://bitbucket.org/antavelos-eurocontrol/subscription-manager/src/master/subscription_manager/openapi.yml).  
+**Verification Description:** The HTTP Content-Type of each possible response of the Subscription Management API is document in its [OpenAPI Specification](https://github.com/eurocontrol-swim/subscription-manager/blob/master/subscription_manager/openapi.yml).  
 
 Sample code snippet:
 ```
@@ -314,7 +314,7 @@ Sample code snippet:
 
 
 **Verification Method:** Configuration Inspection  
-**Verification Description:** The Web Server is configured to use HTTP 1\.1 over TLS \(named SSL for legacy reasons\)\. Furthermore, non\-protected traffic \(HTTP\) is redirected to protected traffic \(HTTPS\)\. The following snippet shows the relevant parts of the [configuration file](https://bitbucket.org/antavelos-eurocontrol/deploy/src/master/services/web_server/nginx/conf.d/nginx.conf):
+**Verification Description:** The Web Server is configured to use HTTP 1\.1 over TLS \(named SSL for legacy reasons\)\. Furthermore, non\-protected traffic \(HTTP\) is redirected to protected traffic \(HTTPS\)\. The following snippet shows the relevant parts of the [configuration file](https://github.com/eurocontrol-swim/deploy/blob/master/services/web_server/nginx/conf.d/nginx.conf):
 
 ```
 # redirect all http traffic to https
@@ -349,7 +349,7 @@ server {
 
 
 **Verification Method:** Configuration Inspection  
-**Verification Description:** Nginx answers with the highest version of HTTP supported\. The server is configured to **not** use HTTP 2\.0, which results in HTTP 1\.1 being the highest version\. The following snippet shows the relevant parts of the [configuration file](https://bitbucket.org/antavelos-eurocontrol/deploy/src/master/services/web_server/nginx/conf.d/nginx.conf):
+**Verification Description:** Nginx answers with the highest version of HTTP supported\. The server is configured to **not** use HTTP 2\.0, which results in HTTP 1\.1 being the highest version\. The following snippet shows the relevant parts of the [configuration file](https://github.com/eurocontrol-swim/deploy/blob/master/services/web_server/nginx/conf.d/nginx.conf):
 
 ```
 # redirect all http traffic to https
@@ -386,7 +386,7 @@ server {
 
 
 **Verification Method:** Configuration Inspection  
-**Verification Description:** The Web Server is configured to disable other versions of TLS or SSL that are not TLS1\.2\. The following snippet shows the relevant parts of the [configuration file](https://bitbucket.org/antavelos-eurocontrol/deploy/src/master/services/web_server/nginx/conf.d/nginx.conf):
+**Verification Description:** The Web Server is configured to disable other versions of TLS or SSL that are not TLS1\.2\. The following snippet shows the relevant parts of the [configuration file](https://github.com/eurocontrol-swim/deploy/blob/master/services/web_server/nginx/conf.d/nginx.conf):
 
 ```
   # disable SSLv3, TLS 1.0 and TLS 1.1
@@ -460,7 +460,7 @@ server {
 
 **Verification Method:** Configuration Inspection  
 **Verification Description:** 
-+ TLS Server Authentication: To enable TLS server authentication the server must be configured with a X\.509 certificate and private key and the certificate of the Root CA\. This is done in the configuration file [rabbitmq\.conf](https://bitbucket.org/antavelos-eurocontrol/deploy/src/master/services/broker/rabbitmq/rabbitmq.conf
++ TLS Server Authentication: To enable TLS server authentication the server must be configured with a X\.509 certificate and private key and the certificate of the Root CA\. This is done in the configuration file [rabbitmq\.conf](https://github.com/eurocontrol-swim/deploy/blob/master/services/broker/rabbitmq/rabbitmq.conf
 ), as shown in the following configuration snippet: 
 ```
 ssl_options.verify               = verify_peer
@@ -470,7 +470,7 @@ ssl_options.certfile             = /certs/server_certificate.pem
 ssl_options.keyfile              = /certs/server_key.pem
 ```
 
-+ TLS Mutual Authentication: To use TLS mutual authentication we have to allow the clients to authenticate themselves by means of a X\.509 certificate\. The following snippet from the [rabbitmq\.conf](https://bitbucket.org/antavelos-eurocontrol/deploy/src/master/services/broker/rabbitmq/rabbitmq.conf
++ TLS Mutual Authentication: To use TLS mutual authentication we have to allow the clients to authenticate themselves by means of a X\.509 certificate\. The following snippet from the [rabbitmq\.conf](https://github.com/eurocontrol-swim/deploy/blob/master/services/broker/rabbitmq/rabbitmq.conf
 ) explains how this is achieved.   
 ```
 ## The rabbitmq-auth-mechanism-ssl plugin makes it possible to
@@ -511,7 +511,7 @@ auth_mechanisms.2 = PLAIN
 
 **Verification Method:** Configuration Inspection  
 **Verification Description:** 
-+ TLS Server Authentication: To enable TLS server authentication for the clients \(SWIM ADSB and SWIM Explorer\) we must configure the root CA certificate in order to verify the public certificate presented by the server\. This is done through their [configuration](https://bitbucket.org/antavelos-eurocontrol/swim-adsb/src/master/swim_adsb/config.yml) [files](https://bitbucket.org/antavelos-eurocontrol/swim-adsb/src/master/swim_explorer/config.yml) using the cert\_db parameter:     
++ TLS Server Authentication: To enable TLS server authentication for the clients \(SWIM ADSB and SWIM Explorer\) we must configure the root CA certificate in order to verify the public certificate presented by the server\. This is done through their [configuration](https://github.com/eurocontrol-swim/swim-adsb/blob/master/swim_adsb/config.yml) [files](https://github.com/eurocontrol-swim/swim-adsb/blob/master/swim_explorer/config.yml) using the cert\_db parameter:     
 ```
 BROKER:
   host: '0.0.0.0:5671'
@@ -578,7 +578,7 @@ auth_mechanisms.2 = PLAIN
 
 
 **Verification Method:** Configuration Inspection  
-**Verification Description:** RabbitMQ accepts AMQP over TLS \(AMQPS\) connections over the standard port assigned by IANA \(5671\)\. This port can, nonetheless, be set in the configuration file [rabbitmq\.conf](https://bitbucket.org/antavelos-eurocontrol/deploy/src/master/services/broker/rabbitmq/rabbitmq.conf) as shown here:  
+**Verification Description:** RabbitMQ accepts AMQP over TLS \(AMQPS\) connections over the standard port assigned by IANA \(5671\)\. This port can, nonetheless, be set in the configuration file [rabbitmq\.conf](https://github.com/eurocontrol-swim/deploy/blob/master/services/broker/rabbitmq/rabbitmq.conf) as shown here:  
 
 ```
 listeners.ssl.default = 5671
@@ -600,7 +600,7 @@ listeners.ssl.default = 5671
 
 
 **Verification Method:** Configuration Inspection  
-**Verification Description:** RabbitMQ supports AMQP 1\.0 protocol through a plugin\. The plugin must be enabled as otherwise RabbitMQ defaults to AMQP 0\.9\.1\. Enabling this plugging is done with the rabbitmq\-plugins command line application before running the broker, as shown in the broker [Dockerfile](https://bitbucket.org/antavelos-eurocontrol/deploy/src/master/services/broker/rabbitmq/Dockerfile):  
+**Verification Description:** RabbitMQ supports AMQP 1\.0 protocol through a plugin\. The plugin must be enabled as otherwise RabbitMQ defaults to AMQP 0\.9\.1\. Enabling this plugging is done with the rabbitmq\-plugins command line application before running the broker, as shown in the broker [Dockerfile](https://github.com/eurocontrol-swim/deploy/blob/master/services/broker/rabbitmq/Dockerfile):  
 ```
 FROM rabbitmq:3-management
 
@@ -615,7 +615,7 @@ RUN rabbitmq-plugins enable --offline rabbitmq_amqp1_0 rabbitmq_auth_mechanism_s
 
 
 **Verification Method:** Configuration Inspection  
-**Verification Description:** The SWIM PubSub framework relies on Apache Qpid Proton as its AMQP 1\.0 client\. As shown in the [SWIM base Dockerfile](https://bitbucket.org/antavelos-eurocontrol/deploy/src/master/services/base/Dockerfile)
+**Verification Description:** The SWIM PubSub framework relies on Apache Qpid Proton as its AMQP 1\.0 client\. As shown in the [SWIM base Dockerfile](https://github.com/eurocontrol-swim/deploy/blob/master/services/base/Dockerfile)
 from which SWIM ADSB and SWIM Explorer are based.
 ```
 RUN apt-get install gcc g++ cmake cmake-curses-gui uuid-dev \
@@ -642,7 +642,7 @@ RUN apt-get install gcc g++ cmake cmake-curses-gui uuid-dev \
 
 
 **Verification Method:** Configuration Inspection  
-**Verification Description:** The broker is [configured](https://bitbucket.org/antavelos-eurocontrol/deploy/src/master/services/broker/rabbitmq/rabbitmq.conf) to use TLS 1\.2 as shown in the following configuration snippet:  
+**Verification Description:** The broker is [configured](https://github.com/eurocontrol-swim/deploy/blob/master/services/broker/rabbitmq/rabbitmq.conf) to use TLS 1\.2 as shown in the following configuration snippet:  
 ```
 ## Limit TLS versions to TLS 1.2
 ssl_options.versions.1 = tlsv1.2
@@ -757,7 +757,7 @@ For RabbitMQ since the direction of traffic is outbound we can protect the infra
 
 
 **Verification Method:** Configuration Inspection  
-**Verification Description:** The interface for remote management of RabbitMQ is set over HTTPS with X\.509 server authentication and User/Password authentication for the admin\. As can be seen in [rabbitmq.conf](https://bitbucket.org/antavelos-eurocontrol/deploy/src/master/services/broker/rabbitmq/rabbitmq.conf) configuration file.
+**Verification Description:** The interface for remote management of RabbitMQ is set over HTTPS with X\.509 server authentication and User/Password authentication for the admin\. As can be seen in [rabbitmq.conf](https://github.com/eurocontrol-swim/deploy/blob/master/services/broker/rabbitmq/rabbitmq.conf) configuration file.
 ```
 ## HTTPS listener settings.
 ## See https://rabbitmq.com/management.html and https://rabbitmq.com/ssl.html for details.
@@ -932,7 +932,7 @@ All additional software has been installed from the official repositories and th
 
 
 **Verification Method:** Configuration Inspection  
-**Verification Description:** RabbitMQ is [configured](https://bitbucket.org/antavelos-eurocontrol/deploy/src/master/services/broker/rabbitmq/rabbitmq.conf) to perform a strict protocol validation for AMQP 1\.0\. As shown in the following configuration snippet: 
+**Verification Description:** RabbitMQ is [configured](https://github.com/eurocontrol-swim/deploy/blob/master/services/broker/rabbitmq/rabbitmq.conf) to perform a strict protocol validation for AMQP 1\.0\. As shown in the following configuration snippet: 
 ```
 amqp1_0.protocol_strict_mode = true
 ```  
@@ -967,7 +967,7 @@ amqp1_0.protocol_strict_mode = true
 
 
 **Verification Method:** Configuration Inspection  
-**Verification Description:** NGINX is [configured](https://bitbucket.org/antavelos-eurocontrol/deploy/src/master/services/web_server/nginx/conf.d/nginx.conf) with a trusted CA, certificates presented by consumers are validated against it\. 
+**Verification Description:** NGINX is [configured](https://github.com/eurocontrol-swim/deploy/blob/master/services/web_server/nginx/conf.d/nginx.conf) with a trusted CA, certificates presented by consumers are validated against it\. 
 ```
   ssl_trusted_certificate /etc/nginx/ssl/ca_certificate.pem;
 ```
@@ -977,7 +977,7 @@ amqp1_0.protocol_strict_mode = true
 
 
 **Verification Method:** Configuration Inspection  
-**Verification Description:** RabbitMQ is [configured](https://bitbucket.org/antavelos-eurocontrol/deploy/src/master/services/broker/rabbitmq/rabbitmq.conf) with a trusted CA, certificates presented by consumers are validated against it\.
+**Verification Description:** RabbitMQ is [configured](https://github.com/eurocontrol-swim/deploy/blob/master/services/broker/rabbitmq/rabbitmq.conf) with a trusted CA, certificates presented by consumers are validated against it\.
 ```
 ssl_options.cacertfile           = /certs/ca_certificate.pem
 ```  
@@ -1015,7 +1015,7 @@ These ciphers are compliant with:
 
 
 **Verification Method:** Configuration Inspection  
-**Verification Description:** The following excerpt from the Nginx Web Server [configuration](https://bitbucket.org/antavelos-eurocontrol/deploy/src/master/services/web_server/nginx/conf.d/nginx.conf) defines the accepted cryptographic algorithms and key\-sizes:  The selection of cryptographic algorithms and key sizes has been done in accordance with NIST, ECRYPT and BSI recommendations\.  
+**Verification Description:** The following excerpt from the Nginx Web Server [configuration](https://github.com/eurocontrol-swim/deploy/blob/master/services/web_server/nginx/conf.d/nginx.conf) defines the accepted cryptographic algorithms and key\-sizes:  The selection of cryptographic algorithms and key sizes has been done in accordance with NIST, ECRYPT and BSI recommendations\.  
 ```
   # ciphers chosen for hardened security
   # Compliant with: https://www.bsi.bund.de/EN/Publications/TechnicalGuidelines/tr02102/index_htm.html
@@ -1027,7 +1027,7 @@ These ciphers are compliant with:
 
 
 **Verification Method:** Configuration Inspection  
-**Verification Description:** RabbitMQ is configured to use a restricted set of cryptographic algorithms that is compliant with the latest NIST, ECRYPT and BSI recommendations\. The following configuration snippet from [rabbitmq\.conf](https://bitbucket.org/antavelos-eurocontrol/deploy/src/master/services/broker/rabbitmq/rabbitmq.conf) shows the list of valid algorithms\.   
+**Verification Description:** RabbitMQ is configured to use a restricted set of cryptographic algorithms that is compliant with the latest NIST, ECRYPT and BSI recommendations\. The following configuration snippet from [rabbitmq\.conf](https://github.com/eurocontrol-swim/deploy/blob/master/services/broker/rabbitmq/rabbitmq.conf) shows the list of valid algorithms\.   
 ```
 # ciphers chosen for hardened security
 # Compliant with: https://www.bsi.bund.de/EN/Publications/TechnicalGuidelines/tr02102/index_htm.html
@@ -1076,7 +1076,7 @@ ssl_ecdh_curve = 'prime256v1'
 |----------|--------------|  
 |Title|Strong Passwords|  
 |Statement|The SWIM\-TI **shall** enforce strong passwords selection when using username/password authentication for its consumer credentials\.|  
-|Clarification|The SWIM\-TI can be used with Service Bindings that support Username/Password authentication\. This requirement ensures that service consumers use passwords with a minimum strength which helps prevent unauthorized access to the provided services\.   The following are recommended practices that will ensure strong passwords are selected:  \+ Require a minimum length of 8 characters or an equivalent minimum entropy \+ Allow \(as a minimum\) any ASCII character as part of the password character space \+ Check passwords against dictionary of known, common or weak passwords\.  The following are recommendations to avoid in the password ruleset as they typically result in weaker selection of passwords:  \+ Enforce character set combination rules \+ Routine password expiration \+ Knowledge\-Based Authentication or password hinting\.  References: NIST Special Publication 800\-63B "Digital Identity Guidelines, Authentication and Lifecycle Management" \- https://pages\.nist\.gov/800\-63\-3/sp800\-63b\.html Related NIST SP 800\-53 rev4 Security Control: IA\-5\(4\)\.|  
+|Clarification|The SWIM\-TI can be used with Service Bindings that support Username/Password authentication\. This requirement ensures that service consumers use passwords with a minimum strength which helps prevent unauthorized access to the provided services\.   The following are recommended practices that will ensure strong passwords are selected:  \+ Require a minimum length of 8 characters or an equivalent minimum entropy \+ Allow \(as a minimum\) any ASCII character as part of the password character space \+ Check passwords against dictionary of known, common or weak passwords\.  The following are recommendations to avoid in the password ruleset as they typically result in weaker selection of passwords:  \+ Enforce character set combination rules \+ Routine password expiration \+ Knowledge\-Based Authentication or password hinting\.  References: NIST Special Publication 800\-63B "Digital Identity Guidelines, Authentication and Lifecycle Management" \- https://pages.nist.gov/800-63-3/sp800-63b.html Related NIST SP 800\-53 rev4 Security Control: IA\-5\(4\)\.|  
 |Verification|Demonstration, Analysis|  
 
 
@@ -1300,7 +1300,7 @@ password_encryption = scram-sha-256
 
 
 **Verification Method:** Configuration Inspection  
-**Verification Description:** The application stores user passwords in a non\-recoverable manner [using](https://bitbucket.org/antavelos-eurocontrol/swim-backend/src/master/swim_backend/auth.py) PBKDF2 key\-stretching mechanism\. PBKDF2 combines the use of random salts and a large number of hashing iterations \(150000\) to provide additional protection to various brute force attacks \(e\.g\. rainbow tables\)\.   
+**Verification Description:** The application stores user passwords in a non\-recoverable manner [using](https://github.com/eurocontrol-swim/swim-backend/blob/master/swim_backend/auth.py) PBKDF2 key\-stretching mechanism\. PBKDF2 combines the use of random salts and a large number of hashing iterations \(150000\) to provide additional protection to various brute force attacks \(e\.g\. rainbow tables\)\.   
 
 
 ## Conformance Summary
