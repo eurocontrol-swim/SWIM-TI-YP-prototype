@@ -1046,8 +1046,6 @@ These ciphers are compliant with:
 + [Ecrypt II Recommendations](https://www.ecrypt.eu.org/csa/documents/D5.4-FinalAlgKeySizeProt.pdf)
 + [NIST Recommendations](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-57Pt3r1.pdf)
 
-TODO: https://blog\.dbi\-services\.com/migrating\-your\-users\-from\-md5\-to\-scram\-authentication\-in\-postgresql/
-
 
 **Verification Method:** Configuration Inspection  
 **Verification Description:** PostgreSQL is configured to use a restricted set of cryptographic algorithms that is compliant with the latest NIST, ECRYPT and BSI recommendations\. The following configuration snippet from [postgresql\.conf](https://github.com/eurocontrol-swim/deploy/blob/master/services/db/postgres/data/postgresql.conf) shows the list of valid algorithms\.   
