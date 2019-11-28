@@ -1083,7 +1083,7 @@ ssl_ecdh_curve = 'prime256v1'
 
 
 **Verification Method:** Analysis  
-**Verification Description:** << TODO >>  
+**Verification Description:** Upon invoking `swim.sh user_config` during deployment the user will be asked to set up credentials of the different users involved in the platform. The given passwords are then verified for a minimum length of 10 characters (configurable) and locally verified against a database of known [password breaches](https://haveibeenpwned.com/API/v3) using k-anonimity.
 
 
 #### Mandatory Access Control
