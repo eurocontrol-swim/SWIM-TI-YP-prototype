@@ -1288,10 +1288,13 @@ password_hashing_module = rabbit_password_hashing_sha256
 ```  
 
 **Verification Method:** Configuration Inspection  
-**Verification Description:** PostgreSQL user's passwords are stored salted and hashed using SHA256 as configured in [postgresql.conf](https://github.com/eurocontrol-swim/deploy/blob/master/services/db/postgres/data/postgresql.conf).   
+**Verification Description:** PostgreSQL user's passwords are stored salted and hashed using SHA256 as configured in [postgresql.conf](https://github.com/eurocontrol-swim/deploy/blob/master/services/db/postgres/docker-entrypoint-initdb.d/init-db.sh).   
 ```
-password_encryption = scram-sha-256
-```  
+psql -v ON_ERROR_STOP=1 <<-EOSQL
+  ALTER SYSTEM SET password_encryption = 'scram-sha-256';
+  SELECT pg_reload_conf();
+EOSQL
+```
 
 ##### App Layer
 
