@@ -1282,7 +1282,7 @@ bantime = 3600
 
 
 **Verification Method:** Configuration Inspection  
-**Verification Description:** RabbitMQ's passwords are stored salted and hashed using SHA256 as configured in [rabbitmq.conf](https://github.com/eurocontrol-swim/deploy/blob/master/services/broker/rabbitmq/rabbitmq.conf). RabbitMQ documentation details how the hashing algorithm is combined with random salts:   
+**Verification Description:** RabbitMQ's passwords are stored salted and hashed using SHA256 as configured in [rabbitmq.conf](https://github.com/eurocontrol-swim/deploy/blob/master/services/broker/rabbitmq/rabbitmq.conf). RabbitMQ [documentation](https://www.rabbitmq.com/passwords.html#computing-password-hash) details how the hashing algorithm is combined with random salts:   
 ```
 password_hashing_module = rabbit_password_hashing_sha256
 ```  
