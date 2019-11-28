@@ -685,7 +685,7 @@ ssl_options.secure_renegotiate   = true
 
 
 
-**Verification Description:** Demonstration  
+**Verification Method:** Demonstration  
 **Verification Description:** The system is configured to use the NTP protocol for time synchronisation\. Invoking the following command in the command line terminal: 
 ```
 $ systemctl status systemd-timesyncd
@@ -783,7 +783,7 @@ management.ssl.keyfile    = /certs/server_key.pem
 
 
 
-**Verification Description:** Demonstration  
+**Verification Method:** Demonstration  
 **Verification Description:** Local administrative functionality requiring password is obscured by the system’s command line interface\.  
 
 
@@ -791,7 +791,7 @@ management.ssl.keyfile    = /certs/server_key.pem
 
 
 
-**Verification Description:** Demonstration  
+**Verification Method:** Demonstration  
 **Verification Description:** RabbitMQ’s administrative functionality through its Management interface obscures password fields\.  
 
 
@@ -905,7 +905,7 @@ All additional software has been installed from the official repositories and th
 
 
 
-**Verification Description:** Not Applicable  
+**Verification Method:** Not Applicable  
 **Verification Description:** Message level cryptographic signatures are not used with any of the services provided by the TI implementation\. 
 
 
@@ -923,7 +923,7 @@ All additional software has been installed from the official repositories and th
 
 
 
-**Verification Description:** TBD 
+**Verification Method:** TBD 
 **Verification Description:** << Iptables can check invalid packets up to TCP layer\. To investigate the proper configuration and if it’s desirable to set up\. >>  
 
 
