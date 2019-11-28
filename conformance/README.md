@@ -807,7 +807,67 @@ management.ssl.keyfile    = /certs/server_key.pem
 
 ##### OS\-Virtualization Layer
 
-<< We can set all Dockerfiles to use non-root users with the maximum necessary level of permissions. >>
+**Verification Method:** Analysis
+**Verification Description:** RabbitMQ's container is [configured](https://github.com/eurocontrol-swim/deploy/blob/master/services/broker/rabbitmq/Dockerfile) to run using the `rabbitmq` user with restricted ownership and permissions as show in the following snippet.
+
+```
+USER rabbitmq
+```
+
+The resource ownership and permissions can be found in the base RabbitMQ [Dockerfile](https://github.com/docker-library/rabbitmq/blob/master/3.7/ubuntu/Dockerfile):
+
+```
+RUN set -eux; \
+	groupadd --gid 999 --system rabbitmq; \
+	useradd --uid 999 --system --home-dir "$RABBITMQ_DATA_DIR" --gid rabbitmq rabbitmq; \
+	mkdir -p "$RABBITMQ_DATA_DIR" /etc/rabbitmq /tmp/rabbitmq-ssl /var/log/rabbitmq; \
+	chown -fR rabbitmq:rabbitmq "$RABBITMQ_DATA_DIR" /etc/rabbitmq /tmp/rabbitmq-ssl /var/log/rabbitmq; \
+	chmod 777 "$RABBITMQ_DATA_DIR" /etc/rabbitmq /tmp/rabbitmq-ssl /var/log/rabbitmq; \
+```
+
+**Verification Method:** Analysis
+**Verification Description:** PostgreSQL's container is [configured](https://github.com/eurocontrol-swim/deploy/blob/master/services/db/postgres/Dockerfile) to run using the `postgres` user with restricted ownership and permissions as shown in the following snippet.
+
+```
+USER postgres
+```
+
+The resource ownership and permissions can be found in the base PostgreSQL [Dockerfile](https://github.com/docker-library/postgres/blob/master/11/Dockerfile):
+
+```
+# explicitly set user/group IDs
+RUN set -eux; \
+	groupadd -r postgres --gid=999; \
+# https://salsa.debian.org/postgresql/postgresql-common/blob/997d842ee744687d99a2b2d95c1083a2615c79e8/debian/postgresql-common.postinst#L32-35
+	useradd -r -g postgres --uid=999 --home-dir=/var/lib/postgresql --shell=/bin/bash postgres; \
+# also create the postgres user's home directory with appropriate permissions
+# see https://github.com/docker-library/postgres/issues/274
+	mkdir -p /var/lib/postgresql; \
+	chown -R postgres:postgres /var/lib/postgresql
+```
+
+**Verification Method:** Analysis
+**Verification Description:** Subscription Manager's container is [configured](https://github.com/eurocontrol-swim/subscription-manager/blob/master/Dockerfile) to run using the `swim` user with restricted ownership and permissions as shown in the following snippet.
+
+```
+RUN groupadd -r swim && useradd --no-log-init -md /home/swim -r -g swim swim
+
+RUN chown -R swim:swim /app
+
+USER swim
+```
+
+**Verification Method:** Analysis
+**Verification Description:** SWIM ADSB's container is [configured](https://github.com/eurocontrol-swim/subscription-manager/blob/master/Dockerfile) to run using the `swim` user with restricted ownership and permissions as shown in the following snippet.
+
+```
+RUN groupadd -r swim && useradd --no-log-init -md /home/swim -r -g swim swim
+
+RUN chown -R swim:swim /app
+
+USER swim
+```
+<< TODO: Add evidence for NGINX. >>
 
 
 ##### App Layer
@@ -815,7 +875,7 @@ management.ssl.keyfile    = /certs/server_key.pem
 
 
 **Verification Method:** Analysis  
-**Verification Description:** << TODO >>
+**Verification Description:** << TODO: Describe permissions and users for the different interfaces >>
 
 #### Automatic Sessions termination
 
