@@ -723,15 +723,42 @@ In particular, there is a rule imposing limits to all incoming traffic\.
 
 ##### COTS Layer
 
-\[TBD: At this layer we could try implementing some request limits:
+**Verification Method:** Configuration Inspection
+**Verification Description:** NGINX is [configured](https://github.com/eurocontrol-swim/deploy/blob/master/services/web_server/nginx/conf.d/nginx.conf) with request limitations as an overload protection mechanism for the application. The following excerpt shows how the limitation zone is defined allowing 1 request/second per IP address:
 
-For NGINX we can use request limits: [https://nginx\.org/en/docs/http/ngx\_http\_limit\_req\_module\.html](https://nginx.org/en/docs/http/ngx_http_limit_req_module.html)
+```
+limit_req_zone $binary_remote_addr zone=one:10m rate=1r/s;
+```
 
-For RabbitMQ since the direction of traffic is outbound we can protect the infrastructure from retaining too many messages in the queue:
+This limitation is applied to all endpoints of the Web Server and allows a burst of up to 5 requests as shown in the following excerpt.
 
-[https://www\.rabbitmq\.com/maxlength\.html](https://www.rabbitmq.com/maxlength.html) 
+```
+  limit_req zone=one burst=5;
+```
 
-\]
+**Verification Method:** Configuration Inspection
+**Verification Description:** RabbitMQ is [configured](https://github.com/eurocontrol-swim/deploy/blob/master/services/subscription_manager/provision/config.yml) with a maximum number messages allowed in the queues which protects the broker from memory overload.
+```
+MAX_BROKER_QUEUE_LENGTH: 100
+```
+
+This is applied as a [policy](https://www.rabbitmq.com/parameters.html) to RabbitMQ by the [Subscription Manager](https://github.com/eurocontrol-swim/subscription-manager/blob/master/provision/provision_broker.py)
+
+```
+def _apply_policies():
+    try:
+        client.create_policy(
+            name='max-queue-length',
+            pattern=".*",
+            priority=1,
+            apply_to="queues",
+            definitions={'max-length': config['MAX_BROKER_QUEUE_LENGTH']}
+        )
+        _logger.info(f"Policy 'max-queue-length' was successfully applied in RabbitMQ")
+    except APIError as e:
+        _logger.error(f'Error while applying policy to RabbitMQ: {str(e)}')
+```
+
 
 #### Encrypted Connections for Remote Administrative Access
 
