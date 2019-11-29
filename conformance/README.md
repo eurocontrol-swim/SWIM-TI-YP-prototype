@@ -723,7 +723,7 @@ In particular, there is a rule imposing limits to all incoming traffic\.
 
 ##### COTS Layer
 
-**Verification Method:** Configuration Inspection
+**Verification Method:** Configuration Inspection  
 **Verification Description:** NGINX is [configured](https://github.com/eurocontrol-swim/deploy/blob/master/services/web_server/nginx/conf.d/nginx.conf) with request limitations as an overload protection mechanism for the application. The following excerpt shows how the limitation zone is defined allowing 1 request/second per IP address:
 
 ```
@@ -736,7 +736,7 @@ This limitation is applied to all endpoints of the Web Server and allows a burst
   limit_req zone=one burst=5;
 ```
 
-**Verification Method:** Configuration Inspection
+**Verification Method:** Configuration Inspection  
 **Verification Description:** RabbitMQ is [configured](https://github.com/eurocontrol-swim/deploy/blob/master/services/subscription_manager/provision/config.yml) with a maximum number messages allowed in the queues which protects the broker from memory overload.
 ```
 MAX_BROKER_QUEUE_LENGTH: 100
