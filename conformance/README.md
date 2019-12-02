@@ -1432,7 +1432,7 @@ EOSQL
 |SWIM\-TIYP\-0053|Common Time Reference|M|YES|  
 |SWIM\-TIYP\-0054|Overload Protection|M|YES|  
 |SWIM\-TIYP\-0055|Encrypted Connections for Remote Administrative Access|M Conditional|YES|  
-|SWIM\-TIYP\-0056|Obscure Password Typing|M||  
+|SWIM\-TIYP\-0056|Obscure Password Typing|M|YES|  
 |SWIM\-TIYP\-0057|Least Privileged Principle Access|M|YES|  
 |SWIM\-TIYP\-0058|Automatic Sessions termination|M||  
 |SWIM\-TIYP\-0059|Trusted Software|M|YES|  
