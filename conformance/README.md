@@ -834,7 +834,7 @@ management.ssl.keyfile    = /certs/server_key.pem
 
 ##### OS\-Virtualization Layer
 
-**Verification Method:** Analysis
+**Verification Method:** Analysis  
 **Verification Description:** RabbitMQ's container is [configured](https://github.com/eurocontrol-swim/deploy/blob/master/services/broker/rabbitmq/Dockerfile) to run using the `rabbitmq` user with restricted ownership and permissions as show in the following snippet.
 
 ```
@@ -852,7 +852,7 @@ RUN set -eux; \
 	chmod 777 "$RABBITMQ_DATA_DIR" /etc/rabbitmq /tmp/rabbitmq-ssl /var/log/rabbitmq; \
 ```
 
-**Verification Method:** Analysis
+**Verification Method:** Analysis  
 **Verification Description:** PostgreSQL's container is [configured](https://github.com/eurocontrol-swim/deploy/blob/master/services/db/postgres/Dockerfile) to run using the `postgres` user with restricted ownership and permissions as shown in the following snippet.
 
 ```
@@ -873,7 +873,7 @@ RUN set -eux; \
 	chown -R postgres:postgres /var/lib/postgresql
 ```
 
-**Verification Method:** Analysis
+**Verification Method:** Analysis  
 **Verification Description:** Subscription Manager's container is [configured](https://github.com/eurocontrol-swim/subscription-manager/blob/master/Dockerfile) to run using the `swim` user with restricted ownership and permissions as shown in the following snippet.
 
 ```
@@ -884,7 +884,7 @@ RUN chown -R swim:swim /app
 USER swim
 ```
 
-**Verification Method:** Analysis
+**Verification Method:** Analysis  
 **Verification Description:** SWIM ADSB's container is [configured](https://github.com/eurocontrol-swim/subscription-manager/blob/master/Dockerfile) to run using the `swim` user with restricted ownership and permissions as shown in the following snippet.
 
 ```
@@ -1010,7 +1010,7 @@ All additional software has been installed from the official repositories and th
 
 
 
-**Verification Method:** TBD 
+**Verification Method:** TBD  
 **Verification Description:** << Iptables can check invalid packets up to TCP layer\. To investigate the proper configuration and if it’s desirable to set up\. >>  
 
 
