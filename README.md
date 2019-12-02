@@ -1,4 +1,4 @@
-# SWIM deployment
+# SWIM-TI Yellow Profile Prototype
 
 ## Overview
 This document describes the procedure to get up and running a SWIM-TI demo platform which enables external client systems to 
