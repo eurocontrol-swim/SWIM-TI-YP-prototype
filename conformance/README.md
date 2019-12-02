@@ -1445,7 +1445,7 @@ EOSQL
 |SWIM\-TIYP\-0066|Strong Passwords|M Conditional|YES|  
 |SWIM\-TIYP\-0067|Mandatory Access Control|M|YES|  
 |SWIM\-TIYP\-0068|Detection of Failed Authentication Requests|M|YES|  
-|SWIM\-TIYP\-0069|Access Control Restriction|M||  
+|SWIM\-TIYP\-0069|Access Control Restriction|M|YES|  
 |SWIM\-TIYP\-0070|Satisfactory Authorization|M Conditional|YES|  
 |SWIM\-TIYP\-0071|Cryptographic Key Life\-cycle Management|R|NO|  
 |SWIM\-TIYP\-0072|Inactive Session Termination|M||  
