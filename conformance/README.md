@@ -1070,6 +1070,14 @@ ssl_options.cacertfile           = /certs/ca_certificate.pem
 ```  
 
 
+**Verification Method:** Configuration Inspection  
+**Verification Description:** PostgreSQL is [configured](https://github.com/eurocontrol-swim/deploy/blob/master/services/db/postgres/data/postgresql.conf) with a trusted CA, certificates presented by consumers are validated against it\.
+```
+ssl = on
+ssl_ca_file = '/var/lib/postgresql/secrets/ca_certificate.pem'
+```
+
+
 #### Cryptographic Algorithms
 
 |Identifier|SWIM\-TIYP\-0065|  
