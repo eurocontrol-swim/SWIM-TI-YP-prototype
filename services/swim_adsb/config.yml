@@ -35,7 +35,7 @@ BROKER:
   cert_key: "/secrets/broker/client/client_key.pem"
 
 SUBSCRIPTION-MANAGER:
-  host: "nginx"
+  host: "nginx:8443"
   https: true
   timeout: 30
   verify: "/secrets/web_server/ca_certificate.pem"

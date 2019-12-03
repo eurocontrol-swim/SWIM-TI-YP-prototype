@@ -32,7 +32,7 @@ BROKER:
   sasl_password: ${SWIM_EXPLORER_BROKER_PASS}
 
 SUBSCRIPTION-MANAGER:
-  host: "nginx"
+  host: "nginx:8443"
   https: true
   timeout: 30
   verify: "/secrets/web_server/ca_certificate.pem"
