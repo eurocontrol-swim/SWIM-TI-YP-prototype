@@ -907,7 +907,6 @@ RUN chown -R swim:swim /app
 
 USER swim
 ```
-<< TODO: Add evidence for NGINX. >>
 
 
 ##### App Layer
