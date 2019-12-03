@@ -12,13 +12,13 @@ More specifically, the main services involved are:
 
 - **Subscription Manager**: is the core of the whole system wrapping up the broker where the data flows through by managing its topics 
 to be published and its queues to consume from. It is supposed to be broker agnostic and for this demo [RabbitMQ](https://www.rabbitmq.com/)
-is used as a broker. Moreover it stores topics' and subscriptions' metadata in a [PostgreSQL](https://www.postgresql.org/) 
+is used as a broker. Moreover it stores topics' and subscriptions' metadata in a [PostgreSQL](https://www.postgresql.org/)
 database and it exposes a REST API based on the [OpenAPI](https://www.openapis.org/) specifications.
 - **SWIM ADSB** is the `producer` implementation which publishes real time air traffic data of arrivals and departures to specific airports.
-- **SWIM Explorer** is the `client` implementation which subscribes to arrival or departure topics and displays the air traffic in real time
+- **SWIM Explorer** is the `consumer` implementation which subscribes to arrival or departure topics and displays the air traffic in real time
 on a map.
 
-> Both SWIM ADSB and SWIM Explorer make use of the [SWIM PubSub](https://bitbucket.org/antavelos-eurocontrol/swim-pubsub/src/master/) 
+> Both SWIM ADSB and SWIM Explorer make use of the [SWIM PubSub](https://github.com/eurocontrol-swim/swim-pubsub)
 mini framework which allows them to speak to the Subscription Manager as well as the broker.
 
 The platform is designed with a microservices approach and is run with [docker](https://docker.com).
