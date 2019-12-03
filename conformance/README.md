@@ -835,6 +835,19 @@ management.ssl.keyfile    = /certs/server_key.pem
 ##### OS\-Virtualization Layer
 
 **Verification Method:** Analysis  
+**Verification Description:** NGINX container is [configured](https://github.com/eurocontrol-swim/SWIM-TI-YP-prototype/blob/master/services/web_server/nginx/Dockerfile) to run using the `www-data` user with restricted ownership and permissions as shown in the following snippet.
+
+```dockerfile
+RUN chown -R www-data:www-data /etc/nginx/ssl
+
+RUN touch /var/run/nginx.pid && \
+  chown -R www-data:www-data /var/run/nginx.pid && \
+  chown -R www-data:www-data /var/cache/nginx
+
+USER www-data
+```
+
+**Verification Method:** Analysis  
 **Verification Description:** RabbitMQ's container is [configured](https://github.com/eurocontrol-swim/deploy/blob/master/services/broker/rabbitmq/Dockerfile) to run using the `rabbitmq` user with restricted ownership and permissions as show in the following snippet.
 
 ```
