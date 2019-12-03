@@ -155,7 +155,7 @@ The previous deployment diagram has been instantiated with a particular choice o
 **Verification Method:** Configuration Inspection  
 **Verification Description:** The HTTP Reason Phrase of each possible response of the Subscription Management API is documented in its [OpenAPI Specification](https://github.com/eurocontrol-swim/subscription-manager/blob/master/subscription_manager/openapi.yml).
 Sample code snippet:
-```
+```yaml
         '200':
           description: the user is authenticated
         '401':
@@ -179,7 +179,7 @@ Sample code snippet:
 **Verification Description:** The HTTP Status Code of each possible response of the Subscription Management API is document in its [OpenAPI Specification](https://github.com/eurocontrol-swim/subscription-manager/blob/master/subscription_manager/openapi.yml).
 
 Sample code snippet:
-```
+```yaml
         '200':
           description: the user is authenticated
         '401':
@@ -201,7 +201,7 @@ Sample code snippet:
 
 **Verification Method:** Configuration Inspection  
 **Verification Description:** The Web Server is configured to provide Server Authentication with X\.509 certificates as shown in the following configuration snippet\.   
-```
+```nginx
 server {
   listen 443 ssl;
   listen [::]:443 ssl;
@@ -221,7 +221,7 @@ Which can be found in the [nginx.conf](https://github.com/eurocontrol-swim/deplo
 **Verification Description:** The Subscription Management API authenticates users with HTTP Basic Username/Password as detailed in its [OpenAPI Specification](https://github.com/eurocontrol-swim/subscription-manager/blob/master/subscription_manager/openapi.yml).  
 
 Code snippet:
-```
+```yaml
 security:
   - basicAuth: []
 ```
@@ -280,7 +280,7 @@ security:
 **Verification Description:** The HTTP Content-Type of each possible response of the Subscription Management API is document in its [OpenAPI Specification](https://github.com/eurocontrol-swim/subscription-manager/blob/master/subscription_manager/openapi.yml).  
 
 Sample code snippet:
-```
+```yaml
   /topics/own:
     get:
       tags:
@@ -316,7 +316,7 @@ Sample code snippet:
 **Verification Method:** Configuration Inspection  
 **Verification Description:** The Web Server is configured to use HTTP 1\.1 over TLS \(named SSL for legacy reasons\)\. Furthermore, non\-protected traffic \(HTTP\) is redirected to protected traffic \(HTTPS\)\. The following snippet shows the relevant parts of the [configuration file](https://github.com/eurocontrol-swim/deploy/blob/master/services/web_server/nginx/conf.d/nginx.conf):
 
-```
+```nginx
 # redirect all http traffic to https
 server {
   listen 80 default_server;
@@ -351,7 +351,7 @@ server {
 **Verification Method:** Configuration Inspection  
 **Verification Description:** Nginx answers with the highest version of HTTP supported\. The server is configured to **not** use HTTP 2\.0, which results in HTTP 1\.1 being the highest version\. The following snippet shows the relevant parts of the [configuration file](https://github.com/eurocontrol-swim/deploy/blob/master/services/web_server/nginx/conf.d/nginx.conf):
 
-```
+```nginx
 # redirect all http traffic to https
 server {
   listen 80 default_server;
@@ -388,7 +388,7 @@ server {
 **Verification Method:** Configuration Inspection  
 **Verification Description:** The Web Server is configured to disable other versions of TLS or SSL that are not TLS1\.2\. The following snippet shows the relevant parts of the [configuration file](https://github.com/eurocontrol-swim/deploy/blob/master/services/web_server/nginx/conf.d/nginx.conf):
 
-```
+```nginx
   # disable SSLv3, TLS 1.0 and TLS 1.1
   ssl_protocols TLSv1.2;
 ```  
@@ -431,7 +431,7 @@ server {
 **Verification Method:** Configuration Inspection  
 **Verification Description:** The SWIM ADSB produces AMQP 1\.0 messages and sets the appropriate content\-type for the message\. The following snippet shows how this is done:
 
-```
+```python
     def departures_handler(self, airport: str, topic_group_data: Optional[Dict[str, StateVector]] = None) -> Message:
         """
         Is the callback that will be used to the departure related topics
@@ -462,7 +462,7 @@ server {
 **Verification Description:** 
 + TLS Server Authentication: To enable TLS server authentication the server must be configured with a X\.509 certificate and private key and the certificate of the Root CA\. This is done in the configuration file [rabbitmq\.conf](https://github.com/eurocontrol-swim/deploy/blob/master/services/broker/rabbitmq/rabbitmq.conf
 ), as shown in the following configuration snippet: 
-```
+```properties
 ssl_options.verify               = verify_peer
 ssl_options.fail_if_no_peer_cert = false
 ssl_options.cacertfile           = /certs/ca_certificate.pem
@@ -472,7 +472,7 @@ ssl_options.keyfile              = /certs/server_key.pem
 
 + TLS Mutual Authentication: To use TLS mutual authentication we have to allow the clients to authenticate themselves by means of a X\.509 certificate\. The following snippet from the [rabbitmq\.conf](https://github.com/eurocontrol-swim/deploy/blob/master/services/broker/rabbitmq/rabbitmq.conf
 ) explains how this is achieved.   
-```
+```properties
 ## The rabbitmq-auth-mechanism-ssl plugin makes it possible to
 ## authenticate a user based on the client's x509 (TLS) certificate.
 ## Related doc guide: https://rabbitmq.com/authentication.html.
@@ -491,7 +491,7 @@ RUN rabbitmq-plugins enable --offline rabbitmq_amqp1_0 rabbitmq_auth_mechanism_s
 ```
 
 + SASL Plain: The broker accepts connections using SASL Plain mode \(User/password authentication\)\.    
-```
+```properties
 ## The rabbitmq-auth-mechanism-ssl plugin makes it possible to
 ## authenticate a user based on the client's x509 (TLS) certificate.
 ## Related doc guide: https://rabbitmq.com/authentication.html.
@@ -512,7 +512,7 @@ auth_mechanisms.2 = PLAIN
 **Verification Method:** Configuration Inspection  
 **Verification Description:** 
 + TLS Server Authentication: To enable TLS server authentication for the clients \(SWIM ADSB and SWIM Explorer\) we must configure the root CA certificate in order to verify the public certificate presented by the server\. This is done through their [configuration](https://github.com/eurocontrol-swim/swim-adsb/blob/master/swim_adsb/config.yml) [files](https://github.com/eurocontrol-swim/swim-adsb/blob/master/swim_explorer/config.yml) using the cert\_db parameter:     
-```
+```yaml
 BROKER:
   host: '0.0.0.0:5671'
   cert_db: '/secrets/rabbitmq/ca_certificate.pem'
@@ -541,7 +541,7 @@ BROKER:
 
 **Verification Method:** Configuration Inspection  
 **Verification Description:** The broker accepts connections using SASL Plain mode \(User/password authentication\)\.    
-```
+```properties
 ## The rabbitmq-auth-mechanism-ssl plugin makes it possible to
 ## authenticate a user based on the client's x509 (TLS) certificate.
 ## Related doc guide: https://rabbitmq.com/authentication.html.
@@ -580,7 +580,7 @@ auth_mechanisms.2 = PLAIN
 **Verification Method:** Configuration Inspection  
 **Verification Description:** RabbitMQ accepts AMQP over TLS \(AMQPS\) connections over the standard port assigned by IANA \(5671\)\. This port can, nonetheless, be set in the configuration file [rabbitmq\.conf](https://github.com/eurocontrol-swim/deploy/blob/master/services/broker/rabbitmq/rabbitmq.conf) as shown here:  
 
-```
+```properties
 listeners.ssl.default = 5671
 ``` 
 
@@ -601,7 +601,7 @@ listeners.ssl.default = 5671
 
 **Verification Method:** Configuration Inspection  
 **Verification Description:** RabbitMQ supports AMQP 1\.0 protocol through a plugin\. The plugin must be enabled as otherwise RabbitMQ defaults to AMQP 0\.9\.1\. Enabling this plugging is done with the rabbitmq\-plugins command line application before running the broker, as shown in the broker [Dockerfile](https://github.com/eurocontrol-swim/deploy/blob/master/services/broker/rabbitmq/Dockerfile):  
-```
+```dockerfile
 FROM rabbitmq:3-management
 
 RUN apt-get update && apt-get install -y curl
@@ -617,7 +617,7 @@ RUN rabbitmq-plugins enable --offline rabbitmq_amqp1_0 rabbitmq_auth_mechanism_s
 **Verification Method:** Configuration Inspection  
 **Verification Description:** The SWIM PubSub framework relies on Apache Qpid Proton as its AMQP 1\.0 client\. As shown in the [SWIM base Dockerfile](https://github.com/eurocontrol-swim/deploy/blob/master/services/base/Dockerfile)
 from which SWIM ADSB and SWIM Explorer are based.
-```
+```dockerfile
 RUN apt-get install gcc g++ cmake cmake-curses-gui uuid-dev \
     libssl-dev libsasl2-2 libsasl2-dev libsasl2-modules swig \
     python3 python3-dev python3-pip ruby-dev python3-qpid-proton \
@@ -643,12 +643,12 @@ RUN apt-get install gcc g++ cmake cmake-curses-gui uuid-dev \
 
 **Verification Method:** Configuration Inspection  
 **Verification Description:** The broker is [configured](https://github.com/eurocontrol-swim/deploy/blob/master/services/broker/rabbitmq/rabbitmq.conf) to use TLS 1\.2 as shown in the following configuration snippet:  
-```
+```properties
 ## Limit TLS versions to TLS 1.2
 ssl_options.versions.1 = tlsv1.2
 ```
 Furthermore some strict controls to the TLS negotiation are applied:  
-```
+```properties
 ssl_options.honor_cipher_order   = true
 ssl_options.honor_ecc_order      = true
 ssl_options.client_renegotiation = false
@@ -712,7 +712,7 @@ Which shows the SWIM\-TI YP is synchronized via NTP with a Stratum 2 server\.
 
 **Verification Method:** Configuration Inspection  
 **Verification Description:** The system is configured with a software firewall with rate limiting rules\. The status of the firewall as well as the applied rules can be obtained with the following command: 
-```
+```shell script
 $ sudo ufw status verbose
 ```
 Which produces the following output on the implementation environment:  
@@ -726,25 +726,25 @@ In particular, there is a rule imposing limits to all incoming traffic\.
 **Verification Method:** Configuration Inspection  
 **Verification Description:** NGINX is [configured](https://github.com/eurocontrol-swim/deploy/blob/master/services/web_server/nginx/conf.d/nginx.conf) with request limitations as an overload protection mechanism for the application. The following excerpt shows how the limitation zone is defined allowing 1 request/second per IP address:
 
-```
+```nginx
 limit_req_zone $binary_remote_addr zone=one:10m rate=1r/s;
 ```
 
 This limitation is applied to all endpoints of the Web Server and allows a burst of up to 5 requests as shown in the following excerpt.
 
-```
+```nginx
   limit_req zone=one burst=5;
 ```
 
 **Verification Method:** Configuration Inspection  
 **Verification Description:** RabbitMQ is [configured](https://github.com/eurocontrol-swim/deploy/blob/master/services/subscription_manager/provision/config.yml) with a maximum number messages allowed in the queues which protects the broker from memory overload.
-```
+```yaml
 MAX_BROKER_QUEUE_LENGTH: 100
 ```
 
 This is applied as a [policy](https://www.rabbitmq.com/parameters.html) to RabbitMQ by the [Subscription Manager](https://github.com/eurocontrol-swim/subscription-manager/blob/master/provision/provision_broker.py)
 
-```
+```python
 def _apply_policies():
     try:
         client.create_policy(
@@ -785,7 +785,7 @@ def _apply_policies():
 
 **Verification Method:** Configuration Inspection  
 **Verification Description:** The interface for remote management of RabbitMQ is set over HTTPS with X\.509 server authentication and User/Password authentication for the admin\. As can be seen in [rabbitmq.conf](https://github.com/eurocontrol-swim/deploy/blob/master/services/broker/rabbitmq/rabbitmq.conf) configuration file.
-```
+```properties
 ## HTTPS listener settings.
 ## See https://rabbitmq.com/management.html and https://rabbitmq.com/ssl.html for details.
 ##
@@ -850,13 +850,13 @@ USER www-data
 **Verification Method:** Analysis  
 **Verification Description:** RabbitMQ's container is [configured](https://github.com/eurocontrol-swim/deploy/blob/master/services/broker/rabbitmq/Dockerfile) to run using the `rabbitmq` user with restricted ownership and permissions as show in the following snippet.
 
-```
+```dockerfile
 USER rabbitmq
 ```
 
 The resource ownership and permissions can be found in the base RabbitMQ [Dockerfile](https://github.com/docker-library/rabbitmq/blob/master/3.7/ubuntu/Dockerfile):
 
-```
+```dockerfile
 RUN set -eux; \
 	groupadd --gid 999 --system rabbitmq; \
 	useradd --uid 999 --system --home-dir "$RABBITMQ_DATA_DIR" --gid rabbitmq rabbitmq; \
@@ -868,13 +868,13 @@ RUN set -eux; \
 **Verification Method:** Analysis  
 **Verification Description:** PostgreSQL's container is [configured](https://github.com/eurocontrol-swim/deploy/blob/master/services/db/postgres/Dockerfile) to run using the `postgres` user with restricted ownership and permissions as shown in the following snippet.
 
-```
+```dockerfile
 USER postgres
 ```
 
 The resource ownership and permissions can be found in the base PostgreSQL [Dockerfile](https://github.com/docker-library/postgres/blob/master/11/Dockerfile):
 
-```
+```dockerfile
 # explicitly set user/group IDs
 RUN set -eux; \
 	groupadd -r postgres --gid=999; \
@@ -889,7 +889,7 @@ RUN set -eux; \
 **Verification Method:** Analysis  
 **Verification Description:** Subscription Manager's container is [configured](https://github.com/eurocontrol-swim/subscription-manager/blob/master/Dockerfile) to run using the `swim` user with restricted ownership and permissions as shown in the following snippet.
 
-```
+```dockerfile
 RUN groupadd -r swim && useradd --no-log-init -md /home/swim -r -g swim swim
 
 RUN chown -R swim:swim /app
@@ -900,7 +900,7 @@ USER swim
 **Verification Method:** Analysis  
 **Verification Description:** SWIM ADSB's container is [configured](https://github.com/eurocontrol-swim/subscription-manager/blob/master/Dockerfile) to run using the `swim` user with restricted ownership and permissions as shown in the following snippet.
 
-```
+```dockerfile
 RUN groupadd -r swim && useradd --no-log-init -md /home/swim -r -g swim swim
 
 RUN chown -R swim:swim /app
@@ -914,7 +914,7 @@ USER swim
 
 
 **Verification Method:** Analysis  
-**Verification Description:** << TODO: Describe permissions and users for the different interfaces >>
+**Verification Description:** The users of the subscription interface have permissions to manage their own resources
 
 #### Automatic Sessions termination
 
@@ -1032,7 +1032,7 @@ All additional software has been installed from the official repositories and th
 
 **Verification Method:** Configuration Inspection  
 **Verification Description:** RabbitMQ is [configured](https://github.com/eurocontrol-swim/deploy/blob/master/services/broker/rabbitmq/rabbitmq.conf) to perform a strict protocol validation for AMQP 1\.0\. As shown in the following configuration snippet: 
-```
+```properties
 amqp1_0.protocol_strict_mode = true
 ```  
 
@@ -1067,7 +1067,7 @@ amqp1_0.protocol_strict_mode = true
 
 **Verification Method:** Configuration Inspection  
 **Verification Description:** NGINX is [configured](https://github.com/eurocontrol-swim/deploy/blob/master/services/web_server/nginx/conf.d/nginx.conf) with a trusted CA, certificates presented by consumers are validated against it\. 
-```
+```nginx
   ssl_trusted_certificate /etc/nginx/ssl/ca_certificate.pem;
 ```
   
@@ -1077,7 +1077,7 @@ amqp1_0.protocol_strict_mode = true
 
 **Verification Method:** Configuration Inspection  
 **Verification Description:** RabbitMQ is [configured](https://github.com/eurocontrol-swim/deploy/blob/master/services/broker/rabbitmq/rabbitmq.conf) with a trusted CA, certificates presented by consumers are validated against it\.
-```
+```properties
 ssl_options.cacertfile           = /certs/ca_certificate.pem
 ```  
 
@@ -1123,7 +1123,7 @@ These ciphers are compliant with:
 
 **Verification Method:** Configuration Inspection  
 **Verification Description:** The following excerpt from the Nginx Web Server [configuration](https://github.com/eurocontrol-swim/deploy/blob/master/services/web_server/nginx/conf.d/nginx.conf) defines the accepted cryptographic algorithms and key\-sizes:  The selection of cryptographic algorithms and key sizes has been done in accordance with NIST, ECRYPT and BSI recommendations\.  
-```
+```nginx
   # ciphers chosen for hardened security
   # Compliant with: https://www.bsi.bund.de/EN/Publications/TechnicalGuidelines/tr02102/index_htm.html
   # Compliant with: https://www.ecrypt.eu.org/csa/documents/D5.4-FinalAlgKeySizeProt.pdf
@@ -1135,7 +1135,7 @@ These ciphers are compliant with:
 
 **Verification Method:** Configuration Inspection  
 **Verification Description:** RabbitMQ is configured to use a restricted set of cryptographic algorithms that is compliant with the latest NIST, ECRYPT and BSI recommendations\. The following configuration snippet from [rabbitmq\.conf](https://github.com/eurocontrol-swim/deploy/blob/master/services/broker/rabbitmq/rabbitmq.conf) shows the list of valid algorithms\.   
-```
+```properties
 # ciphers chosen for hardened security
 # Compliant with: https://www.bsi.bund.de/EN/Publications/TechnicalGuidelines/tr02102/index_htm.html
 # Compliant with: https://www.ecrypt.eu.org/csa/documents/D5.4-FinalAlgKeySizeProt.pdf
@@ -1170,7 +1170,7 @@ ssl_ecdh_curve = 'prime256v1'
 
 **Verification Method:** Configuration Inspection  
 **Verification Description:** At the App Layer passwords are stored in a non\-recoverable manner using PBKDF2 key stretching mechanism, the cryptographic algorithm chosen for the key-stretching is SHA256. As shown in the following code snippet:
-```
+```python
     HASH_METHOD = 'pbkdf2:sha256'
 ``` 
 
@@ -1286,7 +1286,7 @@ ssl_ecdh_curve = 'prime256v1'
 
 **Verification Method:** Configuration Inspection  
 **Verification Description:** The implementation environment uses Fail2ban to ban IPs that have failed a configurable number of authentication attempts\. Configuration excerpt showing the “jail” of Fail2Ban \(/etc/fail2ban/jail\.local\) for SSH failed authentications: 
-```
+```ini
 [sshd]
 enabled = true
 action = %(action_)s
@@ -1304,7 +1304,7 @@ bantime = 3600
 
 **Verification Method:** Configuration Inspection  
 **Verification Description:** The implementation environment uses Fail2ban to ban IPs that have failed a configurable number of authentication attempts\. Configuration excerpt showing the “jail” of Fail2Ban \(/etc/fail2ban/jail\.local\) for NGINX failed authentications: 
-```
+```ini
 [nginx]
 enabled = true
 action = %(action_)s
@@ -1319,7 +1319,7 @@ bantime = 3600
 
 **Verification Method:** Configuration Inspection  
 **Verification Description:** The implementation environment uses Fail2ban to ban IPs that have failed a configurable number of authentication attempts\. Configuration excerpt showing the “jail” of Fail2Ban \(/etc/fail2ban/jail\.local\) for RabbitMQ failed authentications: 
-```
+```ini
 [rabbitmq]
 enabled = true
 action = %(action_)s
@@ -1390,13 +1390,13 @@ bantime = 3600
 
 **Verification Method:** Configuration Inspection  
 **Verification Description:** RabbitMQ's passwords are stored salted and hashed using SHA256 as configured in [rabbitmq.conf](https://github.com/eurocontrol-swim/deploy/blob/master/services/broker/rabbitmq/rabbitmq.conf). RabbitMQ [documentation](https://www.rabbitmq.com/passwords.html#computing-password-hash) details how the hashing algorithm is combined with random salts:   
-```
+```properties
 password_hashing_module = rabbit_password_hashing_sha256
 ```  
 
 **Verification Method:** Configuration Inspection  
 **Verification Description:** PostgreSQL user's passwords are stored salted and hashed using SHA256 as configured in [postgresql.conf](https://github.com/eurocontrol-swim/deploy/blob/master/services/db/postgres/docker-entrypoint-initdb.d/init-db.sh).   
-```
+```shell script
 psql -v ON_ERROR_STOP=1 <<-EOSQL
   ALTER SYSTEM SET password_encryption = 'scram-sha-256';
   SELECT pg_reload_conf();
