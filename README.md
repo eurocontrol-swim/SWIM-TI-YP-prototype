@@ -163,7 +163,7 @@ ADSB:
     Paris: 'LFPG'
     Berlin: 'EDDB'
     Athens: 'LGAV'
-    Hethrow: 'EGLL'
+    Heathrow: 'EGLL'
     <my city>: 'icao code' 
   INTERVAL_IN_SEC: 5
 ```
