@@ -26,7 +26,8 @@ By introducing the aforementioned layers we can more explicitly detail where and
 Layer consisting of the physical resources \(e\.g\. computing, networking, memory, storage…\) that serve as underlying infrastructure on top of which the rest of the implementation is built\.
 
 ##### Description
-**TODO**
+
+The implementation is relatively agnostic of the platform layer and can be deployed in consumer grade hardware based on the X86-64 architecture (64 bits)\.
 
 #### Operating System Layer
 
