@@ -927,24 +927,13 @@ USER swim
 |Verification|Test, Configuration Inspection|  
 
 
-##### Operating System Layer
-
-
-
 **Verification Method:** Configuration Inspection  
-**Verification Description:** << Idle connection termination can be configured at OS layer with the TCP keep alives:   >>|  
+**Verification Description:** Remote administrative sessions are closed after a 5 minute idle time as shown in the following snippet from SSH daemon configuration file `/etc/ssh/sshd_config`:
 
-
-
-
-**Verification Method:** Configuration Inspection  
-**Verification Description:** << Idle session of ssh can be configured in /etc/ssh/sshd\_config:  >>|  
-
-
-
-
-**Verification Method:** Test  
-**Verification Description:** Automatic closing of idle connections can be tested using netcat on an open port\. Step 1: - netcat <host\_address> 22 Step 2: Verify that after an idle period of time the connection is closed\. << paste example>>|  
+```
+ClientAliveInterval 300
+ClientAliveCountMax 3
+```
 
 
 #### Trusted Software
