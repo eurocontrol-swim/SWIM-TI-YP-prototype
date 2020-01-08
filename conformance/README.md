@@ -1497,12 +1497,12 @@ EOSQL
 |SWIM\-TIYP\-0055|Encrypted Connections for Remote Administrative Access|M Conditional|YES|  
 |SWIM\-TIYP\-0056|Obscure Password Typing|M|YES|  
 |SWIM\-TIYP\-0057|Least Privileged Principle Access|M|YES|  
-|SWIM\-TIYP\-0058|Automatic Sessions termination|M||  
+|SWIM\-TIYP\-0058|Automatic Sessions termination|M|PARTIAL|  
 |SWIM\-TIYP\-0059|Trusted Software|M|YES|  
 |SWIM\-TIYP\-0060|Verification of Signed Messages Integrity|M Conditional|NO|  
-|SWIM\-TIYP\-0061|Message Protocol Validation|M||  
+|SWIM\-TIYP\-0061|Message Protocol Validation|M|PARTIAL|  
 |SWIM\-TIYP\-0062|Message Payload Validation|R|NO|  
-|SWIM\-TIYP\-0063|Retrieval of X\.509 Certificates|M||  
+|SWIM\-TIYP\-0063|Retrieval of X\.509 Certificates|M|NO|  
 |SWIM\-TIYP\-0064|Validation of X\.509 Certificates|M|YES|  
 |SWIM\-TIYP\-0065|Cryptographic Algorithms|M|YES|  
 |SWIM\-TIYP\-0066|Strong Passwords|M Conditional|YES|  
@@ -1511,7 +1511,7 @@ EOSQL
 |SWIM\-TIYP\-0069|Access Control Restriction|M|YES|  
 |SWIM\-TIYP\-0070|Satisfactory Authorization|M Conditional|YES|  
 |SWIM\-TIYP\-0071|Cryptographic Key Life\-cycle Management|R|NO|  
-|SWIM\-TIYP\-0072|Inactive Session Termination|M||  
+|SWIM\-TIYP\-0072|Inactive Session Termination|M|PARTIAL|  
 |SWIM\-TIYP\-0073|Non\-recoverable Password Storage|M|YES|  
 |SWIM\-TIYP\-0074|Security Patching|R|NO|  
 |SWIM\-TIYP\-0075|Vulnerability Assessment|O|NO|  
