@@ -820,6 +820,13 @@ def _apply_policies():
 **Verification Method:** Configuration Inspection  
 **Verification Description:** Remote administrative functionality is performed via SSH which provides end\-to\-end encryption\.  Invoking the following command in the command line terminal:
 
+```
+$ systemctl status sshd
+```
+Results in the following output in the implementation environment:  
+![](./6884fdda-ed59-48b6-87b0-d0fad9ff0637.png)
+
+Which shows that the SSH server is ready and listening on port 22.
 
 ##### COTS Layer
 
