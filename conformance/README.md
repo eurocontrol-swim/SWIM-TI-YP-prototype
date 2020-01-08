@@ -712,14 +712,56 @@ Which shows the SWIM\-TI YP is synchronized via NTP with a Stratum 2 server\.
 
 
 **Verification Method:** Configuration Inspection  
-**Verification Description:** The system is configured with a software firewall with rate limiting rules\. The status of the firewall as well as the applied rules can be obtained with the following command: 
-```shell script
-$ sudo ufw status verbose
-```
-Which produces the following output on the implementation environment:  
-![](./2a8981db-97f2-4573-99bb-25b9a0072376.png)
+**Verification Description:** The system is configured with iptables as its software firewall, a number of firewall rules are included to protect against some common types of DoS attacks\.  
 
-In particular, there is a rule imposing limits to all incoming traffic\.
+NOTE: These rules should be adapted to the specific needs of the implementation environment. They do not provide protection against sophisticated DDoS attacks which should be stopped before reaching our machine via intermediary CDN and DDoS mitigation infrastructure.
+
+```shell script
+# Source: https://serverfault.com/questions/410604/iptables-rules-to-counter-the-most-common-dos-attacks
+# Reject spoofed packets
+iptables -A INPUT -s 10.0.0.0/8 -j DROP
+iptables -A INPUT -s 169.254.0.0/16 -j DROP
+iptables -A INPUT -s 172.16.0.0/12 -j DROP
+iptables -A INPUT -i eth0 -s 127.0.0.0/8 -j DROP
+
+iptables -A INPUT -s 224.0.0.0/4 -j DROP
+iptables -A INPUT -d 224.0.0.0/4 -j DROP
+iptables -A INPUT -s 240.0.0.0/5 -j DROP
+iptables -A INPUT -d 240.0.0.0/5 -j DROP
+iptables -A INPUT -s 0.0.0.0/8 -j DROP
+iptables -A INPUT -d 0.0.0.0/8 -j DROP
+iptables -A INPUT -d 239.255.255.0/24 -j DROP
+iptables -A INPUT -d 255.255.255.255 -j DROP
+
+# Stop smurf attacks
+iptables -A INPUT -p icmp -m icmp --icmp-type address-mask-request -j DROP
+iptables -A INPUT -p icmp -m icmp --icmp-type timestamp-request -j DROP
+iptables -A INPUT -p icmp -m icmp -j DROP
+
+# Drop all invalid packets
+iptables -A INPUT -m state --state INVALID -j DROP
+iptables -A FORWARD -m state --state INVALID -j DROP
+iptables -A OUTPUT -m state --state INVALID -j DROP
+
+# Drop excessive RST packets to avoid smurf attacks
+iptables -A INPUT -p tcp -m tcp --tcp-flags RST RST -m limit --limit 2/second --limit-burst 2 -j ACCEPT
+
+# Attempt to block portscans
+# Anyone who tried to portscan us is locked out for an entire day.
+iptables -A INPUT   -m recent --name portscan --rcheck --seconds 86400 -j DROP
+iptables -A FORWARD -m recent --name portscan --rcheck --seconds 86400 -j DROP
+
+# Once the day has passed, remove them from the portscan list
+iptables -A INPUT   -m recent --name portscan --remove
+iptables -A FORWARD -m recent --name portscan --remove
+
+# These rules add scanners to the portscan list, and log the attempt.
+iptables -A INPUT   -p tcp -m tcp --dport 139 -m recent --name portscan --set -j LOG --log-prefix "Portscan:"
+iptables -A INPUT   -p tcp -m tcp --dport 139 -m recent --name portscan --set -j DROP
+
+iptables -A FORWARD -p tcp -m tcp --dport 139 -m recent --name portscan --set -j LOG --log-prefix "Portscan:"
+iptables -A FORWARD -p tcp -m tcp --dport 139 -m recent --name portscan --set -j DROP
+```
 
 
 ##### COTS Layer
@@ -776,8 +818,7 @@ def _apply_policies():
 
 
 **Verification Method:** Configuration Inspection  
-**Verification Description:** Remote administrative functionality is performed via SSH which provides end\-to\-end encryption\.  
-<<paste SSH configuration>>   
+**Verification Description:** Remote administrative functionality is performed via SSH which provides end\-to\-end encryption\.  Invoking the following command in the command line terminal:
 
 
 ##### COTS Layer
@@ -1012,9 +1053,14 @@ All additional software has been installed from the official repositories and th
 
 
 
-**Verification Method:** TBD  
-**Verification Description:** << Iptables can check invalid packets up to TCP layer\. To investigate the proper configuration and if it’s desirable to set up\. >>  
+**Verification Method:** Configuration Inspection  
+**Verification Description:** Iptables is configured to perform protocol validation and invalid packets, as shown in the following firewall rules:
 
+```shell script
+iptables -A INPUT -m state --state INVALID -j DROP
+iptables -A FORWARD -m state --state INVALID -j DROP
+iptables -A OUTPUT -m state --state INVALID -j DROP
+```
 
 ##### COTS Layer
 
