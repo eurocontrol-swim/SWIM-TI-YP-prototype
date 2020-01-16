@@ -25,3 +25,5 @@ RUN python3.7 /etc/rabbitmq/update_definitions.py /etc/rabbitmq/rabbitmq_definit
 
 # conf file
 COPY ./services/broker/rabbitmq/rabbitmq.conf /etc/rabbitmq/rabbitmq.conf
+
+USER rabbitmq

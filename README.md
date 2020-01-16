@@ -1,4 +1,4 @@
-# SWIM deployment
+# SWIM-TI Yellow Profile Prototype
 
 ## Overview
 This document describes the procedure to get up and running a SWIM-TI demo platform which enables external client systems to 
@@ -12,13 +12,13 @@ More specifically, the main services involved are:
 
 - **Subscription Manager**: is the core of the whole system wrapping up the broker where the data flows through by managing its topics 
 to be published and its queues to consume from. It is supposed to be broker agnostic and for this demo [RabbitMQ](https://www.rabbitmq.com/)
-is used as a broker. Moreover it stores topics' and subscriptions' metadata in a [PostgreSQL](https://www.postgresql.org/) 
+is used as a broker. Moreover it stores topics' and subscriptions' metadata in a [PostgreSQL](https://www.postgresql.org/)
 database and it exposes a REST API based on the [OpenAPI](https://www.openapis.org/) specifications.
 - **SWIM ADSB** is the `producer` implementation which publishes real time air traffic data of arrivals and departures to specific airports.
-- **SWIM Explorer** is the `client` implementation which subscribes to arrival or departure topics and displays the air traffic in real time
+- **SWIM Explorer** is the `consumer` implementation which subscribes to arrival or departure topics and displays the air traffic in real time
 on a map.
 
-> Both SWIM ADSB and SWIM Explorer make use of the [SWIM PubSub](https://bitbucket.org/antavelos-eurocontrol/swim-pubsub/src/master/) 
+> Both SWIM ADSB and SWIM Explorer make use of the [SWIM PubSub](https://github.com/eurocontrol-swim/swim-pubsub)
 mini framework which allows them to speak to the Subscription Manager as well as the broker.
 
 The platform is designed with a microservices approach and is run with [docker](https://docker.com).
@@ -37,18 +37,41 @@ The steps bellow will allow you to build and run the SWIM-TI demo from scratch. 
 #### Prerequisites
 Before starting, make sure the following software is installed and working on your machine:
     
+##### **Linux/Mac users**
    - [git](https://git-scm.com/downloads) which will be used to download the necessary repositories.
-> For Windows users: After installing git you need to issue the following command in CMD or Powershell in order to 
->prevent any conversion when checking out text files:
-```shell
-git config --global core.autocrlf input
-```
    - [docker](https://docs.docker.com/install/) which will be used to host and run the whole demo platform
    - [docker-compose](https://docs.docker.com/compose/install/) which will be used to orchestrate the deployment locally
    - [python](https://www.python.org/downloads/) which will be used to run python custom scripts 
 
+##### **Windows users**
+   - [Docker Toolbox on Windows](https://docs.docker.com/toolbox/toolbox_install_windows/) (which installs all the
+   required tools and runs the Docker Engine via VirtualBox)
+   - [python](https://www.python.org/downloads/) which will be used to run python custom scripts
+
+###### Post-installation
+   - Before using git commands you need to disable conversion of checked out files to Windows format:
+        ```
+        git config --global core.autocrlf input
+        ```
+   - Since Docker runs via VirtualBox, the various app/server sites involved in this demo will not be able to be accessed
+     from your host machine unless you apply some port forwarding rules. You may find instructions about how to do it
+     [here](https://www.simplified.guide/virtualbox/port-forwarding). The rules that we need are:
+
+        | Name | Host port | Guest Port |
+        |---|---|---|
+        | broker | 15671 | 15671 |
+        | https | 443 | 443 |
+        | explorer | 5000 | 5000 |
+
+
 #### Download repositories
+
+> **NOTE**: The next steps are done on a Unix-like command line interface (CLI) for all users. Linux and Mac users can
+> use any terminal application, however the Windows users will have to use the Docker CLI client that comes with Docker
+> Toolbox on Windows. This can be accessed by starting **Docker Quickstart Terminal**.
+
 First we need to clone this repository:
+
 ```shell
 git clone https://github.com/eurocontrol-swim/deploy.git
 ```
@@ -69,10 +92,11 @@ checked for robustness and if it is deemed that it is not robust enough you will
 Use the following command to provide usernames and passwords:
 
 ```shell
+cd deploy
 . ./swim.sh user_config
 ```
 
-> the leading `.` is required in order the provided usernames and passwords to be exported as environment variables in the 
+> the leading `.` before `./swim.sh user_config` is required in order the provided usernames and passwords to be exported as environment variables in the 
 > host machine
 
 
@@ -123,7 +147,7 @@ env
 
 
 ##### Application config files
-Under the apps folder you can find one folder per app containing a `config.yml` file. These are already configured but 
+Under the services folder you can find one folder per app containing a `config.yml` file. These are already configured but 
 you may want to update the airports involved in the SWIM ADSB application. The config entry looks as following and you can 
 add a new airport by choosing a name and assigning to it the corresponding ICAO code (more info [here](http://airportsbase.org/)).
 
@@ -139,7 +163,7 @@ ADSB:
     Paris: 'LFPG'
     Berlin: 'EDDB'
     Athens: 'LGAV'
-    Hethrow: 'EGLL'
+    Heathrow: 'EGLL'
     <my city>: 'icao code' 
   INTERVAL_IN_SEC: 5
 ```
@@ -149,7 +173,6 @@ For the deployment process you can use the provided `shell` script `swim.sh`. Be
 executable with the following command:
 
 ```shell
-cd deploy
 chmod +x swim.sh
 ```
 
@@ -211,7 +234,45 @@ a8ffd7d67b7d        subscription-manager   "/usr/bin/tini -- gu…"   About a mi
 645b4de022e4        postgres               "docker-entrypoint.s…"   About a minute ago   Up About a minute   0.0.0.0:5432->5432/tcp                                                    postgres
 ```
 
-Lastly, in order to tear the platform down you can do:
+### Usage
+
+#### SWIM Explorer
+As soon as the platform is up and running, you can point your browser to [http://0.0.0.0:5000](http://0.0.0.0:5000) in
+order to access SWIM Explorer and play around. You can subscribe, pause, resume or unsubscribe from topics like
+`arrivals.brussels` and see the real time position of the involved airplanes on the map. The interface will look similar
+to the below image:
+
+
+> NOTE: SWIM Explorer is supposed to be a client application, .i.e out of the scope of SWIM-TI platform. However, for
+> the purpose of this demo it comes together with the rest of the services, but it runs as a standalone web application
+> not passing through the web server.
+
+![alt text](explorer.jpg "SWIM Explorer")
+
+#### SWIM Subscription Manager
+Additionally, you may access the SWIM Subscription Manager OpenAPI specs site using the following link:
+[https://localhost/subscription-manager/api/1.0/ui/#/](https://localhost/subscription-manager/api/1.0/ui/#/). Notice
+that you may get a warning saying the the connections if not safe. This is expected as this demo uses mock certificates
+and not real ones. In there you can interact with it by observing the various transactions of topics and subscriptions
+that happen while using SWIM Explorer. You can login using the user and password you provided during the user
+configuration step earlier. The interface will look like the following image:
+
+![alt text](subscription-manager.jpg "Subscription Manager")
+
+#### RabbitMQ Management
+Lastly, you can also access the RabbitMQ management page using the following link:
+[https://localhost:15671/#/](https://localhost:15671/#/). Notice that you may get a warning saying the the connections 
+if not safe. This is expected as this demo uses mock certificates and not real ones. In there you can observe the queues
+that are created/deleted while using SWIM Explorer as well as statistics about the flow of the incoming messages. You
+can login using the user and password you provided during the user configuration step earlier. The interface will look
+similar to the following image:
+
+![alt text](broker.jpg "RabbitMQ Management")
+
+### Stopping the Platform
+
+
+In order to tear the platform down you can do:
 
 ```shell
 ./swim.sh stop
@@ -222,19 +283,8 @@ or if you also want to remove completely the involved docker containers you can 
 ./swim.sh stop --clean
 ```
 
-In case there is a change on the involved repositories you can update them and them by calling:
+In case there is a change on the involved repositories you can update them by calling:
 ```shell
 ./swim.sh stop --clean  # if SWIM is up running
 ./swim.sh build
 ```
-
-### Usage
-
-As soon as the platform is up and running, you can point your browser to [http://0.0.0.0:5000](http://0.0.0.0:5000) in order to access SWIM Explorer and play around. You can subscribe, pause, resume or unsubscribe from topics like `arrivals.brussels`
-and see the real time position of the involved aircrafts on the map.
-
-> SWIM Explorer is supposed to be a client application, .i.e out of the scope of SWIM-TI platform. However, for the purpose of 
-this demo it comes together with the rest of the services, but it runs as a standalone web application not passing through nginx.
-
-
-![alt text](explorer.jpg "Explorer")
