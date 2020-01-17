@@ -1,6 +1,6 @@
 FROM rabbitmq:3-management
 
-RUN apt-get update --fix-missing && apt-get install -y curl && apt-get install -y python 3.7
+RUN apt-get update --fix-missing && apt-get install -y curl && apt-get install -y python3.7
 
 RUN rabbitmq-plugins enable --offline rabbitmq_amqp1_0 rabbitmq_auth_mechanism_ssl
 
