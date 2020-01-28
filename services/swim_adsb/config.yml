@@ -22,9 +22,6 @@ LOGGING:
     proton:
       level: INFO
 
-    swim-pubsub:
-      level: DEBUG
-
     swim-adsb:
       level: DEBUG
 
@@ -34,11 +31,13 @@ BROKER:
   cert_file: "/secrets/broker/client/client_certificate.pem"
   cert_key: "/secrets/broker/client/client_key.pem"
 
-SUBSCRIPTION-MANAGER:
+SUBSCRIPTION-MANAGER-API:
   host: "nginx:8443"
   https: true
   timeout: 30
   verify: "/secrets/web_server/ca_certificate.pem"
+  username: ${SWIM_ADSB_SM_USER}
+  password: ${SWIM_ADSB_SM_PASS}
 
 
 ADSB:
@@ -53,5 +52,3 @@ ADSB:
   TRAFFIC_TIMESPAN_IN_DAYS: 1
 
 
-SWIM_ADSB_SM_USER: ${SWIM_ADSB_SM_USER}
-SWIM_ADSB_SM_PASS: ${SWIM_ADSB_SM_PASS}

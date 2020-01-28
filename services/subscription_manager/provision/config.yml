@@ -39,4 +39,36 @@ BROKER:
   retry: 10
 
 DB_PROVISION_RETRY: 10
-MAX_BROKER_QUEUE_LENGTH: 100
+
+DB_USERS:
+  - user: ${SM_ADMIN_USER}
+    pass: ${SM_ADMIN_PASS}
+    admin: true
+  - user: ${SWIM_ADSB_SM_USER}
+    pass: ${SWIM_ADSB_SM_PASS}
+  - user: ${SWIM_EXPLORER_SM_USER}
+    pass: ${SWIM_EXPLORER_SM_PASS}
+
+BROKER_USERS:
+  - user: ${BROKER_MGMT_USER}
+    pass: ${BROKER_MGMT_PASS}
+    permissions:
+      configure: ".*"
+      write: ".*"
+      read: ".*"
+    tags:
+      - management
+  - user: ${SWIM_EXPLORER_BROKER_USER}
+    pass: ${SWIM_EXPLORER_BROKER_PASS}
+    permissions:
+      configure: ".*"
+      write: ""
+      read: ".*"
+
+BROKER_POLICIES:
+  - name: 'max-queue-length'
+    pattern: ".*"
+    priority: 1
+    apply_to: "queues"
+    definitions:
+      max-length: 100

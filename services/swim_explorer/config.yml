@@ -31,11 +31,12 @@ BROKER:
   sasl_user: ${SWIM_EXPLORER_BROKER_USER}
   sasl_password: ${SWIM_EXPLORER_BROKER_PASS}
 
-SUBSCRIPTION-MANAGER:
+SUBSCRIPTION-MANAGER-API:
   host: "nginx:8443"
   https: true
   timeout: 30
   verify: "/secrets/web_server/ca_certificate.pem"
+  username: ${SWIM_EXPLORER_SM_USER}
+  password: ${SWIM_EXPLORER_SM_PASS}
 
-SWIM_EXPLORER_SM_USER: ${SWIM_EXPLORER_SM_USER}
-SWIM_EXPLORER_SM_PASS: ${SWIM_EXPLORER_SM_PASS}
+POLLING_INTERVAL_IN_SEC: 1
