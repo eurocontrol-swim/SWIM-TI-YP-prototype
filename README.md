@@ -18,8 +18,8 @@ database and it exposes a REST API based on the [OpenAPI](https://www.openapis.o
 - **SWIM Explorer** is the `consumer` implementation which subscribes to arrival or departure topics and displays the air traffic in real time
 on a map.
 
-> Both SWIM ADSB and SWIM Explorer make use of the [SWIM PubSub](https://github.com/eurocontrol-swim/swim-pubsub)
-mini framework which allows them to speak to the Subscription Manager as well as the broker.
+> Both SWIM ADSB and SWIM Explorer make use of the [pubsub-facades](https://github.com/eurocontrol-swim/pubsub-facades)
+library which allows them to speak to the Subscription Manager as well as the broker.
 
 The platform is designed with a microservices approach and is run with [docker](https://docker.com).
 

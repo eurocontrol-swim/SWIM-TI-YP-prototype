@@ -19,8 +19,6 @@ LOGGING:
     handlers: [console]
 
   loggers:
-    swim-pubsub:
-      level: DEBUG
 
     proton:
       level: INFO

@@ -89,7 +89,7 @@ Layer consisting of the applications part of the implementation that are a custo
 |Application Module|Rationale|Source Repository|  
 |------------------|---------|-----------------|  
 |Subscription Manager|Subscription Manager is an application that allows Consumers of the SWIM\-TI Integrator to manage their subscriptions and get information on available topics through a REST API over the WS\-Light Service Binding\.| [Subscription Manager](https://github.com/eurocontrol-swim/subscription-manager/blob/master/) |  
-|SWIM ADSB|SWIM ADSB is an application that retrieves live air traffic information from [OpenSky Network](https://opensky-network.org) and demonstrates how it can use the [SWIM-PubSub](https://github.com/eurocontrol-swim/swim-pubsub) mini framework in order to publish this information through a broker\.| [SWIM ADSB](https://github.com/eurocontrol-swim/swim-adsb/blob/master/) |  
+|SWIM ADSB|SWIM ADSB is an application that retrieves live air traffic information from [OpenSky Network](https://opensky-network.org) and demonstrates how it can use the [pubsub-facades](https://github.com/eurocontrol-swim/pubsub-facades) library in order to publish this information through a broker\.| [SWIM ADSB](https://github.com/eurocontrol-swim/swim-adsb/blob/master/) |  
 
 
 ### Implementation Views
