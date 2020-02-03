@@ -12,6 +12,7 @@ SWIM_ADSB_DIR_SRC=${SWIM_ADSB_DIR}"/src"
 SWIM_EXPLORER_DIR=${SERVICES_DIR}"/swim_explorer"
 SWIM_EXPLORER_DIR_SRC=${SWIM_EXPLORER_DIR}"/src"
 SWIM_USER_CONFIG_DIR=${SERVICES_DIR}"/swim_user_config"
+SWIM_USER_CONFIG_DIR_SRC=${SWIM_USER_CONFIG_DIR}"/src"
 
 is_windows() {
   UNAME=$(uname)
@@ -20,6 +21,12 @@ is_windows() {
 }
 
 user_config() {
+  if [[ ${1} == '1' ]]
+  then
+    P='-p'
+  else
+    P=''
+  fi
 
   echo "SWIM user configuration..."
   echo -e "=========================="
@@ -28,14 +35,14 @@ user_config() {
 
   touch "${ENV_FILE}"
 
-  python "${SWIM_USER_CONFIG_DIR}/main.py" "${SWIM_USER_CONFIG_DIR}/config.json" "${ENV_FILE}"
+  python "${SWIM_USER_CONFIG_DIR_SRC}/swim_user_config/main.py" -c "${SWIM_USER_CONFIG_DIR}/config.json" -o "${ENV_FILE}" ${P}
 
   if is_windows
   then
     "${DOS2UNIX}" -q "${ENV_FILE}"
   fi
 
-  while read LINE; do export "$LINE"; done < "${ENV_FILE}"
+  while read -r LINE; do export "${LINE}"; done < "${ENV_FILE}"
 
   rm "${ENV_FILE}"
 }
@@ -73,6 +80,18 @@ prepare_repos() {
     git clone -q https://github.com/eurocontrol-swim/swim-explorer.git "${SWIM_EXPLORER_DIR_SRC}"
   fi
   echo "OK"
+
+  echo -n "Preparing swim-user-config..."
+  if [[ -d ${SWIM_USER_CONFIG_DIR_SRC} ]]
+  then
+    cd "${SWIM_USER_CONFIG_DIR_SRC}" || exit
+    git pull -q --rebase origin master
+  else
+    git clone -q https://github.com/eurocontrol-swim/swim-user-config.git "${SWIM_USER_CONFIG_DIR_SRC}"
+  fi
+  echo "OK"
+
+  echo -e "\n"
 
   echo -e "\n"
 }
@@ -142,12 +161,6 @@ usage() {
   echo ""
 }
 
-if [[ $# -lt 1 || $# -gt 2  ]]
-then
-  usage
-  exit 0
-fi
-
 ACTION=${1}
 
 case ${ACTION} in
@@ -172,12 +185,11 @@ case ${ACTION} in
           *)
             echo -e "Invalid argument\n"
             usage
-            exit 1
             ;;
         esac
-        exit 0
+    else
+      stop_services
     fi
-    stop_services
     ;;
   provision)
     data_provision
@@ -186,7 +198,22 @@ case ${ACTION} in
     status
     ;;
   user_config)
-    user_config
+    if [[ -n ${2} ]]
+    then
+      EXTRA=${2}
+
+      case ${EXTRA} in
+          --prompt)
+            user_config 1
+            ;;
+          *)
+            echo -e "Invalid argument\n"
+            usage
+            ;;
+        esac
+    else
+      user_config 0
+    fi
     ;;
   help)
     usage
@@ -194,6 +221,5 @@ case ${ACTION} in
   *)
     echo -e "Invalid action\n"
     usage
-    exit 1
     ;;
 esac

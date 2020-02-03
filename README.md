@@ -73,7 +73,8 @@ Before starting, make sure the following software is installed and working on yo
 First we need to clone this repository:
 
 ```shell
-git clone https://github.com/eurocontrol-swim/deploy.git
+git clone https://github.com/eurocontrol-swim/SWIM-TI-YP-prototype.git
+cd SWIM-TI-YP-prototype
 ```
 
 #### Configuration
@@ -83,25 +84,52 @@ Then we have to provide the necessary configuration of the services. This involv
 - application specific configuration
 
 ##### SWIM users
-Several users are required across the SWIM platform such as users, broker users etc.
-
-   - Usernames are predefined but you can also choose your own one. 
-   - Passwords can take any character and need to be equal or longer than 10 characters. Each provided password will be 
-checked for robustness and if it is deemed that it is not robust enough you will be re-prompted to choose a different one.
-
-Use the following command to provide usernames and passwords:
-
+Several users are required across the SWIM platform such as db users, broker users etc.
+You can use the following command in order to generate them automatically:
 ```shell
-cd deploy
 . ./swim.sh user_config
 ```
 
-> the leading `.` before `./swim.sh user_config` is required in order the provided usernames and passwords to be exported as environment variables in the 
-> host machine
+> the leading `.` before `./swim.sh user_config` is required in order the provided usernames and passwords to be exported 
+> as environment variables on the host machine
+
+The output will look like:
+
+```shell
+SWIM user configuration...
+==========================
+
+Database user
+[OK]
+Subscription Manager admin user
+[OK]
+
+SWIM ADSB user for Subscription Manager
+[OK]
+
+SWIM Explorer user for Subscription Manager
+[OK]
+
+Broker admin user
+[OK]
+
+Broker Management user
+[OK]
+
+SWIM Explorer user for the broker
+[OK]
+```
 
 
-The interaction shell then will look like:
+However, you can always choose your own usernames/passwords by using the prompt option of the command:
+```shell
+. ./swim.sh user_config --prompt
+```
 
+> Passwords can take any character and need to be 10 or more characters long. Each provided password will be
+checked for robustness and if it is deemed that it is not robust enough you will be re-prompted to choose a different one.
+
+The interaction will look like:
 
 ```shell
 SWIM user configuration...
@@ -110,33 +138,41 @@ SWIM user configuration...
 Database user
  username [swim]: 
  password: 
+[OK]
 
 Subscription Manager admin user
  username [sm-admin]: 
  password: 
+[OK]
 
 SWIM ADSB user for Subscription Manager
  username [swim-adsb]: 
  password: 
 The password is not strong enough. Please try again:
  password: 
+[OK]
 
 SWIM Explorer user for Subscription Manager
  username [swim-explorer]: 
  password: 
+[OK]
 
 Broker admin user
  username [swim-broker-admin]: 
  password: 
+[OK]
 
 Broker Management user
  username [swim-broker-mgmt]: 
  password: 
+[OK]
 
 SWIM Explorer user for the broker
  username [swim-explorer-broker]: 
  password: 
+[OK]
 ```
+
 
 You can verify that the provided usernames and passwords were exported as environment variables by issuing the following
 command:
