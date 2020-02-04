@@ -136,39 +136,39 @@ SWIM user configuration...
 ==========================
 
 Database user
- username [swim]: 
+ username: swim 
  password: 
 [OK]
 
 Subscription Manager admin user
- username [sm-admin]: 
+ username: sm-admin 
  password: 
 [OK]
 
 SWIM ADSB user for Subscription Manager
- username [swim-adsb]: 
+ username: swim-adsb 
  password: 
 The password is not strong enough. Please try again:
  password: 
 [OK]
 
 SWIM Explorer user for Subscription Manager
- username [swim-explorer]: 
+ username: swim-explorer 
  password: 
 [OK]
 
 Broker admin user
- username [swim-broker-admin]: 
+ username: swim-broker-admin 
  password: 
 [OK]
 
 Broker Management user
- username [swim-broker-mgmt]: 
+ username: swim-broker-mgmt 
  password: 
 [OK]
 
 SWIM Explorer user for the broker
- username [swim-explorer-broker]: 
+ username: swim-explorer-broker 
  password: 
 [OK]
 ```
@@ -218,13 +218,14 @@ Moreover you can see the available options of this script with:
 Usage: swim.sh [COMMAND] [OPTIONS]
 
 Commands:
-    user_config     Prompts for username/password of all the swim related users
-    build           Clones/updates the necessary git repositories and builds the involved docker images
-    provision       Provisions the Subscription Manager and the broker with initial data (users)
-    start           Starts up all the SWIM services
-    stop            Stops all the services
-    stop --clean    Stops all the services and cleans up the containers
-    status          Displays the status of the running containers
+    user_config             Generates username/password for all the SWIM related users
+    user_config --prompt    Prompts for username/password for all the SWIM related users
+    build                   Clones/updates the necessary git repositories and builds the involved docker images
+    provision               Provisions the Subscription Manager with initial data (users)
+    start                   Starts up all the SWIM services
+    stop                    Stops all the services
+    stop --clean            Stops all the services and cleans up the containers
+    status                  Displays the status of the running containers
 ```
 
 In order to get the demo platform up and running we first need to download the necessary repositories and build the 

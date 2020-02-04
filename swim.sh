@@ -151,13 +151,14 @@ status() {
 usage() {
   echo -e "Usage: swim.sh [COMMAND] [OPTIONS]\n"
   echo "Commands:"
-  echo "    user_config     Prompts for username/password of all the swim related users"
-  echo "    build           Clones/updates the necessary git repositories and builds the involved docker images"
-  echo "    provision       Provisions the Subscription Manager with initial data (users)"
-  echo "    start           Starts up all the SWIM services"
-  echo "    stop            Stops all the services"
-  echo "    stop --clean    Stops all the services and cleans up the containers"
-  echo "    status          Displays the status of the running containers"
+  echo "    user_config             Generates username/password for all the SWIM related users"
+  echo "    user_config --prompt    Prompts for username/password for all the SWIM related users"
+  echo "    build                   Clones/updates the necessary git repositories and builds the involved docker images"
+  echo "    provision               Provisions the Subscription Manager with initial data (users)"
+  echo "    start                   Starts up all the SWIM services"
+  echo "    stop                    Stops all the services"
+  echo "    stop --clean            Stops all the services and cleans up the containers"
+  echo "    status                  Displays the status of the running containers"
   echo ""
 }
 
