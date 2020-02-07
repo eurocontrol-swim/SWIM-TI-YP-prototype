@@ -20,7 +20,19 @@ is_windows() {
   [[ "${UNAME}" != "Linux" ]] && [[ "${UNAME}" != "Darwin" ]]
 }
 
+fetch_user_config() {
+  if [[ -d ${SWIM_USER_CONFIG_DIR_SRC} ]]
+  then
+    cd "${SWIM_USER_CONFIG_DIR_SRC}" || exit
+    git pull -q --rebase origin master
+  else
+    git clone -q https://github.com/eurocontrol-swim/swim-user-config.git "${SWIM_USER_CONFIG_DIR_SRC}"
+  fi
+  cd "${ROOT_DIR}" || exit
+}
+
 user_config() {
+  # check the prompt argument
   if [[ ${1} == '1' ]]
   then
     P='-p'
@@ -46,6 +58,7 @@ user_config() {
 
   rm "${ENV_FILE}"
 }
+
 
 prepare_repos() {
   echo "Preparing Git repositories..."
@@ -81,19 +94,7 @@ prepare_repos() {
   fi
   echo "OK"
 
-  echo -n "Preparing swim-user-config..."
-  if [[ -d ${SWIM_USER_CONFIG_DIR_SRC} ]]
-  then
-    cd "${SWIM_USER_CONFIG_DIR_SRC}" || exit
-    git pull -q --rebase origin master
-  else
-    git clone -q https://github.com/eurocontrol-swim/swim-user-config.git "${SWIM_USER_CONFIG_DIR_SRC}"
-  fi
-  echo "OK"
-
-  echo -e "\n"
-
-  echo -e "\n"
+  echo -e "\n\n"
 }
 
 data_provision() {
@@ -125,15 +126,22 @@ stop_services() {
 }
 
 build() {
+
+  echo "Removing old data..."
+  echo -e "==================\n"
+  # Remove existing volumes
+  docker volume ls -q|grep 'swimtiypprototype'|xargs -r docker volume rm
+
   echo "Building images..."
   echo -e "==================\n"
-  # build the base image upon which the swim services will depend on
+  # build the base images upon which the swim services will depend on
   cd "${BASE_DIR}" || exit 1
 
   docker build -t swim-base -f Dockerfile .
 
   docker build -t swim-base.conda -f Dockerfile.conda .
 
+  # Build the rest of the images
   docker-compose build
 
   cd "${ROOT_DIR}" || exit 1
@@ -199,6 +207,9 @@ case ${ACTION} in
     status
     ;;
   user_config)
+    # update the swim-user-config repository
+    fetch_user_config
+
     if [[ -n ${2} ]]
     then
       EXTRA=${2}

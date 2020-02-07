@@ -181,7 +181,6 @@ command:
 env
 ```
 
-
 ##### Application config files
 Under the services folder you can find one folder per app containing a `config.yml` file. These are already configured but 
 you may want to update the airports involved in the SWIM ADSB application. The config entry looks as following and you can 
@@ -236,17 +235,18 @@ involved docker images with the following command:
 ```
 
 > The first time you run this command it will take some time because of the download/build of docker images.
-
 > this has to be run only the first time we start SWIM
 
-After the necessary images are downloaded we are ready to get the services up and running. Before that
+> In case you run this command after having deployed successfully SWIM all the old data will be removed.
+
+
+After the necessary images are built we are ready to get the services up and running. Before that
 we'll need to provision the Subscription Manager and the broker with some initial data about the involved users and this 
 can be done with:
  
 ```shell
 ./swim.sh provision
 ```
-
 > this has to be run only the first time we start SWIM
 
 and then we can start the services:
