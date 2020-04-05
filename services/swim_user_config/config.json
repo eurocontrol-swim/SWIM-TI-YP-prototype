@@ -1,6 +1,7 @@
 {
     "USERS": {
-        "DB": "Database user",
+        "POSTGRES": "Postgres user",
+        "DB": "Subscription Manager DB user",
         "SM_ADMIN": "Subscription Manager admin user",
         "SWIM_ADSB_SM": "SWIM ADSB user for Subscription Manager",
         "SWIM_EXPLORER_SM": "SWIM Explorer user for Subscription Manager",

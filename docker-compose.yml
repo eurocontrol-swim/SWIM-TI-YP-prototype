@@ -12,6 +12,8 @@ services:
     container_name: postgres
     environment:
       - DB_NAME=smdb
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASS}
       - DB_USER=${DB_USER}
       - DB_PASS=${DB_PASS}
     volumes:
