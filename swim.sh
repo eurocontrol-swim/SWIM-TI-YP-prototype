@@ -118,6 +118,14 @@ stop_services_with_clean() {
   echo ""
 }
 
+stop_services_with_purge() {
+  stop_services_with_clean &&
+  docker volume ls -q | grep swimtiypprototype | xargs -r docker volume rm
+
+  echo ""
+}
+
+
 stop_services() {
   echo "Stopping SWIM..."
   echo -e "================\n"
@@ -130,7 +138,7 @@ build() {
   echo "Removing old data..."
   echo -e "==================\n"
   # Remove existing volumes
-  docker volume ls -q|grep 'swimtiypprototype'|xargs -r docker volume rm
+  docker volume ls -q | grep swimtiypprototype | xargs -r docker volume rm
 
   echo "Building images..."
   echo -e "==================\n"
@@ -166,6 +174,7 @@ usage() {
   echo "    start                   Starts up all the SWIM services"
   echo "    stop                    Stops all the services"
   echo "    stop --clean            Stops all the services and cleans up the containers"
+  echo "    stop --purge            Stops all the services and cleans up the containers and the volumes"
   echo "    status                  Displays the status of the running containers"
   echo ""
 }
@@ -190,6 +199,9 @@ case ${ACTION} in
       case ${EXTRA} in
           --clean)
             stop_services_with_clean
+            ;;
+          --purge)
+            stop_services_with_purge
             ;;
           *)
             echo -e "Invalid argument\n"
