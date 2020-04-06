@@ -224,6 +224,7 @@ Commands:
     start                   Starts up all the SWIM services
     stop                    Stops all the services
     stop --clean            Stops all the services and cleans up the containers
+    stop --purge            Stops all the services and cleans up the containers and volumes
     status                  Displays the status of the running containers
 ```
 
@@ -315,10 +316,16 @@ In order to tear the platform down you can do:
 ./swim.sh stop
 ```
 
-or if you also want to remove completely the involved docker containers you can do:
+If you also want to remove completely the involved docker containers you can do:
 ```shell
 ./swim.sh stop --clean
 ```
+
+and if you want to remove the involved docker containers and volumes as well you can do:
+```shell
+./swim.sh stop --purge
+```
+
 
 In case there is a change on the involved repositories you can update them by calling:
 ```shell
