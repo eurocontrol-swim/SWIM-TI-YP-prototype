@@ -21,7 +21,7 @@ RUN chmod +x /etc/rabbitmq/update_definitions.py
 ARG BROKER_ADMIN_USER
 ARG BROKER_ADMIN_PASS
 
-RUN python3.7 /etc/rabbitmq/update_definitions.py /etc/rabbitmq/rabbitmq_definitions.json "${BROKER_ADMIN_USER}" "${BROKER_ADMIN_PASS}"
+RUN python3 /etc/rabbitmq/update_definitions.py /etc/rabbitmq/rabbitmq_definitions.json "${BROKER_ADMIN_USER}" "${BROKER_ADMIN_PASS}"
 
 # conf file
 COPY ./services/broker/rabbitmq/rabbitmq.conf /etc/rabbitmq/rabbitmq.conf

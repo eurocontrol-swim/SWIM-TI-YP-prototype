@@ -145,9 +145,9 @@ build() {
   # build the base images upon which the swim services will depend on
   cd "${BASE_DIR}" || exit 1
 
-  docker build --force-rm -t swim-base -f Dockerfile .
+  docker build --no-cache --force-rm -t swim-base -f Dockerfile .
 
-  docker build --force-rm -t swim-base.conda -f Dockerfile.conda .
+  docker build --no-cache --force-rm -t swim-base.conda -f Dockerfile.conda .
 
   # Build the rest of the images
   docker-compose build --force-rm

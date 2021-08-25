@@ -37,7 +37,6 @@ services:
       - 15671:15671
     volumes:
       - broker-data:/var/lib/rabbitmq
-      - ./secrets/rabbitmq/rabbitmq_definitions.json /etc/rabbitmq/rabbitmq_definitions.json
     networks:
       - backend
 

@@ -8,7 +8,7 @@ fi
 
 SED_SCRIPT="${HOME}/sed.script"
 
-echo "Interpolating env variables in $1";
+echo "Replacing env variables in $1";
 
 env | sed 's/[\%]/\\&/g;s/\([^=]*\)=\(.*\)/s%${\1}%\2%/' > "${SED_SCRIPT}";
 
