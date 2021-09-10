@@ -686,8 +686,8 @@ Which shows the SWIM\-TI YP is synchronized via NTP with a Stratum 2 server\.
 |----------|--------------|  
 |Title|Overload Protection|  
 |Statement|The SWIM\-TI **shall** provide overload protection mechanisms for its provided services\.|  
-|Clarification|This requirement prevents a single consumer from using all available resources, allowing other consumers requests to be processed\.  Due to the broad scope of uses applicable to the SWIM\-TI Yellow Profile there is no single mechanism that can fit all implementations\. Implementers are required to have some form of overload protection, the details of which are not specified to accommodate the different use cases\.  Common examples of such protection mechanisms include \(from easier to implement to more sophisticated mechanisms\): \+ Limitation of the total number of requests each Service Consumer may be able to consume in certain time window \+ Software firewalls \+ Hardware solutions like routers and firewalls  Related NIST SP 800\-53 rev4 Security Control: SC\-5\.|  
-|Verification|Test, Analysis|  
+|Clarification|This requirement mitigates the risk of exhausting available resources resulting in service unavailability\.  Due to the broad scope of uses applicable to the SWIM\-TI Yellow Profile there is no single mechanism that can fit all implementations\. Implementers are required to have some form of overload protection, the details of which are not specified to accommodate different use cases and needs\.  Common examples of such protection mechanisms include: \+ Request rate limitation on a per Service or Consumer basis \+ Software firewalls \+ Hardware solutions like routers and firewalls \+ Replicas, load balancers and ingress controllers \+ Content Delivery Networks  Related NIST SP 800\-53 rev4 Security Control: SC\-5\.|  
+|Verification|Test, Analysis, Configuration Inspection|  
 
 
 ##### Operating System Layer
@@ -953,8 +953,8 @@ USER swim
 |Identifier|SWIM\-TIYP\-0058|  
 |----------|--------------|  
 |Title|Automatic Sessions termination|  
-|Statement|The SWIM\-TI **shall** terminate network connections associated to a communication session:  \+ At the end of the session or, \+ After a configurable amount of idle time\.|  
-|Clarification|Unneeded network connections are a source of potential security breaches, termination of such connections minimizes said risk\. Related NIST SP 800\-53 rev4 Security Control: SC\-10\.|  
+|Statement|The SWIM\-TI **shall** terminate network connections associated to a communication session:  \+ At the end of the session.|  
+|Clarification|Unneeded network connections are a potential source of security breaches, termination of such connections minimizes this risk\. Related NIST SP 800\-53 rev4 Security Control: SC\-10\.|  
 |Verification|Test, Configuration Inspection|  
 
 
@@ -974,7 +974,7 @@ ClientAliveCountMax 3
 |Title|Trusted Software|  
 |Statement|The SWIM\-TI **shall** be composed of software components whose origin authenticity and integrity can be verified\.|  
 |Clarification|This construction requirement guarantees integrity and authenticity of software used for the implementation of SWIM\-TI components\. Examples of mechanisms that can be used to verify the integrity include checksums and hash functions, cryptographic signatures can be used to verify authenticity\. Related NIST SP 800\-53 rev4 Security Control: SI\-7\.|  
-|Verification|Configuration Inspection, Test|  
+|Verification|Configuration Inspection, Test, Analysis|  
 
 
 ##### OS Layer
@@ -1034,8 +1034,8 @@ All additional software has been installed from the official repositories and th
 |Identifier|SWIM\-TIYP\-0064|  
 |----------|--------------|  
 |Title|Validation of X\.509 Certificates|  
-|Statement|The SWIM\-TI **shall** validate X\.509 certificates using a trusted Certificate Authority\.|  
-|Clarification|The SWIM\-TI relies on public key cryptographic certificates for several of its security capabilities\. This requirement ensures that X\.509 certificates are validated \(e\.g\. they have not been revoked\) using a trusted Certificate Authority\. Related NIST SP 800\-53 rev4 Security Control: IA\-5 \(2\), SC\-17\.|  
+|Statement|The SWIM\-TI **shall** validate X\.509 certificates by: \+ Constructing and verifying a trust path to an accepted trust anchor and; \+ Verifying the certificate status information\.|  
+|Clarification|The SWIM\-TI relies on public key cryptographic certificates for several of its security capabilities\. Validation of the X.509 certificates used by the SWIM-TI is required to ensure they can be trusted and their security properties are satisfied. SWIM-TI implementers must be able to construct a trust path from the X.509 certificate to an accepted trust anchor (e.g. trusted Certification Authority or trust store) and verify the certificate status information by checking for freshness (i.e. not expired) and verifying it has not been revoked\. Related NIST SP 800\-53 rev4 Security Control: IA\-5 \(2\), SC\-17\.|  
 |Verification|Test, Configuration Inspection|  
 
 
@@ -1073,8 +1073,8 @@ ssl_ca_file = '/var/lib/postgresql/secrets/ca_certificate.pem'
 |Identifier|SWIM\-TIYP\-0065|  
 |----------|--------------|  
 |Title|Cryptographic Algorithms|  
-|Statement|The SWIM\-TI **shall** select cryptographic algorithms and key sizes in accordance with: \+ Applicable national or international regulations on cryptographic algorithms and key sizes or; \+ NIST SP 800\-57 Part 1\.|  
-|Clarification|Selection of secure cryptographic algorithms is necessary to ensure the security attributes of cryptographically protected data are not violated\. When national or international regulations on the selection of cryptographic algorithms and key sizes are available and applicable to the SWIM\-TI implementation, implementers can rely directly on said recommendations\.  In the case said regulations are not available or applicable; implementers can rely on NIST SP 800\-57 Part 1\. Recommendations on cryptographic algorithms and key sizes ought to be updated frequently to avoid vulnerabilities\. Implementers are advised to check for up\-to\-date recommendations\.  \+ NIST SP 800\-57 Part 1: “Recommendation for Key Management”: http://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-57pt1r4\.pdf Related NIST SP 800\-53 rev4 Security Control: IA\-5 c, SC\-13\.|  
+|Statement|The SWIM\-TI **shall** select cryptographic algorithms and key sizes in accordance with: \+ Applicable national or international regulations on cryptographic algorithms and key sizes or; \+ ECRYPT-CSA recommendations\.|  
+|Clarification|Selection of secure cryptographic algorithms is necessary to ensure the security attributes of cryptographically protected data are not violated\. When national or international regulations on the selection of cryptographic algorithms and key sizes are available and applicable to the SWIM\-TI implementation, implementers can rely directly on said recommendations\.  In the case said regulations are not available or applicable; implementers can rely on ECRYPT-CSA recommendations\. Recommendations on cryptographic algorithms and key sizes ought to be updated frequently to avoid vulnerabilities\. Implementers are advised to check for up\-to\-date recommendations\.  \+ ECRYPT-CSA D5.4 Algorithms, Key Size and Protocols Report (2018): https://www.ecrypt.eu.org/csa/documents/D5.4-FinalAlgKeySizeProt.pdf Related NIST SP 800\-53 rev4 Security Control: IA\-5 c, SC\-13\.|  
 |Verification|Test, Configuration Inspection, Analysis|  
 
 
@@ -1159,7 +1159,7 @@ ssl_ecdh_curve = 'prime256v1'
 |----------|--------------|  
 |Title|Strong Passwords|  
 |Statement|The SWIM\-TI **shall** enforce strong passwords selection when using username/password authentication for its consumer credentials\.|  
-|Clarification|The SWIM\-TI can be used with Service Bindings that support Username/Password authentication\. This requirement ensures that service consumers use passwords with a minimum strength which helps prevent unauthorized access to the provided services\.   The following are recommended practices that will ensure strong passwords are selected:  \+ Require a minimum length of 8 characters or an equivalent minimum entropy \+ Allow \(as a minimum\) any ASCII character as part of the password character space \+ Check passwords against dictionary of known, common or weak passwords\.  The following are recommendations to avoid in the password ruleset as they typically result in weaker selection of passwords:  \+ Enforce character set combination rules \+ Routine password expiration \+ Knowledge\-Based Authentication or password hinting\.  References: NIST Special Publication 800\-63B "Digital Identity Guidelines, Authentication and Lifecycle Management" \- https://pages.nist.gov/800-63-3/sp800-63b.html Related NIST SP 800\-53 rev4 Security Control: IA\-5\(4\)\.|  
+|Clarification|The SWIM\-TI can be used with Service Bindings that support Username/Password authentication\. This requirement ensures that service consumers use passwords with a minimum strength which helps prevent unauthorized access to the provided services\.   The following are recommended practices that help ensure strong passwords are selected:  \+ Require a minimum length of 8 characters or an equivalent minimum entropy \+ Allow a wide character space for the password (e.g. allow all printing ASCII characters) \+ Check passwords against dictionary of known, common or weak passwords\.  The following are recommendations to avoid in the password ruleset as they typically result in weaker selection of passwords:  \+ Enforce character set combination rules \+ Routine password expiration \+ Knowledge\-Based Authentication or password hinting\.  References: NIST Special Publication 800\-63B "Digital Identity Guidelines, Authentication and Lifecycle Management" \- https://pages.nist.gov/800-63-3/sp800-63b.html Related NIST SP 800\-53 rev4 Security Control: IA\-5\(4\)\.|  
 |Verification|Demonstration, Analysis|  
 
 
@@ -1178,7 +1178,7 @@ ssl_ecdh_curve = 'prime256v1'
 |Title|Mandatory Access Control|  
 |Statement|The SWIM\-TI **shall** enforce access control to all of its resources\.|  
 |Clarification|The SWIM\-TI Yellow Profile takes a proactive approach to access control where access control to any resource is enforced by default\. This approach prevents unintended access to its resources\. This requirement does not restrict in any way the existence of publicly accessible resources\. Related NIST SP 800\-53 rev4 Security Control: AC\-3 \(3\)\.|  
-|Verification|Test, Configuration Inspection|  
+|Verification|Test, Configuration Inspection, Analysis|  
 
 
 ##### Operating System Layer
@@ -1219,8 +1219,8 @@ ssl_ecdh_curve = 'prime256v1'
 
 |Identifier|SWIM\-TIYP\-0068|  
 |----------|--------------|  
-|Title|Detection of Failed Authentication Requests|  
-|Statement|The SWIM\-TI **shall** detect and record failed authentication attempts\.|  
+|Title|Recording of Failed Authentication Requests|  
+|Statement|The SWIM\-TI **shall** record failed authentication attempts\.|  
 |Clarification|Failed authentications may indicate an ongoing authentication attack against some of the user credentials in the system\. Such attempts need to be detected and recorded for monitoring and security purposes\. Related NIST SP 800\-53 rev4 Security Control: AC\-7 a, AU\-2 a, SI\-4a\.2, SI\-4b\.|  
 |Verification|Demonstration, Test|  
 
@@ -1252,7 +1252,7 @@ ssl_ecdh_curve = 'prime256v1'
 
 |Identifier|SWIM\-TIYP\-0069|  
 |----------|--------------|  
-|Title|Access Control Restriction|  
+|Title|Restriction after Failed Authentication Requests|  
 |Statement|The SWIM\-TI **shall** restrict access to entities that surpass a configurable number of failed authentication attempts\.|  
 |Clarification|Consecutive failed authentication attempts can be symptomatic of an ongoing attack to the system or its user’s accounts; this requirement ensures that the SWIM\-TI provides protection against these threats\. Access restriction can take different forms depending on the severity and security context \(e\.g\. delays next login prompt, locks user account for certain period or until manual release, indefinite ban of user credentials\.\.\.\)\. Related NIST SP 800\-53 rev4 Security Control: AC\-7\.|  
 |Verification|Test, Demonstration, Configuration Inspection|  
@@ -1315,7 +1315,7 @@ bantime = 3600
 |Title|Satisfactory Authorization|  
 |Statement|The SWIM\-TI **shall** allow a requesting entity to consume a service if and only if its authorization is successful\.|  
 |Clarification|This requirement ensures that the SWIM Technical Infrastructure allows service consumption when \(and only when\) the requesting entity is authorized to consume it\. It is assumed that access control to a public resource will not require an explicit authorization\. Related NIST SP 800\-53 rev4 Security Control: AC\-3\.|  
-|Verification|Test, Demonstration, Configuration Inspection|  
+|Verification|Test, Demonstration, Configuration Inspection, Analysis|  
 
 
 ##### COTS Layer
@@ -1338,9 +1338,9 @@ bantime = 3600
 
 |Identifier|SWIM\-TIYP\-0072|  
 |----------|--------------|  
-|Title|Inactive Session Termination|  
-|Statement|The SWIM\-TI **shall** terminate inactive sessions \(including local, network and remote access\) after a configurable amount of time\.|  
-|Clarification|This requirement addresses the termination of user\-initiated logical sessions\. A logical session is initiated whenever a user \(or process acting on behalf of a user\) accesses an organisational information system\. Such user sessions can be terminated \(and thus terminate user access\) without terminating network sessions\. Related NIST SP 800\-53 rev4 Security Control: AC\-12\.|  
+|Title|Inactive Administrative Session Termination|  
+|Statement|The SWIM\-TI **shall** terminate inactive administrative sessions \(including local, network and remote access\) after a configurable amount of idle time\.|  
+|Clarification|This requirement addresses the termination of administrative sessions, an administrative session is initiated whenever a user \(or process acting on behalf of a user\) accesses an organisational information system for administrative purposes\. Open administrative sessions pose a security risk to the information system, this requirement introduces a mitigation to this risk\. Related NIST SP 800\-53 rev4 Security Control: AC\-12\.|  
 |Verification|Test, Configuration Inspection|  
 
 
@@ -1356,9 +1356,9 @@ bantime = 3600
 
 |Identifier|SWIM\-TIYP\-0073|  
 |----------|--------------|  
-|Title|Non\-recoverable Password Storage|  
-|Statement|The SWIM\-TI **shall** store passwords in a non\-recoverable manner\.|  
-|Clarification|Storing passwords in a recoverable manner is potentially insecure against malicious intrusions and various kinds of attacks including; brute force, dictionary attacks and rainbow tables\.  A simple and proven mechanism to ensure passwords are non\-recoverable is to store them after:  1\. Appending a \(pseudo\)\-random salt  2\. Hashing the salted password\. For additional protection against brute force attacks key stretching mechanism can be used\. Related NIST SP 800\-53 rev4 Security Control: IA\-5 h\.|  
+|Title|Secure Password Storage|  
+|Statement|The SWIM\-TI **shall** store passwords at rest in a form that is resistant to offline attacks\.|  
+|Clarification|Password storage poses a risk in case of security breach, to mitigate this security risk passwords must be stored in a form that is resistant to offline attacks (e.g. brute forcing, dictionary attacks, rainbow tables...). Storage of consumer credentials does not require that the password is stored in a recoverable manner. In this case, passwords can be stored in a form that is resistant to offline attacks by storing them after salting and hashing them with an appropriate hash function or key-derivation function. When a password needs to be stored in a recoverable manner for later use (e.g. SWIM-TI’s own credentials to be used for external services), encryption at rest provides a mechanism that is resistant to offline attacks provided strong algorithms and key sizes are selected. The selection of cryptographic algorithms, key sizes, salt sizes and iteration rounds is subject to SWIM-TIYP-0065.  \+ NIST Special Publication 800-63B – Digital Identity Guidelines: https://pages.nist.gov/800-63-3/sp800-63b.html Related NIST SP 800\-53 rev4 Security Control: IA\-5 h, IA-5 (1)c\.|  
 |Verification|Configuration Inspection|  
 
 
@@ -1437,8 +1437,8 @@ EOSQL
 |SWIM\-TIYP\-0065|Cryptographic Algorithms|M|YES|  
 |SWIM\-TIYP\-0066|Strong Passwords|M Conditional|YES|  
 |SWIM\-TIYP\-0067|Mandatory Access Control|M|YES|  
-|SWIM\-TIYP\-0068|Detection of Failed Authentication Requests|M|YES|  
-|SWIM\-TIYP\-0069|Access Control Restriction|M|YES|  
+|SWIM\-TIYP\-0068|Recording of Failed Authentication Requests|M|YES|  
+|SWIM\-TIYP\-0069|Restriction after Failed Authentication Requestsn|M|YES|  
 |SWIM\-TIYP\-0070|Satisfactory Authorization|M Conditional|YES|  
 |SWIM\-TIYP\-0071|Cryptographic Key Life\-cycle Management|R|NO|  
 |SWIM\-TIYP\-0072|Inactive Session Termination|M|PARTIAL|  
