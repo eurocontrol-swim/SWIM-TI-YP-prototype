@@ -187,12 +187,12 @@ Sample code snippet:
           description: the user is not authenticated
 ```
 
-##### TLS Authentication
+##### TLS Server Authentication
 
 |Identifier|SWIM\-TIYP\-0042|  
 |----------|--------------|  
 |Title|TLS Server Authentication|  
-|Statement|The Service Interface Binding **shall** support, at least, one of the following authentication mechanisms for TLS:  \+ Server authentication with X\.509 cerfiticate\.|  
+|Statement|The Service Interface Binding **shall** support, at least, the following authentication mechanisms for TLS:  \+ Server authentication with X\.509 cerfiticate\.|  
 |Clarification|TLS supports three authentication modes: mutual authentication, server authentication and total anonymity. This requirement specifies that, at a minimum, server authentication with X.509 certificates must be supported. Implementers are free to select the appropriate level and mechanism required for client authentication (e.g. anonymous client authentication, X.509 client authentication, HTTP Basic client authentication, HTTP Bearer client authentication...). \+ IETF RFC 5280 (Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile): https://tools.ietf.org/html/rfc5280 \+ IETF RFC 5246 (The Transport Layer Security (TLS) Protocol Version 1.2): https://tools.ietf.org/html/rfc5246 Related NIST SP 800-53 rev4 Security Control: IA-9, SC-8, SC-17. |  
 |Verification|Test, Demonstration, Configuration Inspection|  
 
@@ -252,7 +252,7 @@ security:
 |----------|--------------|  
 |Title|HTTP Content Type Header|  
 |Statement|The Service Interface Binding **shall** use the HTTP Content\-Type header to specify the Media Type of the payload  **if**\: \+ The HTTP message constains a payload body and; \+ The content-type is not statically defined in the interface definition.|  
-|Clarification|The HTTP/1.1 specification recommends the use of the content-type header when the message contains a payload body, this requirement constraints further this recommendation by requiring its use when the consumer does not know ahead of time the content-type of the payload received. This is the case when the content-type is subject to some content negotiation or when multiple types of payloads can be received through the same interface. The dynamic specification of the content-type promotes interoperability in these cases. When this is not the case implementers can fall back to HTTP/1.1 recommendations and best practices\. Possible values include: \+ IANA registered Media Types \+ Protocol specific extensions \+ Vendor proprietary extensions\. IANA registered Media Types:  Related NIST SP 800\-53 rev4 Security Control: CM\-6\.|  
+|Clarification|The HTTP/1.1 specification recommends the use of the content-type header when the message contains a payload body, this requirement constraints further this recommendation by requiring its use when the consumer does not know ahead of time the content-type of the payload received. This is the case when the content-type is subject to some content negotiation or when multiple types of payloads can be received through the same interface. The dynamic specification of the content-type promotes interoperability in these cases. When this is not the case implementers can fall back to HTTP/1.1 recommendations and best practices\. Possible values include: \+ IANA registered Media Types \+ Protocol specific extensions \+ Vendor proprietary extensions\. IANA registered Media Types: http://www.iana.org/assignments/media-types/media-types.xhtml Related NIST SP 800\-53 rev4 Security Control: CM\-6\.|  
 |Verification|Test, Demonstration, Configuration Inspection|  
 
 
@@ -948,11 +948,11 @@ USER swim
 **Verification Method:** Analysis  
 **Verification Description:** The users of the subscription interface have permissions to manage their own resources
 
-#### Automatic Sessions termination
+#### Network Connection Termination
 
 |Identifier|SWIM\-TIYP\-0058|  
 |----------|--------------|  
-|Title|Automatic Sessions termination|  
+|Title|Network Connection Termination|  
 |Statement|The SWIM\-TI **shall** terminate network connections associated to a communication session:  \+ At the end of the session.|  
 |Clarification|Unneeded network connections are a potential source of security breaches, termination of such connections minimizes this risk\. Related NIST SP 800\-53 rev4 Security Control: SC\-10\.|  
 |Verification|Test, Configuration Inspection|  
@@ -1215,7 +1215,7 @@ ssl_ecdh_curve = 'prime256v1'
 + Subscription Manager API 
 
 
-#### Detection of Failed Authentication Requests
+#### Recording of Failed Authentication Requests
 
 |Identifier|SWIM\-TIYP\-0068|  
 |----------|--------------|  
@@ -1248,7 +1248,7 @@ ssl_ecdh_curve = 'prime256v1'
 + Step 2: Verify the failed authentication attempt is properly logged\.  
 
 
-#### Access Control Restriction
+#### Restriction after Failed Authentication Requests
 
 |Identifier|SWIM\-TIYP\-0069|  
 |----------|--------------|  
@@ -1334,7 +1334,7 @@ bantime = 3600
 **Verification Description:** Subscribe Interface: All service consumption requests require authentication and authorization as shown in the OpenAPI Specification of the provided service\.
 
 
-#### Inactive Session Termination
+#### Inactive Administrative Session Termination
 
 |Identifier|SWIM\-TIYP\-0072|  
 |----------|--------------|  
@@ -1352,7 +1352,7 @@ bantime = 3600
 **Verification Description:** In the implementation environment, inactive sessions are closed at the same time as inactive connections\. See evidence for Automatic Sessions termination\.  
 
 
-#### Non\-recoverable Password Storage
+#### Secure Password Storage
 
 |Identifier|SWIM\-TIYP\-0073|  
 |----------|--------------|  
@@ -1429,7 +1429,7 @@ EOSQL
 |SWIM\-TIYP\-0055|Encrypted Connections for Remote Administrative Access|M Conditional|YES|  
 |SWIM\-TIYP\-0056|Obscure Password Typing|M|YES|  
 |SWIM\-TIYP\-0057|Least Privileged Principle Access|M|YES|  
-|SWIM\-TIYP\-0058|Automatic Sessions termination|M|PARTIAL|  
+|SWIM\-TIYP\-0058|Network Connection Termination|M|PARTIAL|  
 |SWIM\-TIYP\-0059|Trusted Software|M|YES|  
 |SWIM\-TIYP\-0060|Verification of Signed Messages Integrity|M Conditional|NO|  
 |SWIM\-TIYP\-0062|Message Payload Validation|R|NO|  
@@ -1438,11 +1438,11 @@ EOSQL
 |SWIM\-TIYP\-0066|Strong Passwords|M Conditional|YES|  
 |SWIM\-TIYP\-0067|Mandatory Access Control|M|YES|  
 |SWIM\-TIYP\-0068|Recording of Failed Authentication Requests|M|YES|  
-|SWIM\-TIYP\-0069|Restriction after Failed Authentication Requestsn|M|YES|  
+|SWIM\-TIYP\-0069|Restriction after Failed Authentication Requests|M|YES|  
 |SWIM\-TIYP\-0070|Satisfactory Authorization|M Conditional|YES|  
 |SWIM\-TIYP\-0071|Cryptographic Key Life\-cycle Management|R|NO|  
-|SWIM\-TIYP\-0072|Inactive Session Termination|M|PARTIAL|  
-|SWIM\-TIYP\-0073|Non\-recoverable Password Storage|M|YES|  
+|SWIM\-TIYP\-0072|Inactive Administrative Session Termination|M|PARTIAL|  
+|SWIM\-TIYP\-0073|Secure Password Storage|M|YES|  
 |SWIM\-TIYP\-0074|Security Patching|R|NO|  
 |SWIM\-TIYP\-0075|Vulnerability Assessment|O|NO|  
 |SWIM\-TIYP\-0076|Audit Data Reporting|O|NO|  
