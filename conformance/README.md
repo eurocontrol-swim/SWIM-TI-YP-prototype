@@ -187,13 +187,13 @@ Sample code snippet:
           description: the user is not authenticated
 ```
 
-##### TLS Authentication
+##### TLS Server Authentication
 
 |Identifier|SWIM\-TIYP\-0042|  
 |----------|--------------|  
-|Title|TLS Authentication|  
-|Statement|The Service Interface Binding **shall** support one of the following authentication mechanisms for TLS:  \+ Mutual authentication with X\.509 certificates \+ Server authentication with X\.509 and Client authentication with HTTP Basic or HTTP Digest\.|  
-|Clarification|This requirement specifies the supported TLS authentication methods\. Related NIST SP 800\-53 rev4 Security Control: IA\-2, IA\-8, IA\-9, SC\-17\.|  
+|Title|TLS Server Authentication|  
+|Statement|The Service Interface Binding **shall** support, at least, the following authentication mechanisms for TLS:  \+ Server authentication with X\.509 cerfiticate\.|  
+|Clarification|TLS supports three authentication modes: mutual authentication, server authentication and total anonymity. This requirement specifies that, at a minimum, server authentication with X.509 certificates must be supported. Implementers are free to select the appropriate level and mechanism required for client authentication (e.g. anonymous client authentication, X.509 client authentication, HTTP Basic client authentication, HTTP Bearer client authentication...). \+ IETF RFC 5280 (Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile): https://tools.ietf.org/html/rfc5280 \+ IETF RFC 5246 (The Transport Layer Security (TLS) Protocol Version 1.2): https://tools.ietf.org/html/rfc5246 Related NIST SP 800-53 rev4 Security Control: IA-9, SC-8, SC-17. |  
 |Verification|Test, Demonstration, Configuration Inspection|  
 
 
@@ -227,30 +227,13 @@ security:
   - basicAuth: []
 ```
 
-##### HTTP Header Transfer Encoding
-
-|Identifier|SWIM\-TIYP\-0039|  
-|----------|--------------|  
-|Title|HTTP Header Transfer Encoding|  
-|Statement|The Service Interface Binding may use the following values of the HTTP header Transfer\-Encoding: \+ chunked|  
-|Clarification|The sender of a message may not know in advance the length of the message that will be sent\. The HTTP/1\.1 protocol provides for the mechanism to send the payload chunked, a Service Provider can opt to use this capability\. \+ IETF RFC 7230 \(HTTP/1\.1\): https://tools.ietf.org/html/rfc7230#section-3.3.1 Related NIST SP 800\-53 rev4 Security Control: CM\-6\.|  
-|Verification|Test, Demonstration, Configuration Inspection|  
-
-
-###### App Layer
-
-
-
-**Verification Method:** Not Applicable  
-**Verification Description:** Transfer Encoding is not used in the implementation.  
-
 
 ##### HTTP Compression and Content Encoding Header
 
 |Identifier|SWIM\-TIYP\-0038|  
 |----------|--------------|  
 |Title|HTTP Compression and Content Encoding Header|  
-|Statement|The Service Interface Binding **shall** use one of the following values of the HTTP header Content\-Encoding if data compression is needed: \+ deflate \+ gzip \+ exi|  
+|Statement|The Service Interface Binding **shall** use one of the following values of the HTTP header Content\-Encoding if data compression is used: \+ deflate \+ gzip \+ exi|  
 |Clarification|This requirement is applicable when data compression is used, in such case it restricts the possible compression algorithms and requires the use of the HTTP Content\-Encoding header\. HTTP compression performs on the fly compression\. The compression can only be requested by the client\. The server can ignore the request by the client and return non\-compressed data if deemed appropriate\. \+ DEFLATE Compressed Data Format Specification version 1\.3: https://www.ietf.org/rfc/rfc1951.txt \+ GZIP File Format Specification 4\.3: https://tools.ietf.org/html/rfc1952 \+ Efficient XML Interchange \(EXI\) Format 1\.0: http://www.w3.org/TR/2014/REC-exi-20140211/ Related NIST SP 800\-53 rev4 Security Control: CM\-6\.|  
 |Verification|Test, Demonstration, Configuration Inspection|  
 
@@ -268,8 +251,8 @@ security:
 |Identifier|SWIM\-TIYP\-0033|  
 |----------|--------------|  
 |Title|HTTP Content Type Header|  
-|Statement|The Service Interface Binding **shall** use the HTTP Content\-Type header to specify the Media Type of the payload body when the payload body is present\.|  
-|Clarification|This requirement specifies further the use of the Content\-Type header of HTTP allowed in the HTTP/1\.1 specification\. Possible values include: \+ IANA registered Media Types \+ Protocol specific extensions \+ Vendor proprietary extensions\. IANA registered Media Types:  Related NIST SP 800\-53 rev4 Security Control: CM\-6\.|  
+|Statement|The Service Interface Binding **shall** use the HTTP Content\-Type header to specify the Media Type of the payload  **if**\: \+ The HTTP message constains a payload body and; \+ The content-type is not statically defined in the interface definition.|  
+|Clarification|The HTTP/1.1 specification recommends the use of the content-type header when the message contains a payload body, this requirement constraints further this recommendation by requiring its use when the consumer does not know ahead of time the content-type of the payload received. This is the case when the content-type is subject to some content negotiation or when multiple types of payloads can be received through the same interface. The dynamic specification of the content-type promotes interoperability in these cases. When this is not the case implementers can fall back to HTTP/1.1 recommendations and best practices\. Possible values include: \+ IANA registered Media Types \+ Protocol specific extensions \+ Vendor proprietary extensions\. IANA registered Media Types: http://www.iana.org/assignments/media-types/media-types.xhtml Related NIST SP 800\-53 rev4 Security Control: CM\-6\.|  
 |Verification|Test, Demonstration, Configuration Inspection|  
 
 
@@ -342,7 +325,7 @@ server {
 |----------|--------------|  
 |Title|HTTP|  
 |Statement|The Service Interface Binding **shall** support HTTP/1\.1\.|  
-|Clarification|This requirement specifies the use of the HTTP/1\.1 protocol\. HTTP/1\.1 is defined across 7 IETF RFCs spanning from RFC 7230 to RFC 7237\.  \+ IETF RFC 7230:  \+ IETF RFC 7231:  \+ IETF RFC 7232: http://tools.ietf.org/html/rfc7232 \+ IETF RFC 7233: http://tools.ietf.org/html/rfc72313 \+ IETF RFC 7234: http://tools.ietf.org/html/rfc72314 \+ IETF RFC 7235:  \+ IETF RFC 7236: http://tools.ietf.org/html/rfc72316 \+ IETF RFC 7237: http://tools.ietf.org/html/rfc7237|  
+|Clarification|This requirement specifies the use of the HTTP/1.1 protocol. HTTP/1.1 is defined across 6 IETF RFCs spanning from RFC 7230 to RFC 7235. \+ IETF RFC 7230: http://tools.ietf.org/html/rfc7230 \+ IETF RFC 7231: http://tools.ietf.org/html/rfc7231 \+ IETF RFC 7232: http://tools.ietf.org/html/rfc7232 \+ IETF RFC 7233: http://tools.ietf.org/html/rfc7233 \+ IETF RFC 7234: http://tools.ietf.org/html/rfc7234 \+ IETF RFC 7235: http://tools.ietf.org/html/rfc7235 |  
 |Verification|Test, Demonstration, Configuration Inspection|  
 
 
@@ -404,8 +387,8 @@ server {
 |----------|--------------|  
 |Title|AMQP Content Encoding Header|  
 |Statement|The Service Interface Binding may use Media Type values in the AMQP 1\.0 content\-encoding header to specify additional content encodings applied to the body\.|  
-|Clarification|This requirement specifies the possible use of the content\-encoding header of AMQP 1\.0 to detail additional encoding applied over the application\-data section \(e\.g\. compression\)\. Possible values include:  \+ IANA registered Content Coding Media Types \+ Protocol specific extensions \+ Vendor proprietary extensions\. IANA registered Content Coding Media Types: https://www.iana.org/assignments/http-parameters/http-parameters.xml#content-coding  Related NIST SP 800\-53 rev4 Security Control: CM\-6\.|  
-|Verification|Test|  
+|Clarification|This requirement specifies the possible use of the content\-encoding header of AMQP 1\.0 to detail additional encoding applied over the application\-data section \(e\.g\. compression\)\. Possible values include:  \+ IANA registered Content Coding Media Types. IANA registered Content Coding Media Types: https://www.iana.org/assignments/http-parameters/http-parameters.xml#content-coding  Related NIST SP 800\-53 rev4 Security Control: CM\-6\.|  
+|Verification|Test, Configuration Inspection|  
 
 
 ###### App Layer
@@ -420,9 +403,9 @@ server {
 |Identifier|SWIM\-TIYP\-0048|  
 |----------|--------------|  
 |Title|AMQP Content Type Header|  
-|Statement|The Service Interface Binding **shall** use the AMQP 1\.0 content\-type header to specify Media Type values when the body is composed of data sections\.|  
-|Clarification|This requirement specifies the use of the content\-type header of AMQP 1\.0\. Possible values include:  \+ IANA registered Media Types \+ Protocol specific extensions \+ Vendor proprietary extensions\. IANA registered Media Types:  Related NIST SP 800\-53 rev4 Security Control: CM\-6\.|  
-|Verification|Test|  
+|Statement|The Service Interface Binding **shall** use the AMQP 1\.0 content\-type header to specify Media Type values **if**: \+ The body is composed of data sections and; \+ The content-type is not statically defined in the interface definition. |  
+|Clarification|The content-type is an optional property in the AMQP 1.0 specification, this requirement constraints further this optionality by requiring its use when the consumer does not know ahead of time the content-type of the payload received. This is the case when the content-type is subject to some content negotiation or when multiple types of payloads can be received through the same interface. The dynamic specification of the content-type promotes interoperability in these cases. Possible values include:  \+ IANA registered Media Types \+ Protocol specific extensions \+ Vendor proprietary extensions\. IANA registered Media Types:  Related NIST SP 800\-53 rev4 Security Control: CM\-6\.|  
+|Verification|Test, Configuration Inspection|  
 
 
 ###### App Layer
@@ -703,8 +686,8 @@ Which shows the SWIM\-TI YP is synchronized via NTP with a Stratum 2 server\.
 |----------|--------------|  
 |Title|Overload Protection|  
 |Statement|The SWIM\-TI **shall** provide overload protection mechanisms for its provided services\.|  
-|Clarification|This requirement prevents a single consumer from using all available resources, allowing other consumers requests to be processed\.  Due to the broad scope of uses applicable to the SWIM\-TI Yellow Profile there is no single mechanism that can fit all implementations\. Implementers are required to have some form of overload protection, the details of which are not specified to accommodate the different use cases\.  Common examples of such protection mechanisms include \(from easier to implement to more sophisticated mechanisms\): \+ Limitation of the total number of requests each Service Consumer may be able to consume in certain time window \+ Software firewalls \+ Hardware solutions like routers and firewalls  Related NIST SP 800\-53 rev4 Security Control: SC\-5\.|  
-|Verification|Test, Analysis|  
+|Clarification|This requirement mitigates the risk of exhausting available resources resulting in service unavailability\.  Due to the broad scope of uses applicable to the SWIM\-TI Yellow Profile there is no single mechanism that can fit all implementations\. Implementers are required to have some form of overload protection, the details of which are not specified to accommodate different use cases and needs\.  Common examples of such protection mechanisms include: \+ Request rate limitation on a per Service or Consumer basis \+ Software firewalls \+ Hardware solutions like routers and firewalls \+ Replicas, load balancers and ingress controllers \+ Content Delivery Networks  Related NIST SP 800\-53 rev4 Security Control: SC\-5\.|  
+|Verification|Test, Analysis, Configuration Inspection|  
 
 
 ##### Operating System Layer
@@ -850,7 +833,7 @@ management.ssl.keyfile    = /certs/server_key.pem
 |Identifier|SWIM\-TIYP\-0056|  
 |----------|--------------|  
 |Title|Obscure Password Typing|  
-|Statement|The SWIM\-TI **shall** obscure screen typing feedback of passwords\.|  
+|Statement|The SWIM\-TI **shall** obscure screen typing feedback of passwords **when** a password prompt is presented for authentication\.|  
 |Clarification|This requirement ensures that the feedback from information systems does not provide information that would allow unauthorized individuals to compromise authentication mechanisms\.  This requirement prevents the threat often referred to as shoulder surfing, if the threat is not present \(e\.g\. the system does not rely on passwords for authentication\) or the risk is mitigated in other ways \(e\.g\. physical security restrictions prevent shoulder surfing\) the requirement can be considered satisfied\. Related NIST SP 800\-53 rev4 Security Control: IA\-6\.|  
 |Verification|Demonstration|  
 
@@ -965,13 +948,13 @@ USER swim
 **Verification Method:** Analysis  
 **Verification Description:** The users of the subscription interface have permissions to manage their own resources
 
-#### Automatic Sessions termination
+#### Network Connection Termination
 
 |Identifier|SWIM\-TIYP\-0058|  
 |----------|--------------|  
-|Title|Automatic Sessions termination|  
-|Statement|The SWIM\-TI **shall** terminate network connections associated to a communication session:  \+ At the end of the session or, \+ After a configurable amount of idle time\.|  
-|Clarification|Unneeded network connections are a source of potential security breaches, termination of such connections minimizes said risk\. Related NIST SP 800\-53 rev4 Security Control: SC\-10\.|  
+|Title|Network Connection Termination|  
+|Statement|The SWIM\-TI **shall** terminate network connections associated to a communication session:  \+ At the end of the session.|  
+|Clarification|Unneeded network connections are a potential source of security breaches, termination of such connections minimizes this risk\. Related NIST SP 800\-53 rev4 Security Control: SC\-10\.|  
 |Verification|Test, Configuration Inspection|  
 
 
@@ -991,7 +974,7 @@ ClientAliveCountMax 3
 |Title|Trusted Software|  
 |Statement|The SWIM\-TI **shall** be composed of software components whose origin authenticity and integrity can be verified\.|  
 |Clarification|This construction requirement guarantees integrity and authenticity of software used for the implementation of SWIM\-TI components\. Examples of mechanisms that can be used to verify the integrity include checksums and hash functions, cryptographic signatures can be used to verify authenticity\. Related NIST SP 800\-53 rev4 Security Control: SI\-7\.|  
-|Verification|Configuration Inspection, Test|  
+|Verification|Configuration Inspection, Test, Analysis|  
 
 
 ##### OS Layer
@@ -1046,61 +1029,13 @@ All additional software has been installed from the official repositories and th
 **Verification Description:** Message level cryptographic signatures are not used with any of the services provided by the TI implementation\. 
 
 
-#### Message Protocol Validation
-
-|Identifier|SWIM\-TIYP\-0061|  
-|----------|--------------|  
-|Title|Message Protocol Validation|  
-|Statement|The SWIM\-TI **shall** ensure messages are valid against the protocol standards applicable to its Service Interface Bindings\.|  
-|Clarification|This requirement ensures information passed through the SWIM\-TI is validated against the different protocol standards composing the Interface Bindings\. Related NIST SP 800\-53 rev4 Security Control: SI\-10\.|  
-|Verification|Test, Demonstration, Analysis|  
-
-
-##### Operating System Layer
-
-
-
-**Verification Method:** Configuration Inspection  
-**Verification Description:** Iptables is configured to perform protocol validation and invalid packets, as shown in the following firewall rules:
-
-```shell script
-iptables -A INPUT -m state --state INVALID -j DROP
-iptables -A FORWARD -m state --state INVALID -j DROP
-iptables -A OUTPUT -m state --state INVALID -j DROP
-```
-
-##### COTS Layer
-
-
-
-**Verification Method:** Configuration Inspection  
-**Verification Description:** RabbitMQ is [configured](https://github.com/eurocontrol-swim/deploy/blob/master/services/broker/rabbitmq/rabbitmq.conf) to perform a strict protocol validation for AMQP 1\.0\. As shown in the following configuration snippet: 
-```properties
-amqp1_0.protocol_strict_mode = true
-```  
-
-
-#### Retrieval of X\.509 Certificates
-
-|Identifier|SWIM\-TIYP\-0063|  
-|----------|--------------|  
-|Title|Retrieval of X\.509 Certificates|  
-|Statement|The SWIM\-TI **shall** retrieve X\.509 certificates from a trusted Certificate Authority\.|  
-|Clarification|The SWIM\-TI relies on public key cryptographic certificates for several of its security capabilities\. This requirement ensures that X\.509 certificates are retrieved from a trusted Certificate Authority\. Related NIST SP 800\-53 rev4 Security Control: IA\-5 \(2\), SC\-17\.|  
-|Verification|Test, Configuration Inspection|  
-
-
-##### COTS Layer
-
-##### App Layer
-
 #### Validation of X\.509 Certificates
 
 |Identifier|SWIM\-TIYP\-0064|  
 |----------|--------------|  
 |Title|Validation of X\.509 Certificates|  
-|Statement|The SWIM\-TI **shall** validate X\.509 certificates using a trusted Certificate Authority\.|  
-|Clarification|The SWIM\-TI relies on public key cryptographic certificates for several of its security capabilities\. This requirement ensures that X\.509 certificates are validated \(e\.g\. they have not been revoked\) using a trusted Certificate Authority\. Related NIST SP 800\-53 rev4 Security Control: IA\-5 \(2\), SC\-17\.|  
+|Statement|The SWIM\-TI **shall** validate X\.509 certificates by: \+ Constructing and verifying a trust path to an accepted trust anchor and; \+ Verifying the certificate status information\.|  
+|Clarification|The SWIM\-TI relies on public key cryptographic certificates for several of its security capabilities\. Validation of the X.509 certificates used by the SWIM-TI is required to ensure they can be trusted and their security properties are satisfied. SWIM-TI implementers must be able to construct a trust path from the X.509 certificate to an accepted trust anchor (e.g. trusted Certification Authority or trust store) and verify the certificate status information by checking for freshness (i.e. not expired) and verifying it has not been revoked\. Related NIST SP 800\-53 rev4 Security Control: IA\-5 \(2\), SC\-17\.|  
 |Verification|Test, Configuration Inspection|  
 
 
@@ -1138,8 +1073,8 @@ ssl_ca_file = '/var/lib/postgresql/secrets/ca_certificate.pem'
 |Identifier|SWIM\-TIYP\-0065|  
 |----------|--------------|  
 |Title|Cryptographic Algorithms|  
-|Statement|The SWIM\-TI **shall** select cryptographic algorithms and key sizes in accordance with: \+ Applicable national or international regulations on cryptographic algorithms and key sizes or; \+ NIST SP 800\-57 Part 1\.|  
-|Clarification|Selection of secure cryptographic algorithms is necessary to ensure the security attributes of cryptographically protected data are not violated\. When national or international regulations on the selection of cryptographic algorithms and key sizes are available and applicable to the SWIM\-TI implementation, implementers can rely directly on said recommendations\.  In the case said regulations are not available or applicable; implementers can rely on NIST SP 800\-57 Part 1\. Recommendations on cryptographic algorithms and key sizes ought to be updated frequently to avoid vulnerabilities\. Implementers are advised to check for up\-to\-date recommendations\.  \+ NIST SP 800\-57 Part 1: “Recommendation for Key Management”: http://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-57pt1r4\.pdf Related NIST SP 800\-53 rev4 Security Control: IA\-5 c, SC\-13\.|  
+|Statement|The SWIM\-TI **shall** select cryptographic algorithms and key sizes in accordance with: \+ Applicable national or international regulations on cryptographic algorithms and key sizes or; \+ ECRYPT-CSA recommendations\.|  
+|Clarification|Selection of secure cryptographic algorithms is necessary to ensure the security attributes of cryptographically protected data are not violated\. When national or international regulations on the selection of cryptographic algorithms and key sizes are available and applicable to the SWIM\-TI implementation, implementers can rely directly on said recommendations\.  In the case said regulations are not available or applicable; implementers can rely on ECRYPT-CSA recommendations\. Recommendations on cryptographic algorithms and key sizes ought to be updated frequently to avoid vulnerabilities\. Implementers are advised to check for up\-to\-date recommendations\.  \+ ECRYPT-CSA D5.4 Algorithms, Key Size and Protocols Report (2018): https://www.ecrypt.eu.org/csa/documents/D5.4-FinalAlgKeySizeProt.pdf Related NIST SP 800\-53 rev4 Security Control: IA\-5 c, SC\-13\.|  
 |Verification|Test, Configuration Inspection, Analysis|  
 
 
@@ -1224,7 +1159,7 @@ ssl_ecdh_curve = 'prime256v1'
 |----------|--------------|  
 |Title|Strong Passwords|  
 |Statement|The SWIM\-TI **shall** enforce strong passwords selection when using username/password authentication for its consumer credentials\.|  
-|Clarification|The SWIM\-TI can be used with Service Bindings that support Username/Password authentication\. This requirement ensures that service consumers use passwords with a minimum strength which helps prevent unauthorized access to the provided services\.   The following are recommended practices that will ensure strong passwords are selected:  \+ Require a minimum length of 8 characters or an equivalent minimum entropy \+ Allow \(as a minimum\) any ASCII character as part of the password character space \+ Check passwords against dictionary of known, common or weak passwords\.  The following are recommendations to avoid in the password ruleset as they typically result in weaker selection of passwords:  \+ Enforce character set combination rules \+ Routine password expiration \+ Knowledge\-Based Authentication or password hinting\.  References: NIST Special Publication 800\-63B "Digital Identity Guidelines, Authentication and Lifecycle Management" \- https://pages.nist.gov/800-63-3/sp800-63b.html Related NIST SP 800\-53 rev4 Security Control: IA\-5\(4\)\.|  
+|Clarification|The SWIM\-TI can be used with Service Bindings that support Username/Password authentication\. This requirement ensures that service consumers use passwords with a minimum strength which helps prevent unauthorized access to the provided services\.   The following are recommended practices that help ensure strong passwords are selected:  \+ Require a minimum length of 8 characters or an equivalent minimum entropy \+ Allow a wide character space for the password (e.g. allow all printing ASCII characters) \+ Check passwords against dictionary of known, common or weak passwords\.  The following are recommendations to avoid in the password ruleset as they typically result in weaker selection of passwords:  \+ Enforce character set combination rules \+ Routine password expiration \+ Knowledge\-Based Authentication or password hinting\.  References: NIST Special Publication 800\-63B "Digital Identity Guidelines, Authentication and Lifecycle Management" \- https://pages.nist.gov/800-63-3/sp800-63b.html Related NIST SP 800\-53 rev4 Security Control: IA\-5\(4\)\.|  
 |Verification|Demonstration, Analysis|  
 
 
@@ -1243,7 +1178,7 @@ ssl_ecdh_curve = 'prime256v1'
 |Title|Mandatory Access Control|  
 |Statement|The SWIM\-TI **shall** enforce access control to all of its resources\.|  
 |Clarification|The SWIM\-TI Yellow Profile takes a proactive approach to access control where access control to any resource is enforced by default\. This approach prevents unintended access to its resources\. This requirement does not restrict in any way the existence of publicly accessible resources\. Related NIST SP 800\-53 rev4 Security Control: AC\-3 \(3\)\.|  
-|Verification|Test, Configuration Inspection|  
+|Verification|Test, Configuration Inspection, Analysis|  
 
 
 ##### Operating System Layer
@@ -1280,12 +1215,12 @@ ssl_ecdh_curve = 'prime256v1'
 + Subscription Manager API 
 
 
-#### Detection of Failed Authentication Requests
+#### Recording of Failed Authentication Requests
 
 |Identifier|SWIM\-TIYP\-0068|  
 |----------|--------------|  
-|Title|Detection of Failed Authentication Requests|  
-|Statement|The SWIM\-TI **shall** detect and record failed authentication attempts\.|  
+|Title|Recording of Failed Authentication Requests|  
+|Statement|The SWIM\-TI **shall** record failed authentication attempts\.|  
 |Clarification|Failed authentications may indicate an ongoing authentication attack against some of the user credentials in the system\. Such attempts need to be detected and recorded for monitoring and security purposes\. Related NIST SP 800\-53 rev4 Security Control: AC\-7 a, AU\-2 a, SI\-4a\.2, SI\-4b\.|  
 |Verification|Demonstration, Test|  
 
@@ -1313,11 +1248,11 @@ ssl_ecdh_curve = 'prime256v1'
 + Step 2: Verify the failed authentication attempt is properly logged\.  
 
 
-#### Access Control Restriction
+#### Restriction after Failed Authentication Requests
 
 |Identifier|SWIM\-TIYP\-0069|  
 |----------|--------------|  
-|Title|Access Control Restriction|  
+|Title|Restriction after Failed Authentication Requests|  
 |Statement|The SWIM\-TI **shall** restrict access to entities that surpass a configurable number of failed authentication attempts\.|  
 |Clarification|Consecutive failed authentication attempts can be symptomatic of an ongoing attack to the system or its user’s accounts; this requirement ensures that the SWIM\-TI provides protection against these threats\. Access restriction can take different forms depending on the severity and security context \(e\.g\. delays next login prompt, locks user account for certain period or until manual release, indefinite ban of user credentials\.\.\.\)\. Related NIST SP 800\-53 rev4 Security Control: AC\-7\.|  
 |Verification|Test, Demonstration, Configuration Inspection|  
@@ -1380,7 +1315,7 @@ bantime = 3600
 |Title|Satisfactory Authorization|  
 |Statement|The SWIM\-TI **shall** allow a requesting entity to consume a service if and only if its authorization is successful\.|  
 |Clarification|This requirement ensures that the SWIM Technical Infrastructure allows service consumption when \(and only when\) the requesting entity is authorized to consume it\. It is assumed that access control to a public resource will not require an explicit authorization\. Related NIST SP 800\-53 rev4 Security Control: AC\-3\.|  
-|Verification|Test, Demonstration, Configuration Inspection|  
+|Verification|Test, Demonstration, Configuration Inspection, Analysis|  
 
 
 ##### COTS Layer
@@ -1399,13 +1334,13 @@ bantime = 3600
 **Verification Description:** Subscribe Interface: All service consumption requests require authentication and authorization as shown in the OpenAPI Specification of the provided service\.
 
 
-#### Inactive Session Termination
+#### Inactive Administrative Session Termination
 
 |Identifier|SWIM\-TIYP\-0072|  
 |----------|--------------|  
-|Title|Inactive Session Termination|  
-|Statement|The SWIM\-TI **shall** terminate inactive sessions \(including local, network and remote access\) after a configurable amount of time\.|  
-|Clarification|This requirement addresses the termination of user\-initiated logical sessions\. A logical session is initiated whenever a user \(or process acting on behalf of a user\) accesses an organisational information system\. Such user sessions can be terminated \(and thus terminate user access\) without terminating network sessions\. Related NIST SP 800\-53 rev4 Security Control: AC\-12\.|  
+|Title|Inactive Administrative Session Termination|  
+|Statement|The SWIM\-TI **shall** terminate inactive administrative sessions \(including local, network and remote access\) after a configurable amount of idle time\.|  
+|Clarification|This requirement addresses the termination of administrative sessions, an administrative session is initiated whenever a user \(or process acting on behalf of a user\) accesses an organisational information system for administrative purposes\. Open administrative sessions pose a security risk to the information system, this requirement introduces a mitigation to this risk\. Related NIST SP 800\-53 rev4 Security Control: AC\-12\.|  
 |Verification|Test, Configuration Inspection|  
 
 
@@ -1417,13 +1352,13 @@ bantime = 3600
 **Verification Description:** In the implementation environment, inactive sessions are closed at the same time as inactive connections\. See evidence for Automatic Sessions termination\.  
 
 
-#### Non\-recoverable Password Storage
+#### Secure Password Storage
 
 |Identifier|SWIM\-TIYP\-0073|  
 |----------|--------------|  
-|Title|Non\-recoverable Password Storage|  
-|Statement|The SWIM\-TI **shall** store passwords in a non\-recoverable manner\.|  
-|Clarification|Storing passwords in a recoverable manner is potentially insecure against malicious intrusions and various kinds of attacks including; brute force, dictionary attacks and rainbow tables\.  A simple and proven mechanism to ensure passwords are non\-recoverable is to store them after:  1\. Appending a \(pseudo\)\-random salt  2\. Hashing the salted password\. For additional protection against brute force attacks key stretching mechanism can be used\. Related NIST SP 800\-53 rev4 Security Control: IA\-5 h\.|  
+|Title|Secure Password Storage|  
+|Statement|The SWIM\-TI **shall** store passwords at rest in a form that is resistant to offline attacks\.|  
+|Clarification|Password storage poses a risk in case of security breach, to mitigate this security risk passwords must be stored in a form that is resistant to offline attacks (e.g. brute forcing, dictionary attacks, rainbow tables...). Storage of consumer credentials does not require that the password is stored in a recoverable manner. In this case, passwords can be stored in a form that is resistant to offline attacks by storing them after salting and hashing them with an appropriate hash function or key-derivation function. When a password needs to be stored in a recoverable manner for later use (e.g. SWIM-TI’s own credentials to be used for external services), encryption at rest provides a mechanism that is resistant to offline attacks provided strong algorithms and key sizes are selected. The selection of cryptographic algorithms, key sizes, salt sizes and iteration rounds is subject to SWIM-TIYP-0065.  \+ NIST Special Publication 800-63B – Digital Identity Guidelines: https://pages.nist.gov/800-63-3/sp800-63b.html Related NIST SP 800\-53 rev4 Security Control: IA\-5 h, IA-5 (1)c\.|  
 |Verification|Configuration Inspection|  
 
 
@@ -1462,11 +1397,9 @@ EOSQL
 
 |Requirement Title|Requirement ID|Level of Implementation|Conformance|  
 |-----------------|--------------|-----------------------|-----------|  
-|Data Compression|SWIM\-TIYP\-0041|Optional|NO|  
 |HTTP Reason Phrase Header|SWIM\-TIYP\-0044|Mandatory|YES|  
 |HTTP Status Code Header |SWIM\-TIYP\-0043|Mandatory|YES|  
-|TLS Authentication |SWIM\-TIYP\-0042|Mandatory|YES|  
-|HTTP Header Transfer Encoding |SWIM\-TIYP\-0039|Optional|NO|  
+|TLS Server Authentication |SWIM\-TIYP\-0042|Mandatory|YES|  
 |HTTP Compression and Content Encoding Header |SWIM\-TIYP\-0038|Mandatory Conditional|NO|  
 |HTTP Content Type Header |SWIM\-TIYP\-0033|Mandatory Conditional|YES|  
 |HTTP over TLS |SWIM\-TIYP\-0010|Mandatory|YES|  
@@ -1478,7 +1411,6 @@ EOSQL
 
 |Requirement Title|Requirement ID|Level of Implementation|Conformance|  
 |-----------------|--------------|-----------------------|-----------|  
-|Data Compression |SWIM\-TIYP\-0041|Optional|NO|  
 |AMQP Content Encoding Header |SWIM\-TIYP\-0049|Optional|NO|  
 |AMQP Content Type Header |SWIM\-TIYP\-0048|Mandatory Conditional|YES|  
 |AMQP Transport Security Authentication |SWIM\-TIYP\-0037|Mandatory|YES|  
@@ -1497,22 +1429,20 @@ EOSQL
 |SWIM\-TIYP\-0055|Encrypted Connections for Remote Administrative Access|M Conditional|YES|  
 |SWIM\-TIYP\-0056|Obscure Password Typing|M|YES|  
 |SWIM\-TIYP\-0057|Least Privileged Principle Access|M|YES|  
-|SWIM\-TIYP\-0058|Automatic Sessions termination|M|PARTIAL|  
+|SWIM\-TIYP\-0058|Network Connection Termination|M|PARTIAL|  
 |SWIM\-TIYP\-0059|Trusted Software|M|YES|  
 |SWIM\-TIYP\-0060|Verification of Signed Messages Integrity|M Conditional|NO|  
-|SWIM\-TIYP\-0061|Message Protocol Validation|M|PARTIAL|  
 |SWIM\-TIYP\-0062|Message Payload Validation|R|NO|  
-|SWIM\-TIYP\-0063|Retrieval of X\.509 Certificates|M|NO|  
 |SWIM\-TIYP\-0064|Validation of X\.509 Certificates|M|YES|  
 |SWIM\-TIYP\-0065|Cryptographic Algorithms|M|YES|  
 |SWIM\-TIYP\-0066|Strong Passwords|M Conditional|YES|  
 |SWIM\-TIYP\-0067|Mandatory Access Control|M|YES|  
-|SWIM\-TIYP\-0068|Detection of Failed Authentication Requests|M|YES|  
-|SWIM\-TIYP\-0069|Access Control Restriction|M|YES|  
+|SWIM\-TIYP\-0068|Recording of Failed Authentication Requests|M|YES|  
+|SWIM\-TIYP\-0069|Restriction after Failed Authentication Requests|M|YES|  
 |SWIM\-TIYP\-0070|Satisfactory Authorization|M Conditional|YES|  
 |SWIM\-TIYP\-0071|Cryptographic Key Life\-cycle Management|R|NO|  
-|SWIM\-TIYP\-0072|Inactive Session Termination|M|PARTIAL|  
-|SWIM\-TIYP\-0073|Non\-recoverable Password Storage|M|YES|  
+|SWIM\-TIYP\-0072|Inactive Administrative Session Termination|M|PARTIAL|  
+|SWIM\-TIYP\-0073|Secure Password Storage|M|YES|  
 |SWIM\-TIYP\-0074|Security Patching|R|NO|  
 |SWIM\-TIYP\-0075|Vulnerability Assessment|O|NO|  
 |SWIM\-TIYP\-0076|Audit Data Reporting|O|NO|  
