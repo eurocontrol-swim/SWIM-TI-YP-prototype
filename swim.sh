@@ -120,7 +120,7 @@ stop_services_with_clean() {
 
 stop_services_with_purge() {
   stop_services_with_clean &&
-  docker volume ls -q | grep swimtiypprototype | xargs -r docker volume rm
+  docker volume ls -q | grep swim-ti_yp_prototype | xargs -r docker volume rm
 
   echo ""
 }
