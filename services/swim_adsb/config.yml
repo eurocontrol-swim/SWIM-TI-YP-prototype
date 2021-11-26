@@ -48,7 +48,7 @@ ADSB:
     Berlin: "EDDB"
     Athens: "LGAV"
     Heathrow: "EGLL"
-  INTERVAL_IN_SEC: 5
+  INTERVAL_IN_SEC: 60
   TRAFFIC_TIMESPAN_IN_DAYS: 1
 
 
